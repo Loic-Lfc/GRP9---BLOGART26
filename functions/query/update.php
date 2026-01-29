@@ -1,14 +1,15 @@
 <?php
 // update instance
-function sql_update($table, $attributs, $where) {
+function sql_update($table, $attributs, $where)
+{
     global $DB;
 
     //connect to database
-    if(!$DB){
+    if (!$DB) {
         sql_connect();
     }
 
-    try{
+    try {
         $DB->beginTransaction();
 
         //prepare query for PDO
@@ -17,17 +18,16 @@ function sql_update($table, $attributs, $where) {
         $request->execute();
         $DB->commit();
         $request->closeCursor();
-    }
-    catch(PDOException $e){
+    } catch (PDOException $e) {
         $DB->rollBack();
         $request->closeCursor();
         die('Error: ' . $e->getMessage());
     }
 
     $error = $DB->errorInfo();
-    if($error[0] != 0){
+    if ($error[0] != 0) {
         echo "Error: " . $error[2];
-    }else{
+    } else {
         return true;
     }
 }

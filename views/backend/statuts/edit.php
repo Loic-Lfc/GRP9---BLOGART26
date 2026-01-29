@@ -15,18 +15,18 @@ if (isset($_GET['numStat'])) {
         </div>
         <div class="col-md-12">
             <!-- Form to create a new statut -->
-            <form action="<?php echo ROOT_URL . '/api/statuts/edit.php' ?>" method="post">
+            <form action="<?php echo ROOT_URL . '/api/statuts/update.php' ?>" method="post">
                 <div class="form-group">
                     <label for="libStat">Nom du statut</label>
                     <input id="numStat" name="numStat" class="form-control" style="display: none" type="text"
                         value="<?php echo ($numStat); ?>" readonly="readonly" />
                     <input id="libStat" name="libStat" class="form-control" type="text"
-                        value="<?php echo ($libStat); ?>" readonly="readonly" disabled />
+                        value="<?php echo ($libStat); ?>" />
                 </div>
                 <br />
                 <div class="form-group mt-2">
                     <a href="list.php" class="btn btn-primary">List</a>
-                    <button type="submit" class="btn btn-danger">Modifier</button>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
                 </div>
             </form>
         </div>
