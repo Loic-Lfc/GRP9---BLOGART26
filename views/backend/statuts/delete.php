@@ -1,5 +1,7 @@
 <?php
-include '../../../header.php';
+$pageTitle = "Supprimer un Statut";
+$pageIcon = "fas fa-trash";
+include '../header-admin.php';
 
 if(isset($_GET['numStat'])){
     $numStat = $_GET['numStat'];

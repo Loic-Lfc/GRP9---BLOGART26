@@ -1,5 +1,7 @@
 <?php
-include '../../../header.php';
+$pageTitle = "Modifier une Thématique";
+$pageIcon = "fas fa-edit";
+include '../header-admin.php';
 
 if (isset($_GET['numThem'])) {
     $numThematique = $_GET['numThem'];

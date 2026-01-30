@@ -1,3 +1,5 @@
 <?php
-include '../../../header.php'; // contains the header and call to config.php
+$pageTitle = "Gestion des Membres";
+$pageIcon = "fas fa-users";
+include '../header-admin.php';
 

@@ -1,5 +1,7 @@
 <?php
-include '../../../header.php';
+$pageTitle = "Supprimer une Thématique";
+$pageIcon = "fas fa-trash";
+include '../header-admin.php';
 
 if(isset($_GET['numThem'])){
     $numThematique = $_GET['numThem'];

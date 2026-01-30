@@ -1,5 +1,7 @@
 <?php
-include '../../../header.php';
+$pageTitle = "Créer une Thématique";
+$pageIcon = "fas fa-plus";
+include '../header-admin.php';
 ?>
 
 <!-- Bootstrap form to create a new statut -->

@@ -1,3 +1,5 @@
 <?php
-include '../../../header.php'; // contains the header and call to config.php
+$pageTitle = "Gestion des Commentaires";
+$pageIcon = "fas fa-comments";
+include '../header-admin.php';
 

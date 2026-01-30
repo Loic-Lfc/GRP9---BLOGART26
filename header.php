@@ -16,10 +16,9 @@
 </head>
 <?php
 //load config
-if(file_exists('config.php')) {
-    require_once 'config.php';
-} elseif(file_exists('../../config.php')) {
-    require_once '../../config.php';
+$configPath = __DIR__ . '/config.php';
+if(file_exists($configPath)) {
+    require_once $configPath;
 }
 ?>
 <body>

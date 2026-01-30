@@ -1,5 +1,7 @@
 <?php
-include '../../../header.php';
+$pageTitle = "Modifier un Statut";
+$pageIcon = "fas fa-edit";
+include '../header-admin.php';
 
 if (isset($_GET['numStat'])) {
     $numStat = $_GET['numStat'];

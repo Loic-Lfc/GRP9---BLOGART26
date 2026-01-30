@@ -1,3 +1,5 @@
 <?php
-include '../../../header.php'; // contains the header and call to config.php
+$pageTitle = "Gestion des Mots-clés";
+$pageIcon = "fas fa-tags";
+include '../header-admin.php';
 

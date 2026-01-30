@@ -14,9 +14,9 @@
 <div class="admin-layout">
     <!-- SIDEBAR -->
     <aside class="admin-sidebar">
-        <div class="admin-logo">
+        <a href="/index.php" class="admin-logo" style="text-decoration: none; color: inherit; display: block;">
             <h3><i class="fas fa-spray-can me-2"></i>Street Art BDX</h3>
-        </div>
+        </a>
         <nav class="admin-menu">
             <a href="/views/backend/dashboard.php" class="admin-menu-item active">
                 <i class="fas fa-home"></i>
@@ -66,7 +66,12 @@
     <main class="admin-main">
         <!-- Header -->
         <header class="admin-header">
-            <h1><i class="fas fa-tachometer-alt me-3"></i>Dashboard</h1>
+            <div class="d-flex justify-content-between align-items-center">
+                <h1><i class="fas fa-tachometer-alt me-3"></i>Dashboard</h1>
+                <a href="/index.php" class="btn-cartoon-outline-sm">
+                    <i class="fas fa-globe me-2"></i>Retour au site
+                </a>
+            </div>
         </header>
 
         <!-- Content -->

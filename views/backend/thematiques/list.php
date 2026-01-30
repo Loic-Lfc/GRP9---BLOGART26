@@ -1,5 +1,7 @@
 <?php
-include '../../../header.php'; // contains the header and call to config.php
+$pageTitle = "Gestion des Thématiques";
+$pageIcon = "fas fa-folder";
+include '../header-admin.php';
 
 //Load all thematiques
 $thematique = sql_select("THEMATIQUE", "*");
@@ -35,5 +37,4 @@ $thematique = sql_select("THEMATIQUE", "*");
         </div>
     </div>
 </div>
-<?php
-include '../../../footer.php'; // contains the footer
+<?php include '../footer-admin.php'; ?>

@@ -1,3 +1,5 @@
 <?php
-include '../../../header.php'; // contains the header and call to config.php
+$pageTitle = "Gestion des Likes";
+$pageIcon = "fas fa-heart";
+include '../header-admin.php';
 
