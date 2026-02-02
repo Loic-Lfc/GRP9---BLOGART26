@@ -30,8 +30,8 @@ $membres = sql_select("MEMBRE", "*");
                             <td><?php echo($membre['prenomMemb']); ?></td>
                             <td><?php echo($membre['eMailMemb']); ?></td>
                             <td>
-                                <a href="edit.php?numStat=<?php echo($membre['numMemb']); ?>" class="btn btn-primary">Edit</a>
-                                <a href="delete.php?numStat=<?php echo($membre['numMemb']); ?>" class="btn btn-danger">Delete</a>
+                                <a href="edit.php?numMemb=<?php echo($membre['numMemb']); ?>" class="btn btn-primary">Edit</a>
+                                <a href="delete.php?numMemb=<?php echo($membre['numMemb']); ?>" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
                     <?php } ?>
