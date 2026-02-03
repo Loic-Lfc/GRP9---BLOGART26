@@ -37,8 +37,29 @@ require_once 'config.php';
       <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Rechercher sur le site…" aria-label="Search" >
       </form>
-      <a class="btn btn-primary m-1" href="/views/backend/security/login.php" role="button">Login</a>
-      <a class="btn btn-dark m-1" href="/views/backend/security/signup.php" role="button">Sign up</a>
+      <?php
+      // Démarrer la session si elle n'existe pas
+      if (!isset($_SESSION)) {
+          session_start();
+      }
+      
+      // Vérifier si un utilisateur est connecté
+      if (isset($_SESSION['pseudoMemb']) && isset($_SESSION['numMemb'])) {
+          // Utilisateur connecté
+          ?>
+          <span class="me-2 align-self-center text-primary fw-bold">
+              <?php echo htmlspecialchars($_SESSION['pseudoMemb']); ?>
+          </span>
+          <a class="btn btn-danger m-1" href="/api/security/disconnect.php" role="button">Disconnect</a>
+          <?php
+      } else {
+          // Utilisateur non connecté
+          ?>
+          <a class="btn btn-primary m-1" href="/views/backend/security/login.php" role="button">Login</a>
+          <a class="btn btn-dark m-1" href="/views/backend/security/signup.php" role="button">Sign up</a>
+          <?php
+      }
+      ?>
     </div>
   </div>
 </nav>
