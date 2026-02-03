@@ -2,6 +2,14 @@
 require_once '../../../config/defines.php';
 require_once '../../../config/security.php';
 require_once '../../../functions/query/connect.php';
+require_once '../../../functions/query/select.php';
+
+// Initialiser la connexion
+sql_connect();
+
+// Récupérer les thématiques
+$thematiques = sql_select("THEMATIQUE", "*", null, null, "libThem");
+
 include '../../../header.php';
 ?>
 
@@ -68,35 +76,18 @@ include '../../../header.php';
             </p>
         </div>
 
-<div class="form-group">
-<label>Thématique :</label>
-<select name="numThem" class="form-control" required>
-	<option value="">-- Choisir une thématique --</option>
-<?php 
-	$thematiques = sql_select("THEMATIQUE", "*");
-        var_dump($thematiques);
-	if ($thematiques) {
-		foreach ($thematiques as $theme): ?>
-			<option value="<?= $theme['numThem'] ?>">
-				<?= htmlspecialchars($theme['libThem']) ?>
-			</option>
-<?php 	endforeach; 
-	} ?>
-</select>
-</div>
+        <div class="form-group">
+            <label for="numThem">Thématique</label>
+            <select name="numThem" id="numThem" class="form-control" required>
+                <option value="">-- Choisir une thématique --</option>
+                
+                <?php foreach ($thematiques as $thematique): ?>
+                    <option value="<?php echo $thematique['numThem']; ?>">
+                        <?php echo htmlspecialchars($thematique['libThem']); ?>
+                    </option>
+                <?php endforeach; ?>
+                
+            </select>
+        </div>
 
 <?php include '../../../footer.php'; ?>
-
-$statuts = sql_select("STATUT", "*", "numStat");
-$numStat = sql_select("STATUT", "numStat", "numStat");
-
-<div class="form-group mt-3">
-                    <label for="numStat">Statut</label>
-                    <select name="numStat" id="numStat" class="form-control" required>
-                        <?php foreach ($statuts as $statut): ?>
-                            <option value="<?php echo $statut['numStat']; ?>" <?php echo ($statut['numStat'] == $numStat) ? 'selected' : ''; ?>>
-                                <?php echo $statut['libStat']; ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
