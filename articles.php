@@ -53,8 +53,8 @@ $thematiques = sql_select('THEMATIQUE', '*');
             <div class="input-group-cartoon">
               <i class="fas fa-search input-icon"></i>
               <input type="text" name="q" class="form-control form-cartoon" 
-                     placeholder="Titre, artiste, contenu..." 
-                     value="<?php echo htmlspecialchars($searchQuery); ?>">
+                    placeholder="Titre, artiste, contenu..." 
+                    value="<?php echo htmlspecialchars($searchQuery); ?>">
             </div>
           </div>
           <div class="col-md-4">
@@ -132,7 +132,7 @@ $thematiques = sql_select('THEMATIQUE', '*');
               <div class="article-image">
                 <?php if(!empty($article['photoArt'])): ?>
                   <img src="/src/uploads/<?php echo htmlspecialchars($article['photoArt']); ?>" 
-                       alt="<?php echo htmlspecialchars($article['libTitrArt']); ?>">
+                      alt="<?php echo htmlspecialchars($article['libTitrArt']); ?>">
                 <?php else: ?>
                   <img src="/src/images/article1.png" alt="Default">
                 <?php endif; ?>
@@ -141,9 +141,9 @@ $thematiques = sql_select('THEMATIQUE', '*');
                 </span>
               </div>
               <div class="article-body">
-                <h3 class="article-title"><?php echo htmlspecialchars($article['titreArt']); ?></h3>
+                <h3 class="article-title"><?php echo htmlspecialchars($article['libTitrArt']); ?></h3>
                 <p class="article-excerpt">
-                  <?php echo substr(strip_tags($article['chapArt']), 0, 120) . '...'; ?>
+                  <?php echo substr(strip_tags($article['libChapoArt']), 0, 120) . '...'; ?>
                 </p>
                 <div class="article-meta">
                   <span>
@@ -158,7 +158,7 @@ $thematiques = sql_select('THEMATIQUE', '*');
                   <span><i class="fas fa-comment me-1"></i>0 commentaires</span>
                 </div>
                 <a href="/views/frontend/articles/article1.php?id=<?php echo $article['numArt']; ?>" 
-                   class="btn-cartoon-sm mt-3 w-100">
+                  class="btn-cartoon-sm mt-3 w-100">
                   <i class="fas fa-arrow-right me-2"></i>Lire l'article
                 </a>
               </div>
