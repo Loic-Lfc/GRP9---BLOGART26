@@ -66,6 +66,5 @@ if (!isset($_SESSION)) {
       }
       ?>
     </div>
-    teste push
   </div>
 </nav>

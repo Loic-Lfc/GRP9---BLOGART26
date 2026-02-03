@@ -85,8 +85,6 @@ if (isset($_SESSION['pseudoMemb'])) {
 
         <p class="mt-3"><a href="login.php">Déjà inscrit ? Se connecter</a></p>
     </div>
-</div>
-teste
 <?php
 include("../../../footer.php");
 ?>
