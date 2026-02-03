@@ -1,29 +1,67 @@
 <?php
-include("../myBDD.php");
+require_once '../../config/defines.php';
+require_once '../../config/security.php';
+require_once '../../functions/query/connect.php';
+require_once '../../functions/query/select.php';
+require_once '../../functions/ctrlSaisies.php';
 
-if (isset($_POST["pseudonyme"]) && isset($_POST["password"]) && isset($_POST["password2"])) {
-	$username = trim($_POST['pseudonyme']);
-	$password = $_POST['password'];
-	$password2 = $_POST['password2'];
-	if ($username !== "" && strlen($password) >= 8 && $password === $password2) {
-		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-		$sql_requete = "INSERT INTO utilisateur (pseudonyme, mot_de_passe) VALUES (:pseudonyme, :mot_de_passe);";
-		$request = BDD::get()->prepare($sql_requete);
-		$request->execute([':pseudonyme' => $username, ':mot_de_passe' => $hashedPassword]);
-		header("Location: signup.php?success");
-		exit();
-	} else {
-		header("Location: signup.php?error");
-		exit();
-	}
+// Initialiser la connexion
+sql_connect();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["pseudoMemb"]) && isset($_POST["passMemb"]) && isset($_POST["passMemb2"])) {
+    $username = trim($_POST['pseudoMemb']);
+    $prenomMemb = trim($_POST['prenomMemb'] ?? '');
+    $nomMemb = trim($_POST['nomMemb'] ?? '');
+    $eMailMemb = trim($_POST['eMailMemb'] ?? '');
+    $password = $_POST['passMemb'];
+    $password2 = $_POST['passMemb2'];
+    
+    // Validation des données
+    // Vérifier que le pseudo respecte les critères (6-70 caractères)
+    if (!validatePseudoMemb($username)) {
+        header("Location: ../../views/backend/security/signup.php?error=pseudo_length");
+        exit();
+    }
+    
+    // Vérifier que le password respecte les critères (8-15 caractères, 1 majuscule, 1 minuscule, 1 chiffre)
+    if (!validatePassMemb($password)) {
+        header("Location: ../../views/backend/security/signup.php?error=password_format");
+        exit();
+    }
+    
+    // Vérifier que les mots de passe correspondent
+    if ($password === $password2) {
+        // Vérifier si le pseudo existe déjà
+        $exist = sql_select("MEMBRE", "*", "pseudoMemb = '" . htmlspecialchars($username) . "'");
+        
+        if (empty($exist)) {
+            // Hasher le mot de passe
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            
+            global $DB;
+            $sql_requete = "INSERT INTO MEMBRE (prenomMemb, nomMemb, pseudoMemb, passMemb, eMailMemb, dtCreaMemb, numStat, accordMemb) 
+                            VALUES (:prenomMemb, :nomMemb, :pseudoMemb, :passMemb, :eMailMemb, NOW(), 3, 1)";
+            $request = $DB->prepare($sql_requete);
+            $request->execute([
+                ':prenomMemb' => $prenomMemb,
+                ':nomMemb' => $nomMemb,
+                ':pseudoMemb' => $username,
+                ':passMemb' => $hashedPassword,
+                ':eMailMemb' => $eMailMemb
+            ]);
+            
+            header("Location: ../../views/backend/security/login.php?success=1");
+            exit();
+        } else {
+            header("Location: ../../views/backend/security/signup.php?error=pseudo");
+            exit();
+        }
+    } else {
+        header("Location: ../../views/backend/security/signup.php?error=validation");
+        exit();
+    }
 }
 
-if (isset($_GET['success'])) {
-	echo "<div class='alert alert-success' role='alert'>Inscription réussie ! Vous pouvez maintenant vous connecter.</div>";
-} elseif (isset($_GET['error'])) {
-	echo "<div class='alert alert-danger' role='alert'>Erreur lors de l'inscription. Veuillez vérifier vos informations et réessayer.</div>";
-}
-
-
->>>>>>> 90d970d35155d6436bc1f2b8f9ab91ce78701029
+header('Location: ../../views/backend/security/signup.php');
+exit();
 ?>

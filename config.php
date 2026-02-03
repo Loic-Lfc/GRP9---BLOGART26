@@ -5,7 +5,16 @@ define('ROOT_URL', 'http://' . $_SERVER['HTTP_HOST']);
 
 //Load env
 require_once ROOT . '/includes/libs/DotEnv.php';
-(new DotEnv(ROOT.'/.env'))->load();
+
+// Chercher le fichier .env au bon endroit
+$env_path = ROOT . '/.env';
+if (!file_exists($env_path)) {
+    $env_path = dirname(ROOT . '/index.php') . '/.env';
+}
+
+if (file_exists($env_path)) {
+    (new DotEnv($env_path))->load();
+}
 
 //defines
 require_once ROOT . '/config/defines.php';
@@ -20,3 +29,4 @@ require_once ROOT . '/functions/global.inc.php';
 
 //load security
 require_once ROOT . '/config/security.php';
+?>

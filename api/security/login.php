@@ -1,28 +1,45 @@
 <?php
+require_once '../../config/defines.php';
+require_once '../../config/security.php';
+require_once '../../functions/query/connect.php';
+require_once '../../functions/query/select.php';
 
-include("../.env");
+// Initialiser la connexion
+sql_connect();
 
-if (isset($_POST["password"]) && isset($_POST["pseudonyme"])) {
-    $password = $_POST["password"];
-    $username = trim($_POST['pseudonyme']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["passMemb"]) && isset($_POST["pseudoMemb"])) {
+    $password = $_POST["passMemb"];
+    $username = trim($_POST['pseudoMemb']);
     
-    $sql_requete = "SELECT mot_de_passe FROM utilisateur WHERE pseudonyme = :pseudonyme;";
-    $request = BDD::get()->prepare($sql_requete);
-    $request->execute([':pseudonyme' => $username]);
-    $result = $request->fetch(PDO::FETCH_ASSOC);
+    // Vérifier les données du membre
+    $membre = sql_select("MEMBRE", "*", "pseudoMemb = '" . htmlspecialchars($username) . "'");
     
-    if ($result && password_verify($password, $result['mot_de_passe'])) {
-        session_start();
-        $_SESSION['pseudonyme'] = $username;
-        header("Location: ../index.php");
-        exit();
+    if (!empty($membre)) {
+        $membre = $membre[0];
+        // Vérifier le mot de passe (crypté)
+        if (password_verify($password, $membre['passMemb'])) {
+            // Démarrer la session et enregistrer l'utilisateur
+            if (!isset($_SESSION)) {
+                session_start();
+            }
+            $_SESSION['pseudoMemb'] = $username;
+            $_SESSION['numMemb'] = $membre['numMemb'];
+            $_SESSION['nomMemb'] = $membre['nomMemb'];
+            $_SESSION['prenomMemb'] = $membre['prenomMemb'];
+            $_SESSION['numStat'] = $membre['numStat'];
+            
+            header("Location: ../../index.php");
+            exit();
+        } else {
+            header("Location: ../../views/backend/security/login.php?error=1");
+            exit();
+        }
     } else {
-        header("Location: ../login.php?error");
+        header("Location: ../../views/backend/security/login.php?error=1");
         exit();
     }
 }
 
-header('Location: ../login.php?error');
+header('Location: ../../views/backend/security/login.php');
 exit();
-
 ?>
