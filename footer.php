@@ -1,14 +1,3 @@
-<!-- Load JS scripts -->
-<script>
-function onSubmit(token) {
-    document.getElementById("form-recaptcha").submit();
-    console.log(document.getElementById("form-recaptcha"));
-}
-<!-- Bootstrap JS -->
-=======
-=======
-
->>>>>>> 0a18d3f587ec0638cde8976bbd5340be5b911878
 <div class="modal fade" id="cookieConsentModal" tabindex="-1" aria-labelledby="cookieConsentLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -27,9 +16,24 @@ function onSubmit(token) {
     </div>
 </div>
 
-<footer>
+<footer class="footer-cartoon py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-4 mb-4 mb-md-0">
+        <img src="/src/images/murmures_bordeaux.png" alt="Murmures Bordeaux" style="height: 50px; margin-bottom: 1rem;">
+        <p class="text-light-gray mb-0">L'actualité du street art bordelais. Explorez les murs qui parlent.</p>
+      </div>
+      <div class="col-md-8">
+        <div class="d-flex justify-content-end align-items-center flex-wrap">
+          <a href="/views/frontend/rgpd/rgpd.php" class="footer-link mx-3">Mentions légales</a>
+          <a href="#" class="footer-link mx-3">Contact</a>
+          <a href="#" class="footer-link mx-3">À propos</a>
+          <span class="text-light-gray ms-4">&copy; <?php echo date('Y'); ?> Murmures Bordeaux. Tous droits réservés.</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </footer>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 

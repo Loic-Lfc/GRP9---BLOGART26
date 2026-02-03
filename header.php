@@ -56,7 +56,7 @@ if(file_exists($configPath)) {
 
       <div class="d-flex ms-3">
         <?php if (isset($_SESSION['pseudoMemb']) && isset($_SESSION['numMemb'])): ?>
-          <span class="me-3 align-self-center fw-bold text-dark">
+          <span class="me-3 align-self-center fw-bold" style="color: var(--color-white);">
             <i class="fas fa-user-circle me-1"></i><?php echo htmlspecialchars($_SESSION['pseudoMemb']); ?>
           </span>
           <a class="btn-cartoon-outline-sm" href="/api/security/disconnect.php">

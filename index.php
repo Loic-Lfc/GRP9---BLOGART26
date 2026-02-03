@@ -9,37 +9,46 @@ $thematiques = sql_select('THEMATIQUE', '*');
 
 <!-- Hero Section -->
 <section class="hero-section text-white">
+  <img src="/src/images/hero.jpg" alt="Street Art" class="hero-img">
   <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6 mb-4 mb-lg-0">
+    <div class="row align-items-center justify-content-center text-center">
+      <div class="col-lg-10">
         <h1 class="hero-title mb-4">
-          <a href="/index.php">
-            <img src="/src/images/murmures_bordeaux.png" alt="Street Art Bordeaux" style="max-width: 300px; height: auto;">
-          </a>
+          L'ART DE LA RUE <span>BORDELAISE</span>
         </h1>
-        <p class="lead mb-4">Découvrez l'univers du street art bordelais à travers nos articles, reportages et interviews d'artistes urbains.</p>
-        <div class="d-flex gap-3">
+        <p class="lead mb-5" style="font-size: 1.2rem; color: var(--color-text-secondary);">Découvrez les murs qui parlent de Bordeaux à travers nos articles, reportages et interviews d'artistes urbains.</p>
+        
+        <!-- Search integrated in hero -->
+        <div class="search-section mb-4">
+          <form action="/articles.php" method="get">
+            <div class="input-group-cartoon">
+              <span class="input-icon">
+                <i class="fas fa-search"></i>
+              </span>
+              <input type="text" name="q" class="form-cartoon" placeholder="Rechercher un article, un artiste, un quartier...">
+            </div>
+          </form>
+        </div>
+
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
           <a href="/articles.php" class="btn-cartoon">
             <i class="fas fa-palette me-2"></i>Découvrir les articles
           </a>
-          <a href="/views/backend/security/signup.php" class="btn-cartoon">
+          <a href="/views/backend/security/signup.php" class="btn-cartoon-outline">
             <i class="fas fa-user-plus me-2"></i>Rejoindre la communauté
           </a>
         </div>
-      </div>
-      <div class="col-lg-6">
-        <img src="/src/images/article1.png" alt="Street Art" class="img-fluid hero-img">
       </div>
     </div>
   </div>
 </section>
 
 <!-- Articles Section -->
-<section id="articles" class="py-5">
+<section id="articles" class="py-5" style="background: var(--color-dark);">
   <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="section-title">Articles mis en avant</h2>
-      <p class="text-muted mt-4">Découvrez notre sélection d'articles sur le street art bordelais</p>
+    <div class="mb-5">
+      <h2 class="section-title">DERNIERS ARTICLES</h2>
+      <p class="mt-3" style="color: var(--color-text-secondary);">Découvrez notre sélection d'articles sur le street art bordelais</p>
     </div>
     
     <div class="row g-4">
@@ -64,9 +73,9 @@ $thematiques = sql_select('THEMATIQUE', '*');
                 </span>
               </div>
               <div class="article-body">
-                <h3 class="article-title"><?php echo htmlspecialchars($article['titreArt']); ?></h3>
+                <h3 class="article-title"><?php echo htmlspecialchars($article['libTitrArt'] ?? ''); ?></h3>
                 <p class="article-excerpt">
-                  <?php echo substr(strip_tags($article['chapArt']), 0, 120) . '...'; ?>
+                  <?php echo substr(strip_tags($article['libChapoArt'] ?? ''), 0, 120) . '...'; ?>
                 </p>
                 <div class="article-meta">
                   <span><i class="fas fa-calendar me-1"></i><?php echo date('d/m/Y', strtotime($article['dtCreaArt'])); ?></span>
@@ -94,41 +103,6 @@ $thematiques = sql_select('THEMATIQUE', '*');
     </div>
   </div>
 </section>
-
-<!-- Stats Section -->
-<section class="py-5" style="background: var(--color-white);">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon">
-          <i class="fas fa-newspaper"></i>
-        </div>
-        <div class="stat-number"><?php echo count($articles); ?></div>
-        <div class="stat-label">Articles publiés</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <i class="fas fa-users"></i>
-        </div>
-        <div class="stat-number">0</div>
-        <div class="stat-label">Membres actifs</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <i class="fas fa-comments"></i>
-        </div>
-        <div class="stat-number">0</div>
-        <div class="stat-label">Commentaires</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <i class="fas fa-heart"></i>
-        </div>
-        <div class="stat-number">0</div>
-        <div class="stat-label">Likes</div>
-      </div>
-    </div>
-  </div>
-</section>
+      
 
 <?php require_once 'footer.php'; ?>

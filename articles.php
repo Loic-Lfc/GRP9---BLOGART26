@@ -10,6 +10,7 @@ $offset = ($page - 1) * $perPage;
 // Filtres
 $searchQuery = isset($_GET['q']) ? trim($_GET['q']) : '';
 $thematique = isset($_GET['them']) ? intval($_GET['them']) : 0;
+$motCle = isset($_GET['kw']) ? intval($_GET['kw']) : 0;
 
 // Construction de la requête
 $where = '1=1';
@@ -20,21 +21,25 @@ if (!empty($searchQuery)) {
 if ($thematique > 0) {
     $where .= " AND numThem = $thematique";
 }
+if ($motCle > 0) {
+    $where .= " AND numArt IN (SELECT numArt FROM ASSOCIER WHERE numMotCle = $motCle)";
+}
 
 // Récupérer les articles
 $articles = sql_select('ARTICLE', '*', "$where ORDER BY dtCreaArt DESC LIMIT $perPage OFFSET $offset");
 $totalArticles = sql_select('ARTICLE', 'COUNT(*) as total', $where)[0]['total'] ?? 0;
 $totalPages = ceil($totalArticles / $perPage);
 
-// Récupérer les thématiques
+// Récupérer les thématiques et mots-clés
 $thematiques = sql_select('THEMATIQUE', '*');
+$motsCles = sql_select('MOTCLE', '*');
 ?>
 
 <!-- Page Header -->
 <section class="page-header text-white">
   <div class="container">
     <h1 class="display-4 fw-bold">
-      <i class="fas fa-palette me-3"></i>Tous les articles
+     Tous les articles
     </h1>
     <p class="lead">Explorez notre collection d'articles sur le street art bordelais</p>
   </div>
@@ -46,7 +51,7 @@ $thematiques = sql_select('THEMATIQUE', '*');
     <div class="search-card">
       <form action="/articles.php" method="GET">
         <div class="row g-3 align-items-end">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <label class="form-label fw-bold">
               <i class="fas fa-search me-2"></i>Rechercher
             </label>
@@ -57,16 +62,30 @@ $thematiques = sql_select('THEMATIQUE', '*');
                     value="<?php echo htmlspecialchars($searchQuery); ?>">
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label class="form-label fw-bold">
               <i class="fas fa-folder me-2"></i>Thématique
             </label>
             <select name="them" class="form-control form-cartoon" style="padding-left: 20px;">
-              <option value="0">Toutes les thématiques</option>
+              <option value="0">Toutes</option>
               <?php foreach($thematiques as $them): ?>
                 <option value="<?php echo $them['numThem']; ?>" 
                         <?php echo ($thematique == $them['numThem']) ? 'selected' : ''; ?>>
                   <?php echo htmlspecialchars($them['libThem']); ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-bold">
+              <i class="fas fa-tags me-2"></i>Mot-clé
+            </label>
+            <select name="kw" class="form-control form-cartoon" style="padding-left: 20px;">
+              <option value="0">Tous</option>
+              <?php foreach($motsCles as $mc): ?>
+                <option value="<?php echo $mc['numMotCle']; ?>" 
+                        <?php echo ($motCle == $mc['numMotCle']) ? 'selected' : ''; ?>>
+                  <?php echo htmlspecialchars($mc['libMotCle']); ?>
                 </option>
               <?php endforeach; ?>
             </select>
@@ -78,7 +97,7 @@ $thematiques = sql_select('THEMATIQUE', '*');
           </div>
         </div>
         
-        <?php if(!empty($searchQuery) || $thematique > 0): ?>
+        <?php if(!empty($searchQuery) || $thematique > 0 || $motCle > 0): ?>
           <div class="text-center mt-3">
             <a href="/articles.php" class="btn-cartoon-outline-sm">
               <i class="fas fa-times me-2"></i>Réinitialiser les filtres
@@ -210,15 +229,5 @@ $thematiques = sql_select('THEMATIQUE', '*');
   </div>
 </section>
 
-<!-- CTA Section -->
-<section class="py-5" style="background: var(--color-white);">
-  <div class="container text-center">
-    <h2 class="mb-4">Envie de contribuer ?</h2>
-    <p class="lead text-muted mb-4">Rejoignez notre communauté et partagez vos découvertes street art</p>
-    <a href="/views/backend/security/signup.php" class="btn-cartoon">
-      <i class="fas fa-user-plus me-2"></i>Créer un compte
-    </a>
-  </div>
-</section>
 
 <?php require_once 'footer.php'; ?>
