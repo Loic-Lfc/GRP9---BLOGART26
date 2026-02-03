@@ -20,7 +20,7 @@ $thematiques = sql_select('THEMATIQUE', '*');
           <a href="/articles.php" class="btn-cartoon">
             <i class="fas fa-palette me-2"></i>Découvrir les articles
           </a>
-          <a href="/views/backend/security/signup.php" class="btn-cartoon-outline">
+          <a href="/views/backend/security/signup.php" class="btn-cartoon">
             <i class="fas fa-user-plus me-2"></i>Rejoindre la communauté
           </a>
         </div>
