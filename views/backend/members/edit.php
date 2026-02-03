@@ -10,6 +10,34 @@ $success = '';
 
 // Traitement du formulaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Vérification reCAPTCHA v2
+    if(isset($_POST['g-recaptcha-response'])){
+        $token = $_POST['g-recaptcha-response'];
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $data = array(
+            'secret' => '6LexJl8sAAAAADDkJYxpJ1XXToXR0nk25Ay08PZH',
+            'response' => $token
+        );
+        $options = array(
+            'http' => array (
+                'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+        
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        $response = json_decode($result);
+        
+        // Vérifier la réponse reCAPTCHA v2
+        if (!$response->success) {
+            $errors[] = "Échec de la vérification reCAPTCHA. Veuillez cocher la case 'Je ne suis pas un robot'.";
+        }
+    } else {
+        $errors[] = "La vérification reCAPTCHA est requise";
+    }
+    
     // Récupération des données
     $prenom = trim($_POST['prenom'] ?? '');
     $nom = trim($_POST['nom'] ?? '');
@@ -136,7 +164,7 @@ $statuts = sql_select('STATUT', '*');
 
 <div class="card" style="border-radius: var(--radius-sm); box-shadow: var(--shadow); border: 1px solid var(--color-accent);">
     <div class="card-body p-4">
-        <form method="POST" action="">
+        <form method="POST" action="" id="form-recaptcha">
             <div class="row">
                 <!-- Pseudo (non modifiable) -->
                 <div class="col-md-6 mb-3">
@@ -280,6 +308,11 @@ $statuts = sql_select('STATUT', '*');
                     </div>
                     <small class="text-muted">L'accord RGPD ne peut pas être modifié</small>
                 </div>
+            </div>
+
+            <!-- reCAPTCHA v2 -->
+            <div class="mb-3">
+                <div class="g-recaptcha" data-sitekey="6LexJl8sAAAAAJ-6piYK9VQDiCFVdhcTkaF4ZH83"></div>
             </div>
 
             <!-- Boutons d'action -->
