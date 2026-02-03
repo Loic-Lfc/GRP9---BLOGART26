@@ -22,6 +22,8 @@ if (isset($_GET['error'])): ?>
             echo "Le mot de passe doit contenir entre 8 et 15 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.";
         else if ($_GET['error'] == 'rgpd')
             echo "Vous devez accepter le RGPD pour créer un compte.";
+        else if ($_GET['error'] == 'recaptcha')
+            echo "La vérification reCAPTCHA est requise. Veuillez cocher la case 'Je ne suis pas un robot'.";
         endif;
         ?>
     </div>
@@ -99,6 +101,11 @@ if (isset($_GET['error'])): ?>
                             J'accepte la conservation de mes données personnelles (RGPD)
                         </label>
                     </div>
+                </div>
+
+                <!-- reCAPTCHA v2 -->
+                <div class="form-group mt-3">
+                    <div class="g-recaptcha" data-sitekey="6LexJl8sAAAAAJ-6piYK9VQDiCFVdhcTkaF4ZH83"></div>
                 </div>
 
                 <br />
