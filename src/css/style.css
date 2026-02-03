@@ -619,7 +619,7 @@ select.form-control option:checked {
 }
 
 /* =========================================
-   DASHBOARD ADMIN STYLES
+  DASHBOARD ADMIN STYLES
    ========================================= */
 
 /* Layout */
@@ -840,7 +840,6 @@ select.form-control option:checked {
   font-size: var(--title-size-md);
   text-transform: uppercase;
   letter-spacing: 1px;
-}
 }
 
 /* Footer Adjustment */
