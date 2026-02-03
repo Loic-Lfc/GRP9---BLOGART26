@@ -86,3 +86,17 @@ include '../../../header.php';
 </div>
 
 <?php include '../../../footer.php'; ?>
+
+$statuts = sql_select("STATUT", "*", "numStat");
+$numStat = sql_select("STATUT", "numStat", "numStat");
+
+<div class="form-group mt-3">
+                    <label for="numStat">Statut</label>
+                    <select name="numStat" id="numStat" class="form-control" required>
+                        <?php foreach ($statuts as $statut): ?>
+                            <option value="<?php echo $statut['numStat']; ?>" <?php echo ($statut['numStat'] == $numStat) ? 'selected' : ''; ?>>
+                                <?php echo $statut['libStat']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
