@@ -1,97 +1,154 @@
 <?php
-include '../../header.php';
+$pageTitle = "Dashboard";
+$pageIcon = "fas fa-home";
+include '../header-admin.php';
 
 // On vérifie si l'utilisateur est admin ou modérateur
 if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
-    header('Location: ../../views/backend/members/list.php?error=forbidden');
+    header('Location: /views/backend/security/login.php?error=forbidden');
     exit();
 }
 
+// Récupérer les statistiques
+$countArticles = sql_select('ARTICLE', 'COUNT(*) as total', '1=1')[0]['total'] ?? 0;
+$countMembers = sql_select('MEMBRE', 'COUNT(*) as total', '1=1')[0]['total'] ?? 0;
+$countComments = sql_select('COMMENTAIRE', 'COUNT(*) as total', '1=1')[0]['total'] ?? 0;
+$countLikes = sql_select('LIKER', 'COUNT(*) as total', '1=1')[0]['total'] ?? 0;
+
 ?>
 
-<!-- Bootstrap admin dashboard template -->
-<div>
-    <hr class="my-3">
-    <div
-        style="color: black; font-size: 30px; font-family: Montserrat; font-weight: 400; padding-left: 3rem ;word-wrap: break-word">
-        Liens permettant d'administrer le Blog d'Articles</div>
-    <hr class="my-3">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <p>Bienvenue sur le dashboard !</p>
-            </div>
-            <div class="col-md-12">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Objets</th>
-                            <th>Actions</th>
-                            <th>Commentaires</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Statuts</td>
-                            <td>
-                                <a href="/views/backend/statuts/list.php" class="btn btn-primary">List</a>
-                                <a href="/views/backend/statuts/create.php" class="btn btn-success">Create</a>
-                            </td>
-                            <td>
-                                <p>Exemple fourni, s'y référer pour les autres CRUD</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Membres</td>
-                            <td>
-                                <a href="/views/backend/members/list.php" class="btn btn-primary">List</a>
-                                <a href="/views/backend/members/create.php" class="btn btn-success">Create</a>
-                            </td>
-                            <td>Pour tous les membres : Inscription, connexion, sécurité et captcha</td>
-                        </tr>
-                        <tr>
-                            <td>Articles</td>
-                            <td>
-                                <a href="/views/backend/articles/list.php" class="btn btn-primary">List</a>
-                                <a href="/views/backend/articles/create.php" class="btn btn-success">Create</a>
-                            </td>
-                            <td>En même temps que l'article : image à intégrer, gestion des mots-clés associés</td>
-                        </tr>
-                        <tr>
-                            <td>Thématiques</td>
-                            <td>
-                                <a href="/views/backend/thematiques/list.php" class="btn btn-primary">List</a>
-                                <a href="/views/backend/thematiques/create.php" class="btn btn-success">Create</a>
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Commentaires</td>
-                            <td>
-                                <a href="/views/backend/comments/list.php" class="btn btn-primary">List</a>
-                                <a href="/views/backend/comments/create.php" class="btn btn-success">Create</a>
-                            </td>
-                            <td>Gestion côté front et côté back, modération. Utilisation de mise en forme (emojies...)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Likes</td>
-                            <td>
-                                <a href="/views/backend/likes/list.php" class="btn btn-primary">List</a>
-                                <a href="/views/backend/likes/create.php" class="btn btn-success">Create</a>
-                            </td>
-                            <td>Utilisation de JS</td>
-                        </tr>
-                        <tr>
-                            <td>Mot-clés</td>
-                            <td>
-                                <a href="/views/backend/keywords/list.php" class="btn btn-primary">List</a>
-                                <a href="/views/backend/keywords/create.php" class="btn btn-success">Create</a>
-                            </td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-            </div>
+<!-- Statistics Grid -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-newspaper"></i>
+        </div>
+        <div class="stat-number"><?php echo $countArticles; ?></div>
+        <div class="stat-label">Articles publiés</div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-number"><?php echo $countMembers; ?></div>
+        <div class="stat-label">Membres</div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="stat-number"><?php echo $countComments; ?></div>
+        <div class="stat-label">Commentaires</div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-heart"></i>
+        </div>
+        <div class="stat-number"><?php echo $countLikes; ?></div>
+        <div class="stat-label">Likes</div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<h2 class="admin-section-title mt-5">
+    <i class="fas fa-bolt me-2"></i>Actions rapides
+</h2>
+
+<div class="quick-actions">
+    <div class="action-card">
+        <h3><i class="fas fa-newspaper me-2"></i>Articles</h3>
+        <p>Gérer les articles du blog</p>
+        <div class="action-buttons">
+            <a href="/views/backend/articles/list.php" class="btn btn-primary btn-sm">
+                <i class="fas fa-list me-1"></i>Liste
+            </a>
+            <a href="/views/backend/articles/create.php" class="btn btn-success btn-sm">
+                <i class="fas fa-plus me-1"></i>Créer
+            </a>
+        </div>
+    </div>
+    
+    <div class="action-card">
+        <h3><i class="fas fa-users me-2"></i>Membres</h3>
+        <p>Gérer les utilisateurs</p>
+        <div class="action-buttons">
+            <a href="/views/backend/members/list.php" class="btn btn-primary btn-sm">
+                <i class="fas fa-list me-1"></i>Liste
+            </a>
+            <a href="/views/backend/members/create.php" class="btn btn-success btn-sm">
+                <i class="fas fa-plus me-1"></i>Créer
+            </a>
+        </div>
+    </div>
+    
+    <div class="action-card">
+        <h3><i class="fas fa-comments me-2"></i>Commentaires</h3>
+        <p>Modérer les commentaires</p>
+        <div class="action-buttons">
+            <a href="/views/backend/comments/list.php" class="btn btn-primary btn-sm">
+                <i class="fas fa-list me-1"></i>Liste
+            </a>
+            <a href="/views/backend/comments/create.php" class="btn btn-success btn-sm">
+                <i class="fas fa-plus me-1"></i>Créer
+            </a>
+        </div>
+    </div>
+    
+    <div class="action-card">
+        <h3><i class="fas fa-tags me-2"></i>Mots-clés</h3>
+        <p>Gérer les tags des articles</p>
+        <div class="action-buttons">
+            <a href="/views/backend/keywords/list.php" class="btn btn-primary btn-sm">
+                <i class="fas fa-list me-1"></i>Liste
+            </a>
+            <a href="/views/backend/keywords/create.php" class="btn btn-success btn-sm">
+                <i class="fas fa-plus me-1"></i>Créer
+            </a>
+        </div>
+    </div>
+    
+    <div class="action-card">
+        <h3><i class="fas fa-folder me-2"></i>Thématiques</h3>
+        <p>Gérer les catégories</p>
+        <div class="action-buttons">
+            <a href="/views/backend/thematiques/list.php" class="btn btn-primary btn-sm">
+                <i class="fas fa-list me-1"></i>Liste
+            </a>
+            <a href="/views/backend/thematiques/create.php" class="btn btn-success btn-sm">
+                <i class="fas fa-plus me-1"></i>Créer
+            </a>
+        </div>
+    </div>
+    
+    <div class="action-card">
+        <h3><i class="fas fa-toggle-on me-2"></i>Statuts</h3>
+        <p>Gérer les statuts utilisateur</p>
+        <div class="action-buttons">
+            <a href="/views/backend/statuts/list.php" class="btn btn-primary btn-sm">
+                <i class="fas fa-list me-1"></i>Liste
+            </a>
+            <a href="/views/backend/statuts/create.php" class="btn btn-success btn-sm">
+                <i class="fas fa-plus me-1"></i>Créer
+            </a>
         </div>
     </div>
 </div>
+
+<!-- Recent Activity -->
+<h2 class="admin-section-title mt-5">
+    <i class="fas fa-clock me-2"></i>Activité récente
+</h2>
+
+<div class="card">
+    <div class="card-body">
+        <div class="alert alert-info mb-0">
+            <i class="fas fa-info-circle me-2"></i>
+            Bienvenue sur le tableau de bord de <strong>Street Art Bordeaux</strong>. Utilisez le menu latéral pour naviguer dans l'administration.
+        </div>
+    </div>
+</div>
+
+<?php include '../../footer-admin.php'; ?>
