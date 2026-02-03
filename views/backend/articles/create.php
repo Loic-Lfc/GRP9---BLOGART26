@@ -68,21 +68,21 @@ include '../../../header.php';
             </p>
         </div>
 
-        <div class="form-group">
-            <label>Thématique :</label>
-            <select name="numThem" class="form-control" required>
-                <option value="">-- Choisir une thématique --</option>
-                <?php 
-                $thematiques = sql_select("THEMATIQUE", "*");
-                var_dump($thematiques);
-                if ($thematiques) {
-                    foreach ($thematiques as $theme): ?>
-                        <option value="<?= $theme['numThem'] ?>">
-                            <?= htmlspecialchars($theme['libThem']) ?>
-                        </option>
-                    <?php endforeach; 
-                } ?>
-            </select>
-        </div>
+<div class="form-group">
+<label>Thématique :</label>
+<select name="numThem" class="form-control" required>
+	<option value="">-- Choisir une thématique --</option>
+<?php 
+	$thematiques = sql_select("THEMATIQUE", "*");
+        var_dump($thematiques);
+	if ($thematiques) {
+		foreach ($thematiques as $theme): ?>
+			<option value="<?= $theme['numThem'] ?>">
+				<?= htmlspecialchars($theme['libThem']) ?>
+			</option>
+<?php 	endforeach; 
+	} ?>
+</select>
+</div>
 
 <?php include '../../../footer.php'; ?>
