@@ -66,6 +66,7 @@ if (isset($_SESSION['pseudoMemb'])) {
                     <input type="email" class="form-control" id="eMailMemb2" name="eMailMemb2" placeholder="Confirmez votre email" required>
                 </div>
             </div>
+
             <div class="form-group row text-right">
                 <label for="passMemb" class="col-sm-6 col-form-label">Mot de passe <small>(8-15 caractères, 1 majuscule, 1 minuscule, 1 chiffre)</small></label>
                 <div class="col-sm-5">
@@ -85,6 +86,7 @@ if (isset($_SESSION['pseudoMemb'])) {
         <p class="mt-3"><a href="login.php">Déjà inscrit ? Se connecter</a></p>
     </div>
 </div>
+teste
 <?php
 include("../../../footer.php");
 ?>

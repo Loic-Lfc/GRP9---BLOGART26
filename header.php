@@ -42,7 +42,6 @@ if (!isset($_SESSION)) {
       <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Rechercher sur le site…" aria-label="Search" >
       </form>
-<<<<<<< Updated upstream
       <?php
       // Démarrer la session si elle n'existe pas
       if (!isset($_SESSION)) {
@@ -64,17 +63,6 @@ if (!isset($_SESSION)) {
           <a class="btn btn-primary m-1" href="/views/backend/security/login.php" role="button">Login</a>
           <a class="btn btn-dark m-1" href="/views/backend/security/signup.php" role="button">Sign up</a>
           <?php
-=======
-      <?php 
-      // Si l'utilisateur est connecté, afficher le pseudo et le bouton Disconnect
-      if (isset($_SESSION['pseudoMemb'])) {
-          echo '<span class="navbar-text m-2">Bienvenue, <strong>' . htmlspecialchars($_SESSION['pseudoMemb']) . '</strong></span>';
-          echo '<a class="btn btn-danger m-1" href="/api/security/disconnect.php" role="button">Disconnect</a>';
-      } else {
-          // Sinon afficher les boutons Login et Sign up
-          echo '<a class="btn btn-primary m-1" href="/views/backend/security/login.php" role="button">Login</a>';
-          echo '<a class="btn btn-dark m-1" href="/views/backend/security/signup.php" role="button">Sign up</a>';
->>>>>>> Stashed changes
       }
       ?>
     </div>
