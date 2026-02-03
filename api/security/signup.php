@@ -1,5 +1,4 @@
 <?php
-
 include("../myBDD.php");
 
 if (isset($_POST["pseudonyme"]) && isset($_POST["password"]) && isset($_POST["password2"])) {
@@ -26,4 +25,5 @@ if (isset($_GET['success'])) {
 }
 
 
+>>>>>>> 90d970d35155d6436bc1f2b8f9ab91ce78701029
 ?>

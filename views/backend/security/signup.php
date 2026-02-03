@@ -7,10 +7,6 @@ if (isset($_SESSION['pseudonyme'])) {
     header("Location: index.php");
     exit();
 }
-
-echo("Form signup");
-
-
 ?>
 
 <div class="row">

@@ -1,16 +1,11 @@
 <?php
 
 include '../../../header.php';
-
 //Si l'utilisateur a déjà une session, redirigez-le vers index.php
 if (isset($_SESSION['pseudonyme'])) {
     header("Location: index.php");
     exit();
 }
-
-
-echo("Form login");
-
 ?>
 
 <div class="row">
