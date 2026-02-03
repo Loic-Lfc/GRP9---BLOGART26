@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-<!-- Load JS scripts -->
-<script>
-function onSubmit(token) {
-    document.getElementById("form-recaptcha").submit();
-    console.log(document.getElementById("form-recaptcha"));
-}
-<!-- Bootstrap JS -->
-=======
+
 <div class="modal fade" id="cookieConsentModal" tabindex="-1" aria-labelledby="cookieConsentLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -28,7 +20,7 @@ function onSubmit(token) {
 <footer>
 </footer>
 
->>>>>>> d393dffe8d454fe11c11a1162a804513f874e032
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 <script>
