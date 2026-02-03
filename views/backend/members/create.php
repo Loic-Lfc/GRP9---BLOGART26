@@ -2,6 +2,12 @@
 // Inclusion des fichiers nécessaires
 include '../../../header.php';
 
+// On vérifie si l'utilisateur est admin ou modérateur
+if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
+    header('Location: ../../views/backend/members/list.php?error=forbidden');
+    exit();
+}
+
 // Récupération des statuts pour le select
 $statuts = sql_select("STATUT", "*", "numStat");
 $numStat = sql_select("STATUT", "numStat", "numStat");
@@ -82,16 +88,23 @@ if (isset($_GET['error'])): ?>
                 </div>
 
                 <!-- Choix du statut -->
-                <div class="form-group mt-3">
-                    <label for="numStat">Statut</label>
-                    <select name="numStat" id="numStat" class="form-control" required>
-                        <?php foreach ($statuts as $statut): ?>
-                            <option value="<?php echo $statut['numStat']; ?>" <?php echo ($statut['numStat'] == $numStat) ? 'selected' : ''; ?>>
-                                <?php echo $statut['libStat']; ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
+                <select name="numStat" id="numStat" class="form-control" required>
+                    <?php foreach ($statuts as $statut): ?>
+                        <?php 
+                        // 1. On masque TOUJOURS l'Administrateur (numStat 1)
+                        if ($statut['numStat'] == 1) continue;
+
+                        // 2. Si l'utilisateur connecté est Modérateur (session numStat == 2)
+                        // on masque aussi le choix Modérateur (statut numStat == 2)
+                        if (isset($_SESSION['numStat']) && $_SESSION['numStat'] == 2 && $statut['numStat'] == 2) {
+                            continue;
+                        }
+                        ?>
+                        <option value="<?php echo $statut['numStat']; ?>" <?php echo ($statut['numStat'] == $numStat) ? 'selected' : ''; ?>>
+                            <?php echo $statut['libStat']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
                 
                 <!-- Accord RGPD -->
                 <div class="form-group mt-3">
