@@ -27,6 +27,16 @@ $auteurNom = !empty($auteur) ? $auteur[0]['pseudoMemb'] : 'Auteur inconnu';
 // Récupérer la thématique
 $thematique = sql_select("THEMATIQUE", "libThem", "numThem = " . ($article['numThem'] ?? 0));
 $thematiqueNom = !empty($thematique) ? $thematique[0]['libThem'] : 'Non catégorisé';
+
+// Récupérer le membre connecté (pour test, on met temporairement numMemb = 1)
+$numMemb = $_SESSION['numMemb'] ?? 1;
+
+// Vérifier si le membre a déjà liké cet article
+$like = sql_select('LIKEART', '*', "numArt = {$article['numArt']} AND numMemb = $numMemb");
+$liked = (!empty($like) && $like[0]['likeA']) ? true : false;
+
+// Récupérer le total des likes pour cet article
+$totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['numArt']} AND likeA = true")[0]['total'];
 ?>
 
 <!-- Hero Article -->
@@ -123,7 +133,7 @@ $thematiqueNom = !empty($thematique) ? $thematique[0]['libThem'] : 'Non catégor
               </span>
               <span>
                 <i class="fas fa-heart me-2"></i>
-                <strong>0</strong> likes
+                <strong id="likeCount"><?php echo $totalLikes; ?></strong> likes
               </span>
               <span>
                 <i class="fas fa-comment me-2"></i>
@@ -131,8 +141,9 @@ $thematiqueNom = !empty($thematique) ? $thematique[0]['libThem'] : 'Non catégor
               </span>
             </div>
             <div class="d-flex gap-2">
-              <button class="btn-cartoon-outline-sm">
-                <i class="fas fa-heart me-1"></i>J'aime
+              <button id="btnLike" class="btn-cartoon-outline-sm <?php echo $liked ? 'liked' : ''; ?>">
+                <i class="fas fa-heart me-1"></i>
+                <?php echo $liked ? 'Retirer J’aime' : 'J’aime'; ?>
               </button>
               <button class="btn-cartoon-sm">
                 <i class="fas fa-share-alt me-1"></i>Partager
@@ -168,5 +179,29 @@ $thematiqueNom = !empty($thematique) ? $thematique[0]['libThem'] : 'Non catégor
     </div>
   </div>
 </section>
+<script>
+document.getElementById('btnLike').addEventListener('click', function() {
+    const btn = this;
+    const numArt = <?php echo $article['numArt']; ?>;
 
+    fetch('/api/likes/update.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'numArt=' + numArt
+    })
+    .then(response => response.text())
+    .then(totalLikes => {
+        document.getElementById('likeCount').innerText = totalLikes;
+
+        if(btn.classList.contains('liked')) {
+            btn.classList.remove('liked');
+            btn.innerHTML = '<i class="fas fa-heart me-1"></i>J’aime';
+        } else {
+            btn.classList.add('liked');
+            btn.innerHTML = '<i class="fas fa-heart me-1"></i>Retirer J’aime';
+        }
+    })
+    .catch(err => console.error('Erreur : ', err));
+});
+</script>
 <?php include '../../../footer.php'; ?>
