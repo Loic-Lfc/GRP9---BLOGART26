@@ -13,7 +13,9 @@ $thematiques = sql_select('THEMATIQUE', '*');
     <div class="row align-items-center">
       <div class="col-lg-6 mb-4 mb-lg-0">
         <h1 class="hero-title mb-4">
-          <i class="fas fa-spray-can me-3"></i>Street Art Bordeaux
+          <a href="/index.php">
+            <img src="/src/images/murmures_bordeaux.png" alt="Street Art Bordeaux" style="max-width: 300px; height: auto;">
+          </a>
         </h1>
         <p class="lead mb-4">Découvrez l'univers du street art bordelais à travers nos articles, reportages et interviews d'artistes urbains.</p>
         <div class="d-flex gap-3">
