@@ -1,15 +1,27 @@
 <?php
-include '../../../header.php'; // contains the header and call to config.php
+include '../../../header.php';
 
-//Load all membres
 $membres = sql_select("MEMBRE", "*");
 ?>
 
-<!-- Bootstrap default layout to display all membres in foreach -->
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <h1>Membres</h1>
+
+            <?php if (isset($_GET['error'])): ?>
+
+                <!-- Messages d'erreur -->
+                <div class="alert alert-danger">
+                    <?php
+                    if ($_GET['error'] == 'forbidden') 
+                        echo "Vous n'avez pas les droits nécessaires pour effectuer cette action.";
+                    else if ($_GET['error'] == 'admin_protected') 
+                        echo "Impossible de supprimer le compte Administrateur : ce compte est protégé.";
+                    ?>
+                </div>
+            <?php endif; ?>
+
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -30,10 +42,16 @@ $membres = sql_select("MEMBRE", "*");
                             <td><?php echo($membre['nomMemb']); ?></td>
                             <td><?php echo($membre['prenomMemb']); ?></td>
                             <td><?php echo($membre['eMailMemb']); ?></td>
-                            <td><?php echo($membre['passMemb']); ?></td>
+                            <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                <?php echo($membre['passMemb']); ?>
+                            </td>
                             <td>
                                 <a href="edit.php?numMemb=<?php echo($membre['numMemb']); ?>" class="btn btn-primary">Edit</a>
-                                <a href="delete.php?numMemb=<?php echo($membre['numMemb']); ?>" class="btn btn-danger">Delete</a>
+                                <?php if ($membre['numStat'] != 1): ?>
+                                    <a href="delete.php?id=<?php echo $membre['numMemb']; ?>" class="btn btn-danger">Supprimer</a>
+                                <?php else: ?>
+                                    <span class="badge badge-secondary">Protégé</span>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php } ?>
@@ -43,5 +61,6 @@ $membres = sql_select("MEMBRE", "*");
         </div>
     </div>
 </div>
+
 <?php
-include '../../../footer.php'; // contains the footer
+include '../../../footer.php';

@@ -3,6 +3,12 @@
 include '../../header.php';
 require_once '../../functions/ctrlSaisies.php';
 
+// On vérifie si l'utilisateur est admin ou modérateur
+if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
+    header('Location: ../../views/backend/members/list.php?error=forbidden');
+    exit();
+}
+
 // Vérification reCAPTCHA v2
 if(isset($_POST['g-recaptcha-response'])){
     $token = $_POST['g-recaptcha-response'];
