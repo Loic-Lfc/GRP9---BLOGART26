@@ -64,9 +64,9 @@ $thematiques = sql_select('THEMATIQUE', '*');
                 </span>
               </div>
               <div class="article-body">
-                <h3 class="article-title"><?php echo htmlspecialchars($article['titreArt']); ?></h3>
+                <h3 class="article-title"><?php echo htmlspecialchars($article['libTitrArt']); ?></h3>
                 <p class="article-excerpt">
-                  <?php echo substr(strip_tags($article['chapArt']), 0, 120) . '...'; ?>
+                  <?php echo substr(strip_tags($article['libChapoArt']), 0, 120) . '...'; ?>
                 </p>
                 <div class="article-meta">
                   <span><i class="fas fa-calendar me-1"></i><?php echo date('d/m/Y', strtotime($article['dtCreaArt'])); ?></span>
