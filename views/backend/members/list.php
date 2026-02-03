@@ -18,6 +18,7 @@ $membres = sql_select("MEMBRE", "*");
                         <th>Nom</th>
                         <th>Prénom</th>
                         <th>Email</th>
+                        <th>Mot De Passe</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -29,6 +30,7 @@ $membres = sql_select("MEMBRE", "*");
                             <td><?php echo($membre['nomMemb']); ?></td>
                             <td><?php echo($membre['prenomMemb']); ?></td>
                             <td><?php echo($membre['eMailMemb']); ?></td>
+                            <td><?php echo($membre['passMemb']); ?></td>
                             <td>
                                 <a href="edit.php?numMemb=<?php echo($membre['numMemb']); ?>" class="btn btn-primary">Edit</a>
                                 <a href="delete.php?numMemb=<?php echo($membre['numMemb']); ?>" class="btn btn-danger">Delete</a>
