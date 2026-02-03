@@ -66,4 +66,18 @@ function validatePassMemb($password) {
     
     return true;
 }
+
+/**
+ * Valide l'adresse email du membre
+ * Utilise la fonction filter_var() de PHP
+ * 
+ * @param string $email L'email à valider
+ * @return bool true si l'email est valide, false sinon
+ */
+function validateEmailMemb($email) {
+    $email = trim($email);
+    
+    // Vérifier que l'email n'est pas vide et respecte le format
+    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+}
 ?>

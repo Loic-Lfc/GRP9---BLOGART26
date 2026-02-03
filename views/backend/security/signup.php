@@ -25,6 +25,10 @@ if (isset($_SESSION['pseudoMemb'])) {
                 echo '<div class="alert alert-danger" role="alert">Le pseudonyme doit contenir entre 6 et 70 caractères.</div>';
             } else if ($_GET['error'] === 'password_format') {
                 echo '<div class="alert alert-danger" role="alert">Le mot de passe doit contenir entre 8 et 15 caractères, au moins une majuscule, une minuscule et un chiffre.</div>';
+            } else if ($_GET['error'] === 'email_invalid') {
+                echo '<div class="alert alert-danger" role="alert">L\'adresse email n\'est pas valide. Veuillez entrer une adresse email correcte.</div>';
+            } else if ($_GET['error'] === 'email_mismatch') {
+                echo '<div class="alert alert-danger" role="alert">Les deux adresses email ne correspondent pas. Veuillez les vérifier.</div>';
             } else {
                 echo '<div class="alert alert-danger" role="alert">Erreur lors de l\'inscription. Vérifiez que vos mots de passe correspondent.</div>';
             }
@@ -53,7 +57,13 @@ if (isset($_SESSION['pseudoMemb'])) {
             <div class="form-group row text-right">
                 <label for="eMailMemb" class="col-sm-6 col-form-label">Email</label>
                 <div class="col-sm-5">
-                    <input type="email" class="form-control" id="eMailMemb" name="eMailMemb" placeholder="Email">
+                    <input type="email" class="form-control" id="eMailMemb" name="eMailMemb" placeholder="Email" required>
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                <label for="eMailMemb2" class="col-sm-6 col-form-label">Confirmer l'email</label>
+                <div class="col-sm-5">
+                    <input type="email" class="form-control" id="eMailMemb2" name="eMailMemb2" placeholder="Confirmez votre email" required>
                 </div>
             </div>
             <div class="form-group row text-right">

@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["pseudoMemb"]) && isse
     $prenomMemb = trim($_POST['prenomMemb'] ?? '');
     $nomMemb = trim($_POST['nomMemb'] ?? '');
     $eMailMemb = trim($_POST['eMailMemb'] ?? '');
+    $eMailMemb2 = trim($_POST['eMailMemb2'] ?? '');
     $password = $_POST['passMemb'];
     $password2 = $_POST['passMemb2'];
     
@@ -26,6 +27,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["pseudoMemb"]) && isse
     // Vérifier que le password respecte les critères (8-15 caractères, 1 majuscule, 1 minuscule, 1 chiffre)
     if (!validatePassMemb($password)) {
         header("Location: ../../views/backend/security/signup.php?error=password_format");
+        exit();
+    }
+    
+    // Vérifier que les deux emails sont valides
+    if (!validateEmailMemb($eMailMemb) || !validateEmailMemb($eMailMemb2)) {
+        header("Location: ../../views/backend/security/signup.php?error=email_invalid");
+        exit();
+    }
+    
+    // Vérifier que les deux emails correspondent
+    if ($eMailMemb !== $eMailMemb2) {
+        header("Location: ../../views/backend/security/signup.php?error=email_mismatch");
         exit();
     }
     
