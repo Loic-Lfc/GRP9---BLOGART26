@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!-- Load JS scripts -->
 <script>
 function onSubmit(token) {
