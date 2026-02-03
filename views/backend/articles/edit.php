@@ -3,19 +3,32 @@ include '../../../header.php';
 
 if (isset($_GET['numArt'])) {
     $numArt = $_GET['numArt'];
-    $dtCreaArt = sql_select("ARTICLE", "dtCreaArt", "numArt = $numArt")[0]['dtCreaArt'];
-    $dtMajArt = sql_select("ARTICLE", "dtMajArt", "numArt = $numArt")[0]['dtMajArt'];
-    $libTitrArt = sql_select("ARTICLE", "libTitrArt", "numArt = $numArt")[0]['libTitrArt'];
-    $libChapoArt = sql_select("ARTICLE", "libChapoArt", "numArt = $numArt")[0]['libChapoArt'];
-    $libAccrochArt = sql_select("ARTICLE", "libAccrochArt", "numArt = $numArt")[0]['libAccrochArt'];
-    $parag1Art = sql_select("ARTICLE", "parag1Art", "numArt = $numArt")[0]['parag1Art'];
-    $libSsTitr1Art = sql_select("ARTICLE", "libSsTitr1Art", "numArt = $numArt")[0]['libSsTitr1Art'];
-    $parag2Art = sql_select("ARTICLE", "parag2Art", "numArt = $numArt")[0]['parag2Art'];
-    $libSsTitr2Art = sql_select("ARTICLE", "libSsTitr2Art", "numArt = $numArt")[0]['libSsTitr2Art'];
-    $parag3Art = sql_select("ARTICLE", "parag3Art", "numArt = $numArt")[0]['parag3Art'];
-    $libConclArt = sql_select("ARTICLE", "libConclArt", "numArt = $numArt")[0]['libConclArt'];
-    $urlPhotArt = sql_select("ARTICLE", "urlPhotArt", "numArt = $numArt")[0]['urlPhotArt'];
-    $numThem = sql_select("ARTICLE", "numThem", "numArt = $numArt")[0]['numThem'];
+    $article = sql_select("ARTICLE", "*", "numArt = $numArt");
+    
+    if (!empty($article)) {
+        $article = $article[0];
+        $dtCreaArt = $article['dtCreaArt'] ?? '';
+        $dtMajArt = $article['dtMajArt'] ?? '';
+        $libTitrArt = $article['libTitrArt'] ?? '';
+        $libChapoArt = $article['libChapoArt'] ?? '';
+        $libAccrochArt = $article['libAccrochArt'] ?? '';
+        $parag1Art = $article['parag1Art'] ?? '';
+        $libSsTitr1Art = $article['libSsTitr1Art'] ?? '';
+        $parag2Art = $article['parag2Art'] ?? '';
+        $libSsTitr2Art = $article['libSsTitr2Art'] ?? '';
+        $parag3Art = $article['parag3Art'] ?? '';
+        $libConclArt = $article['libConclArt'] ?? '';
+        $urlPhotArt = $article['urlPhotArt'] ?? '';
+        $numThem = $article['numThem'] ?? '';
+    } else {
+        // Article non trouvé, rediriger
+        header('Location: list.php?error=not_found');
+        exit();
+    }
+} else {
+    // Pas de numArt fourni, rediriger
+    header('Location: list.php?error=no_id');
+    exit();
 }
 
 $thematiques = sql_select("THEMATIQUE", "*");
@@ -35,12 +48,12 @@ $thematiques = sql_select("THEMATIQUE", "*");
 
                 <div class="form-group">
                     <label for="dtCreaArt">Date de l'article</label>
-                    <input id="dtCreaArt" name="dtCreaArt" class="form-control" type="datetime-local" value="<?php echo date('Y-m-d\TH:i', strtotime($dtCreaArt)); ?>" />
+                    <input id="dtCreaArt" name="dtCreaArt" class="form-control" type="datetime-local" value="<?php echo $dtCreaArt ? date('Y-m-d\TH:i', strtotime($dtCreaArt)) : ''; ?>" />
                 </div>
 
                 <div class="form-group">
                     <label for="dtMajArt">Mise à jour de l'article</label>
-                    <input id="dtMajArt" name="dtMajArt" class="form-control" type="datetime-local" value="<?php echo date('Y-m-d\TH:i', strtotime($dtMajArt)); ?>" />
+                    <input id="dtMajArt" name="dtMajArt" class="form-control" type="datetime-local" value="<?php echo $dtMajArt ? date('Y-m-d\TH:i', strtotime($dtMajArt)) : ''; ?>" />
                 </div>
 
                 <div class="form-group">
