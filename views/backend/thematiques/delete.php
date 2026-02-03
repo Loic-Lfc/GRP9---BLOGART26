@@ -1,6 +1,12 @@
 <?php
 include '../../../header.php';
 
+// On vérifie si l'utilisateur est admin ou modérateur
+if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
+    header('Location: ../../views/backend/members/list.php?error=forbidden');
+    exit();
+}
+
 if(isset($_GET['numThem'])){
     $numThematique = $_GET['numThem'];
     $libThematique = sql_select("THEMATIQUE", "libThem", "numThem = $numThematique")[0]['libThem'];
