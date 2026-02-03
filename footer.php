@@ -1,5 +1,4 @@
 <!-- Load JS scripts -->
-<<<<<<< Updated upstream
 <script>
 function onSubmit(token) {
     document.getElementById("form-recaptcha").submit();
@@ -86,7 +85,6 @@ if(modalEl){
 }
 });
 
->>>>>>> Stashed changes
 </script>
 
 </body>
