@@ -5,7 +5,6 @@ require_once '../../functions/query/connect.php';
 
 sql_connect();
 
-// Récupération des champs POST
 $libTitrArt = $_POST['libTitrArt'] ?? null;
 $dtCreaArt = $_POST['dtCreaArt'] ?? null;
 $libChapoArt = $_POST['libChapoArt'] ?? null;
@@ -17,28 +16,27 @@ $libSsTitr2Art = $_POST['libSsTitr2Art'] ?? null;
 $parag3Art = $_POST['parag3Art'] ?? null;
 $libConclArt = $_POST['libConclArt'] ?? null;
 $numThem = isset($_POST['numThem']) && $_POST['numThem'] !== '' ? intval($_POST['numThem']) : null;
-$motsCles = $_POST['motsCles'] ?? [];
 
-// --- GESTION DE L'IMAGE ---
-$finalFileName = null; // C'est ce nom qu'on mettra en BDD
+// Nettoyage strict des mots-clés
+$motsClesRaw = $_POST['motsCles'] ?? '';
+$motsCles = !empty($motsClesRaw) ? explode(',', $motsClesRaw) : [];
+
+$finalFileName = null;
 
 if (isset($_FILES['urlPhotArt']) && $_FILES['urlPhotArt']['error'] === UPLOAD_ERR_OK) {
-    // Dossier cible défini par ta consigne
-    $uploadDir = __DIR__ . '/../../../src/uploads/'; 
-    
-    // Création du dossier s'il n'existe pas
-    if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+    $uploadDir = __DIR__ . '/../../src/uploads/';
+
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0755, true);
+    }
 
     $origName = basename($_FILES['urlPhotArt']['name']);
     $ext = strtolower(pathinfo($origName, PATHINFO_EXTENSION));
-
-    // Création du nom à la volée : art_ANNÉE_MOIS_JOUR_ID.extension
     $finalFileName = 'art_' . date('YmdHis') . '_' . uniqid() . '.' . $ext;
-    
     $targetPath = $uploadDir . $finalFileName;
 
     if (!move_uploaded_file($_FILES['urlPhotArt']['tmp_name'], $targetPath)) {
-        die("Erreur : Impossible de déplacer le fichier vers $uploadDir");
+        die("Erreur upload");
     }
 }
 
@@ -50,7 +48,6 @@ try {
 
     $stmt = $DB->prepare($sql);
 
-    // Formatage de la date pour SQL
     $bindDt = ($dtCreaArt && trim($dtCreaArt) !== '') ? $dtCreaArt : date('Y-m-d H:i:s');
 
     $stmt->bindValue(':dtCreaArt', $bindDt);
@@ -63,22 +60,27 @@ try {
     $stmt->bindValue(':libSsTitr2Art', $libSsTitr2Art);
     $stmt->bindValue(':parag3Art', $parag3Art);
     $stmt->bindValue(':libConclArt', $libConclArt);
-    $stmt->bindValue(':urlPhotArt', $finalFileName); // On stocke le nom généré
+    $stmt->bindValue(':urlPhotArt', $finalFileName);
     $stmt->bindValue(':numThem', $numThem, PDO::PARAM_INT);
 
     $stmt->execute();
 
     $lastNumArt = $DB->lastInsertId();
 
-    // Insertion des mots-clés liés
-    if (!empty($motsCles) && is_array($motsCles)) {
+    // Insertion des mots-clés sécurisée
+    if ($lastNumArt && !empty($motsCles)) {
         $sqlMot = "INSERT INTO MOTCLEARTICLE (numArt, numMotCle) VALUES (:numArt, :numMotCle)";
         $stmtMot = $DB->prepare($sqlMot);
+        
         foreach ($motsCles as $numMotCle) {
-            $stmtMot->execute([
-                ':numArt' => $lastNumArt,
-                ':numMotCle' => intval($numMotCle)
-            ]);
+            $idMot = intval($numMotCle);
+            // On vérifie que l'ID est > 0 avant d'insérer
+            if ($idMot > 0) {
+                $stmtMot->execute([
+                    ':numArt' => $lastNumArt,
+                    ':numMotCle' => $idMot
+                ]);
+            }
         }
     }
 
