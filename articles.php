@@ -15,7 +15,7 @@ $thematique = isset($_GET['them']) ? intval($_GET['them']) : 0;
 $where = '1=1';
 if (!empty($searchQuery)) {
     $searchQuery = htmlspecialchars($searchQuery);
-    $where .= " AND (titreArt LIKE '%$searchQuery%' OR chapArt LIKE '%$searchQuery%')";
+    $where .= " AND (libTitrArt LIKE '%$searchQuery%' OR chapArt LIKE '%$searchQuery%')";
 }
 if ($thematique > 0) {
     $where .= " AND numThem = $thematique";
@@ -132,7 +132,7 @@ $thematiques = sql_select('THEMATIQUE', '*');
               <div class="article-image">
                 <?php if(!empty($article['photoArt'])): ?>
                   <img src="/src/uploads/<?php echo htmlspecialchars($article['photoArt']); ?>" 
-                       alt="<?php echo htmlspecialchars($article['titreArt']); ?>">
+                       alt="<?php echo htmlspecialchars($article['libTitrArt']); ?>">
                 <?php else: ?>
                   <img src="/src/images/article1.png" alt="Default">
                 <?php endif; ?>
