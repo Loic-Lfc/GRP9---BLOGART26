@@ -10,6 +10,15 @@ $success = '';
 
 // Traitement du formulaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Récupération des données
+    $prenom = trim($_POST['prenom'] ?? '');
+    $nom = trim($_POST['nom'] ?? '');
+    $mail1 = trim($_POST['mail1'] ?? '');
+    $mail2 = trim($_POST['mail2'] ?? '');
+    $password1 = $_POST['password1'] ?? '';
+    $password2 = $_POST['password2'] ?? '';
+    $numStat = intval($_POST['numStat'] ?? 0);
+    
     // Vérification reCAPTCHA v2
     if(isset($_POST['g-recaptcha-response'])){
         $token = $_POST['g-recaptcha-response'];
@@ -37,15 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $errors[] = "La vérification reCAPTCHA est requise";
     }
-    
-    // Récupération des données
-    $prenom = trim($_POST['prenom'] ?? '');
-    $nom = trim($_POST['nom'] ?? '');
-    $mail1 = trim($_POST['mail1'] ?? '');
-    $mail2 = trim($_POST['mail2'] ?? '');
-    $password1 = $_POST['password1'] ?? '';
-    $password2 = $_POST['password2'] ?? '';
-    $numStat = intval($_POST['numStat'] ?? 0);
     
     // Validation prénom (obligatoire)
     if (empty($prenom)) {
