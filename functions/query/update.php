@@ -13,9 +13,18 @@ function sql_update($table, $attributs, $where)
         $DB->beginTransaction();
 
         //prepare query for PDO
-        $query = "UPDATE $table SET $attributs WHERE $where;";
+        // Construction de la clause SET à partir du tableau associatif
+        $setClause = [];
+        $values = [];
+        foreach ($attributs as $column => $value) {
+            $setClause[] = "$column = :$column";
+            $values[":$column"] = $value;
+        }
+        $setString = implode(', ', $setClause);
+        
+        $query = "UPDATE $table SET $setString WHERE $where;";
         $request = $DB->prepare($query);
-        $request->execute();
+        $request->execute($values);
         $DB->commit();
         $request->closeCursor();
     } catch (PDOException $e) {
