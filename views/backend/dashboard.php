@@ -1,6 +1,12 @@
 <?php
 include '../../header.php';
 
+// On vérifie si l'utilisateur est admin ou modérateur
+if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
+    header('Location: ../../views/backend/members/list.php?error=forbidden');
+    exit();
+}
+
 ?>
 
 <!-- Bootstrap admin dashboard template -->

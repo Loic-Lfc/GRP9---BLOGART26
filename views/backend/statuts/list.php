@@ -1,6 +1,12 @@
 <?php
 include '../../../header.php'; // contains the header and call to config.php
 
+// On vérifie si l'utilisateur est admin ou modérateur
+if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
+    header('Location: ../../views/backend/members/list.php?error=forbidden');
+    exit();
+}
+
 //Load all statuts
 $statuts = sql_select("STATUT", "*");
 ?>
