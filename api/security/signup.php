@@ -3,6 +3,7 @@ require_once '../../config/defines.php';
 require_once '../../config/security.php';
 require_once '../../functions/query/connect.php';
 require_once '../../functions/query/select.php';
+require_once '../../functions/ctrlSaisies.php';
 
 // Initialiser la connexion
 sql_connect();
@@ -16,7 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["pseudoMemb"]) && isse
     $password2 = $_POST['passMemb2'];
     
     // Validation des données
-    if ($username !== "" && strlen($password) >= 8 && $password === $password2) {
+    // Vérifier que le pseudo respecte les critères (6-70 caractères)
+    if (!validatePseudoMemb($username)) {
+        header("Location: ../../views/backend/security/signup.php?error=pseudo_length");
+        exit();
+    }
+    
+    // Vérifier que le password respecte les critères (8-15 caractères, 1 majuscule, 1 minuscule, 1 chiffre)
+    if (!validatePassMemb($password)) {
+        header("Location: ../../views/backend/security/signup.php?error=password_format");
+        exit();
+    }
+    
+    // Vérifier que les mots de passe correspondent
+    if ($password === $password2) {
         // Vérifier si le pseudo existe déjà
         $exist = sql_select("MEMBRE", "*", "pseudoMemb = '" . htmlspecialchars($username) . "'");
         

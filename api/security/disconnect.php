@@ -24,9 +24,6 @@ if (ini_get("session.use_cookies")) {
     );
 }
 
-// Détruire la session
-session_destroy();
-
 // Rediriger vers la page de connexion
 header('Location: ../../views/backend/security/login.php');
 exit();
