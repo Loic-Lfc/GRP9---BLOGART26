@@ -6,6 +6,9 @@ function onSubmit(token) {
 }
 <!-- Bootstrap JS -->
 =======
+=======
+
+>>>>>>> 0a18d3f587ec0638cde8976bbd5340be5b911878
 <div class="modal fade" id="cookieConsentModal" tabindex="-1" aria-labelledby="cookieConsentLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -27,7 +30,7 @@ function onSubmit(token) {
 <footer>
 </footer>
 
->>>>>>> d393dffe8d454fe11c11a1162a804513f874e032
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 <script>
