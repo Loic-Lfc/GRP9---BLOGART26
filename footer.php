@@ -1,5 +1,4 @@
 <!-- Load JS scripts -->
-<<<<<<< Updated upstream
 <script>
 function onSubmit(token) {
     document.getElementById("form-recaptcha").submit();
