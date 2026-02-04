@@ -2,6 +2,11 @@
 require_once 'header.php';
 sql_connect();
 
+if(isset($_GET['numArt'])){
+    $numArticle = $_GET['numArt'];
+    $urlPhotArt = sql_select("ARTICLE", "urlPhotArt", "numArt = $numArticle")[0]['urlPhotArt'];
+}
+
 // Pagination
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $perPage = 9;
@@ -149,8 +154,8 @@ $motsCles = sql_select('MOTCLE', '*');
           <div class="col-md-6 col-lg-4">
             <div class="article-card">
               <div class="article-image">
-                <?php if(!empty($article['photoArt'])): ?>
-                  <img src="/src/uploads/<?php echo htmlspecialchars($article['photoArt']); ?>" 
+                <?php if(!empty($article['urlPhotArt'])): ?>
+                  <img src="/src/uploads/<?php echo htmlspecialchars($article['urlPhotArt']); ?>" 
                       alt="<?php echo htmlspecialchars($article['libTitrArt']); ?>">
                 <?php else: ?>
                   <img src="/src/images/article1.png" alt="Default">
