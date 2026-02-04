@@ -106,6 +106,11 @@ if (isset($_SESSION['pseudoMemb'])) {
                 </div>
               </div>
               
+              <!-- reCAPTCHA v2 -->
+              <div class="mb-4">
+                <div class="g-recaptcha" data-sitekey="6LexJl8sAAAAAJ-6piYK9VQDiCFVdhcTkaF4ZH83"></div>
+              </div>
+              
               <button type="submit" class="btn-cartoon w-100 mb-3">
                 <i class="fas fa-user-plus me-2"></i>S'INSCRIRE
               </button>
