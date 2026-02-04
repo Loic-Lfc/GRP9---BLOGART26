@@ -92,20 +92,19 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
   <div class="container">
     <div class="row">
       <div class="col-lg-10 mx-auto">
-        <!-- Image principale -->
 
         <!-- Chapô -->
-        <?php if(!empty($article['chapArt'])): ?>
+        <?php if(!empty($article['libChapoArt'])): ?>
           <div class="lead mb-5" style="font-size: 1.2rem; line-height: 1.8; color: var(--color-gray);">
-            <?php echo nl2br(htmlspecialchars($article['chapArt'])); ?>
+            <?php echo nl2br(htmlspecialchars($article['libChapoArt'])); ?>
           </div>
         <?php endif; ?>
 
         <!-- Contenu de l'article -->
         <div class="article-content" style="font-size: 1.1rem; line-height: 1.9;">
-          <?php if(!empty($article['libSsTitrArt1'])): ?>
+          <?php if(!empty($article['libSsTitr1Art'])): ?>
             <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: var(--color-dark);">
-              <?php echo htmlspecialchars($article['libSsTitrArt1']); ?>
+              <?php echo htmlspecialchars($article['libSsTitr1Art']); ?>
             </h2>
           <?php endif; ?>
           
@@ -113,9 +112,9 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
             <p><?php echo nl2br(htmlspecialchars($article['parag1Art'])); ?></p>
           <?php endif; ?>
 
-          <?php if(!empty($article['libSsTitrArt2'])): ?>
+          <?php if(!empty($article['libSsTitr2Art'])): ?>
             <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: var(--color-dark);">
-              <?php echo htmlspecialchars($article['libSsTitrArt2']); ?>
+              <?php echo htmlspecialchars($article['libSsTitr2Art']); ?>
             </h2>
           <?php endif; ?>
           
