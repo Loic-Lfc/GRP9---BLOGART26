@@ -1,70 +1,59 @@
 <?php
 include '../header-admin.php';
 
-// On vérifie si l'utilisateur est admin ou modérateur
 if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
-    header('Location: list.php?error=forbidden');
+    header('Location: /index.php?error=access_denied');
     exit();
 }
 
-$membres = sql_select("MEMBRE", "*");
+$queryMembres = "MEMBRE 
+                INNER JOIN STATUT ON MEMBRE.numStat = STATUT.numStat
+                ORDER BY MEMBRE.numStat ASC, MEMBRE.numMemb ASC";
+$membres = sql_select($queryMembres, "MEMBRE.*, STATUT.libStat");
 ?>
 
-<div class="container">
+<div class="container-fluid mt-4">
     <div class="row">
         <div class="col-md-12">
             <h1>Membres</h1>
-
-            <?php if (isset($_GET['error'])): ?>
-
-                <!-- Messages d'erreur -->
-                <div class="alert alert-danger">
-                    <?php
-                    if ($_GET['error'] == 'forbidden') 
-                        echo "Vous n'avez pas les droits nécessaires pour effectuer cette action.";
-                    else if ($_GET['error'] == 'admin_protected') 
-                        echo "Impossible de supprimer le compte Administrateur : ce compte est protégé.";
-                    ?>
-                </div>
-            <?php endif; ?>
-
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>Statut</th>
                         <th>Id</th>
                         <th>Pseudo</th>
-                        <th>Nom</th>
                         <th>Prénom</th>
+                        <th>Nom</th>
                         <th>Email</th>
-                        <th>Mot De Passe</th>
+                        <th>Date Création</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($membres as $membre){ ?>
+                    <?php foreach ($membres as $membre) { ?>
                         <tr>
-                            <td><?php echo($membre['numMemb']); ?></td>
-                            <td><?php echo($membre['pseudoMemb']); ?></td>
-                            <td><?php echo($membre['nomMemb']); ?></td>
-                            <td><?php echo($membre['prenomMemb']); ?></td>
-                            <td><?php echo($membre['eMailMemb']); ?></td>
-                            <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                <?php echo($membre['passMemb']); ?>
-                            </td>
+                            <td><span class="badge bg-danger"><?php echo $membre['libStat']; ?></span></td>
+                            <td><strong><?php echo $membre['numMemb']; ?></strong></td>
+                            <td><?php echo $membre['pseudoMemb']; ?></td>
+                            <td><?php echo $membre['prenomMemb']; ?></td>
+                            <td><?php echo $membre['nomMemb']; ?></td>
+                            <td><?php echo $membre['eMailMemb']; ?></td>
+                            <td><?php echo $membre['dtCreaMemb']; ?></td>
                             <td>
-                                <a href="edit.php?numMemb=<?php echo($membre['numMemb']); ?>" class="btn btn-primary">Edit</a>
-                                <?php if ($membre['numStat'] != 1): ?>
-                                    <a href="delete.php?id=<?php echo $membre['numMemb']; ?>" class="btn btn-danger">Supprimer</a>
-                                <?php else: ?>
-                                    <span class="badge badge-secondary">Protégé</span>
-                                <?php endif; ?>
+                                <?php if ($membre['numStat'] != 1) { ?>
+                                    <a href="edit.php?numMemb=<?php echo $membre['numMemb']; ?>" class="btn btn-sm btn-outline-warning">Edit</a>
+                                    <a href="delete.php?numMemb=<?php echo $membre['numMemb']; ?>" class="btn btn-sm btn-outline-danger">Delete</a>
+                                <?php } else { ?>
+                                    <span class="badge bg-secondary">Protégé</span>
+                                <?php } ?>
                             </td>
-                        </tr>
+                        </tr>               
                     <?php } ?>
                 </tbody>
             </table>
-            <a href="create.php" class="btn btn-success">Create</a>
+            <div class="mb-5">
+                <a href="create.php" class="btn btn-success">Créer</a>
+            </div>
         </div>
     </div>
 </div>
-

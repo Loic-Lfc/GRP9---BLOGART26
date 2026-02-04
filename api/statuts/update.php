@@ -9,3 +9,4 @@ sql_update('STATUT', ["libStat" => $libStat], "numStat = $numStat");
 
 
 header('Location: ../../views/backend/statuts/list.php');
+?>

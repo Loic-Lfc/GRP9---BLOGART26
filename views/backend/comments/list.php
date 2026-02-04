@@ -17,7 +17,7 @@ $comments = sql_select($queryComments, "COMMENT.*, ARTICLE.libTitrArt, MEMBRE.ps
     <div class="row">
         <div class="col-md-12">
             <h1>Commentaires</h1>
-            <table class="table table-striped border">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Id</th>
