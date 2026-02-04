@@ -1,25 +1,38 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 require_once '../../functions/query/connect.php';
+require_once '../../functions/query/select.php';
 require_once '../../functions/query/delete.php';
 
-// Initialiser la connexion
 sql_connect();
 
-// Récupérer le numéro de l'article à supprimer
 $numArt = isset($_POST['numArt']) ? intval($_POST['numArt']) : 0;
 
-// Vérifier que le numéro d'article est valide
 if ($numArt > 0) {
-    // Supprimer d'abord les mots-clés liés à cet article
-    sql_delete('MOTCLEARTICLE', "numArt = " . $numArt);
-    
-    // Supprimer ensuite l'article
-    sql_delete('ARTICLE', "numArt = " . $numArt);
-    
-    header('Location: ../../views/backend/articles/list.php?success=1');
+    $article = sql_select("ARTICLE", "urlPhotArt", "numArt = $numArt");
+
+    if (!empty($article)) {
+        try {
+            sql_delete('LIKEART', "numArt = " . $numArt);
+            sql_delete('COMMENT', "numArt = " . $numArt);
+            sql_delete('MOTCLEARTICLE', "numArt = " . $numArt);
+
+            sql_delete('ARTICLE', "numArt = " . $numArt);
+
+            $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/src/uploads/' . $article[0]['urlPhotArt'];
+            if (!empty($article[0]['urlPhotArt']) && file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            header('Location: ../../views/backend/articles/list.php?success=1');
+        } catch (Exception $e) {
+            header('Location: ../../views/backend/articles/delete.php?numArt=' . $numArt . '&error=sql_error');
+        }
+    } else {
+        header('Location: ../../views/backend/articles/list.php?error=not_found');
+    }
 } else {
-    header('Location: ../../views/backend/articles/list.php?error=1');
+    header('Location: ../../views/backend/articles/list.php?error=invalid_id');
 }
 exit();
 ?>
