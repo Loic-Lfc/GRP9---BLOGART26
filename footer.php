@@ -1,16 +1,118 @@
+<style>
+/* Cookie Modal Styling */
+#cookieConsentModal .modal-content {
+    background: var(--color-card, #1A1A1A);
+    border: 2px solid var(--color-primary, #E31E24);
+    border-radius: var(--radius, 8px);
+    box-shadow: 0 8px 32px rgba(227, 30, 36, 0.3);
+}
+
+#cookieConsentModal .modal-header {
+    background: var(--color-darker, #000000);
+    border-bottom: 2px solid var(--color-primary, #E31E24);
+    padding: 1.5rem;
+}
+
+#cookieConsentModal .modal-title {
+    font-family: var(--font-title, 'Fredoka', sans-serif);
+    color: var(--color-white, #FFFFFF);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 1.3rem;
+}
+
+#cookieConsentModal .modal-body {
+    background: var(--color-card, #1A1A1A);
+    padding: 2rem 1.5rem;
+    color: var(--color-text, #FFFFFF);
+}
+
+#cookieConsentModal .modal-body p {
+    color: var(--color-text, #FFFFFF);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+#cookieConsentModal .modal-body a {
+    color: var(--color-primary, #E31E24);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+#cookieConsentModal .modal-body a:hover {
+    color: var(--color-accent, #FF5252);
+    text-decoration: underline;
+}
+
+#cookieConsentModal .modal-footer {
+    background: var(--color-card, #1A1A1A);
+    border-top: 1px solid var(--color-border, #2A2A2A);
+    padding: 1.5rem;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#cookieConsentModal #cookieAccept {
+    background: var(--color-primary, #E31E24);
+    color: var(--color-white, #FFFFFF);
+    border: none;
+    border-radius: var(--radius-sm, 4px);
+    padding: 12px 30px;
+    font-weight: 700;
+    font-family: var(--font-title, 'Fredoka', sans-serif);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+#cookieConsentModal #cookieAccept:hover {
+    background: var(--color-secondary, #B71C1C);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(227, 30, 36, 0.4);
+}
+
+#cookieConsentModal #cookieDecline {
+    background: transparent;
+    color: var(--color-white, #FFFFFF);
+    border: 2px solid var(--color-gray, #666666);
+    border-radius: var(--radius-sm, 4px);
+    padding: 10px 28px;
+    font-weight: 700;
+    font-family: var(--font-title, 'Fredoka', sans-serif);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+#cookieConsentModal #cookieDecline:hover {
+    background: var(--color-gray, #666666);
+    border-color: var(--color-gray, #666666);
+    transform: translateY(-2px);
+}
+
+#cookieConsentModal .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+</style>
+
 <div class="modal fade" id="cookieConsentModal" tabindex="-1" aria-labelledby="cookieConsentLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="cookieConsentLabel">Gestion des Cookies</h5>
+                <h5 class="modal-title" id="cookieConsentLabel">🍪 Gestion des Cookies</h5>
             </div>
             <div class="modal-body">
                 <p>Ce site utilise des cookies pour améliorer votre expérience conformément au RGPD. Acceptez-vous leur utilisation ?</p>
                 <p><a href="https://www.php.net/manual/fr/features.cookies.php" target="_blank" rel="noopener noreferrer">En savoir plus</a></p>
             </div>
             <div class="modal-footer">
-                <button type="button" id="cookieDecline" class="btn btn-secondary">Refuser</button>
-                <button type="button" id="cookieAccept" class="btn btn-primary">Accepter</button>
+                <button type="button" id="cookieDecline" class="btn">Refuser</button>
+                <button type="button" id="cookieAccept" class="btn">Accepter</button>
             </div>
         </div>
     </div>
