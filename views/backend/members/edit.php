@@ -181,8 +181,7 @@ $statuts = sql_select('STATUT', '*');
                     <input type="text" 
                            class="form-control" 
                            value="<?php echo htmlspecialchars($membre['pseudoMemb']); ?>" 
-                           disabled
-                           style="background-color: #f5f5f5;">
+                           disabled>
                     <small class="text-muted">Le pseudo ne peut pas être modifié</small>
                 </div>
 
