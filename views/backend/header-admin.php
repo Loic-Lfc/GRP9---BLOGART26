@@ -1,8 +1,10 @@
 <?php
-//load config
-$configPath = __DIR__ . '/../../config.php';
-if(file_exists($configPath)) {
-    require_once $configPath;
+//load config - use absolute path
+if (!defined('ROOT')) {
+    $configPath = $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+    if(file_exists($configPath)) {
+        require_once $configPath;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -21,11 +23,11 @@ if(file_exists($configPath)) {
 <div class="admin-layout">
     <!-- SIDEBAR -->
     <aside class="admin-sidebar">
-        <a href="/index.php" class="admin-logo" style="text-decoration: none; color: inherit; display: block;">
-            <h3><i class="fas fa-spray-can me-2"></i>Street Art BDX</h3>
+        <a href="/index.php" class="admin-logo" style="text-decoration: none; color: inherit; display: flex; align-items: center; justify-content: center;">
+            <img src="/src/images/murmures_bordeaux.png" alt="Murmures Bordeaux" style="height: 50px; width: auto;">
         </a>
         <nav class="admin-menu">
-            <a href="/views/backend/dashboard.php" class="admin-menu-item">
+            <a href="/views/backend/dashboard.php" class="admin-menu-item active">
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
@@ -52,10 +54,6 @@ if(file_exists($configPath)) {
             <a href="/views/backend/statuts/list.php" class="admin-menu-item">
                 <i class="fas fa-toggle-on"></i>
                 <span>Statuts</span>
-            </a>
-            <a href="/views/backend/likes/list.php" class="admin-menu-item">
-                <i class="fas fa-heart"></i>
-                <span>Likes</span>
             </a>
             <hr>
             <a href="/index.php" class="admin-menu-item">

@@ -1,5 +1,11 @@
 <?php
-include '../../../header.php';
+include '../header-admin.php';
+
+// On vérifie si l'utilisateur est admin ou modérateur
+if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
+    header('Location: /index.php?error=access_denied');
+    exit();
+}
 
 if (isset($_GET['numArt'])) {
     $numArt = $_GET['numArt'];
@@ -130,3 +136,4 @@ $thematiques = sql_select("THEMATIQUE", "*");
         </div>
     </div>
 </div>
+

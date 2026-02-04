@@ -1,9 +1,9 @@
 <?php
-include '../../../header.php';
+include '../header-admin.php';
 
 // On vérifie si l'utilisateur est admin ou modérateur
 if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
-    header('Location: ../../views/backend/members/list.php?error=forbidden');
+    header('Location: list.php?error=forbidden');
     exit();
 }
 
@@ -68,5 +68,3 @@ $membres = sql_select("MEMBRE", "*");
     </div>
 </div>
 
-<?php
-include '../../../footer.php';

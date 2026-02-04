@@ -1,4 +1,12 @@
 <?php
+include '../header-admin.php';
+
+// On vérifie si l'utilisateur est admin ou modérateur
+if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
+    header('Location: /index.php?error=access_denied');
+    exit();
+}
+
 // Fonction pour transformer le BBCode en HTML
 function parseBBCode($text) {
     $text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<strong>$1</strong>', $text);
@@ -12,8 +20,6 @@ function parseBBCode($text) {
 
     return nl2br($text);
 }
-
-include '../../../header.php';
 
 // On récupère les articles avec une jointure pour avoir le nom de la thématique directement
 $queryArticles = "ARTICLE 
@@ -80,5 +86,3 @@ $articles = sql_select($queryArticles, "ARTICLE.*, THEMATIQUE.libThem");
         </div>
     </div>
 </div>
-
-<?php include '../../../footer.php'; ?>

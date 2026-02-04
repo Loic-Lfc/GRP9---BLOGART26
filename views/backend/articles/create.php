@@ -1,8 +1,11 @@
 <?php
-require_once '../../../config/defines.php';
-require_once '../../../config/security.php';
-require_once '../../../functions/query/connect.php';
-require_once '../../../functions/query/select.php';
+include '../header-admin.php';
+
+// On vérifie si l'utilisateur est admin ou modérateur
+if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
+    header('Location: /index.php?error=access_denied');
+    exit();
+}
 
 // Initialiser la connexion
 sql_connect();
@@ -13,8 +16,6 @@ $thematiques = sql_select("THEMATIQUE", "*", null, null, "libThem");
 // Récupérer les mots-clés
 $motscles = sql_select("MOTCLE", "*", null, null, "libMotCle");
 
-include '../../../header.php';
-?>
 
 
 <div class="container mt-4 form-container">
@@ -184,5 +185,3 @@ include '../../../header.php';
 
     </form>
 </div>
-
-<?php include '../../../footer.php'; ?>

@@ -1,9 +1,9 @@
 <?php
-include '../../../header.php';
+include '../header-admin.php';
 
 // On vérifie si l'utilisateur est admin ou modérateur
 if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
-    header('Location: ../../views/backend/members/list.php?error=forbidden');
+    header('Location: list.php?error=forbidden');
     exit();
 }
 
@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $membre = sql_select('MEMBRE', '*', "numMemb = $numMemb");
 if (empty($membre)) {
     echo '<div class="alert alert-danger">Membre introuvable</div>';
-    include '../../../footer.php';
+    include '../footer-admin.php';
     exit;
 }
 $membre = $membre[0];
@@ -338,4 +338,3 @@ $statuts = sql_select('STATUT', '*');
     </div>
 </div>
 
-<?php include '../../../footer.php'; ?>
