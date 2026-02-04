@@ -7,8 +7,8 @@ if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['num
 }
 
 $queryComments = "COMMENT 
-                 INNER JOIN ARTICLE ON COMMENT.numArt = ARTICLE.numArt
-                 INNER JOIN MEMBRE ON COMMENT.numMemb = MEMBRE.numMemb";
+                INNER JOIN ARTICLE ON COMMENT.numArt = ARTICLE.numArt
+                INNER JOIN MEMBRE ON COMMENT.numMemb = MEMBRE.numMemb";
 
 $comments = sql_select($queryComments, "COMMENT.*, ARTICLE.libTitrArt, MEMBRE.pseudoMemb");
 ?>
