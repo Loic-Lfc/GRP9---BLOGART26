@@ -44,12 +44,15 @@ if(isset($_GET['numArt'])){
         </div>
 
         <div class="d-flex gap-3 justify-content-center flex-wrap">
-          <a href="/articles.php" class="btn-cartoon">
-            <i class="fas fa-palette me-2"></i>Découvrir les articles
-          </a>
-          <a href="/views/backend/security/signup.php" class="btn-cartoon-outline">
-            <i class="fas fa-user-plus me-2"></i>Rejoindre la communauté
-          </a>
+            <a href="/articles.php" class="btn-cartoon">
+              <i class="fas fa-palette me-2"></i>Découvrir les articles
+            </a>
+            <?php if (!isset($_SESSION['pseudoMemb'])): ?>
+              <a href="/views/backend/security/signup.php" class="btn-cartoon-outline">
+                <i class="fas fa-user-plus me-2"></i>Rejoindre la communauté
+              </a>
+            <?php endif; ?>
+          </div>
         </div>
       </div>
     </div>
@@ -91,10 +94,8 @@ if(isset($_GET['numArt'])){
                 </p>
                 <div class="article-meta">
                   <span><i class="fas fa-calendar me-1"></i><?php echo date('d/m/Y', strtotime($article['dtCreaArt'])); ?></span>
-                  <span><i class="fas fa-user me-1"></i>Auteur</span>
                 </div>
                 <div class="article-stats">
-                  <span><i class="fas fa-eye me-1"></i>0 vues</span>
                   <span>
                     <i class="fas fa-heart me-1"></i>
                     <?php
