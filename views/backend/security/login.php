@@ -54,6 +54,11 @@ if (isset($_SESSION['pseudoMemb'])) {
                 <input type="password" class="form-control" id="passMemb" name="passMemb" placeholder="Entrez votre mot de passe" required>
               </div>
               
+              <!-- reCAPTCHA v2 -->
+              <div class="mb-4">
+                <div class="g-recaptcha" data-sitekey="6LexJl8sAAAAAJ-6piYK9VQDiCFVdhcTkaF4ZH83"></div>
+              </div>
+              
               <button type="submit" class="btn-cartoon w-100 mb-3">
                 <i class="fas fa-sign-in-alt me-2"></i>SE CONNECTER
               </button>
