@@ -4,6 +4,10 @@ sql_connect();
 
 $id = $_GET['id'] ?? null;
 
+// Récupérer le membre connecté
+$isConnected = isset($_SESSION['numMemb']);
+$numMemb = $_SESSION['numMemb'] ?? null;
+
 if (!$id) {
     header("Location: /articles.php");
     exit();
@@ -33,11 +37,19 @@ $thematique = sql_select("THEMATIQUE", "libThem", "numThem = " . ($article['numT
 $thematiqueNom = !empty($thematique) ? $thematique[0]['libThem'] : 'Non catégorisé';
 
 // Récupérer le membre connecté (pour test, on met temporairement numMemb = 1)
-$numMemb = $_SESSION['numMemb'] ?? 1;
+$numMemb = $_SESSION['numMemb'];
 
 // Vérifier si le membre a déjà liké cet article
-$like = sql_select('LIKEART', '*', "numArt = {$article['numArt']} AND numMemb = $numMemb");
-$liked = (!empty($like) && $like[0]['likeA']) ? true : false;
+$liked = false;
+
+if ($isConnected) {
+    $like = sql_select(
+        'LIKEART',
+        '*',
+        "numArt = {$article['numArt']} AND numMemb = $numMemb"
+    );
+    $liked = (!empty($like) && $like[0]['likeA']) ? true : false;
+}
 
 // Récupérer le total des likes pour cet article
 $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['numArt']} AND likeA = true")[0]['total'];
@@ -154,7 +166,12 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
               </span>
             </div>
             <div class="d-flex gap-2">
-              <button id="btnLike" class="btn-cartoon-outline-sm <?php echo $liked ? 'liked' : ''; ?>">
+              <button
+                id="btnLike"
+                class="btn-cartoon-outline-sm <?php echo $liked ? 'liked' : ''; ?>"
+                <?php echo !$isConnected ? 'disabled' : ''; ?>
+                title="<?php echo !$isConnected ? 'Connectez-vous pour aimer cet article' : ''; ?>"
+              >
                 <i class="fas fa-heart me-1"></i>
                 <?php echo $liked ? 'Retirer J’aime' : 'J’aime'; ?>
               </button>
@@ -204,49 +221,53 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
   </div>
 </section>
 <script>
-document.getElementById('btnLike').addEventListener('click', function() {
-    const btn = this;
-    const numArt = <?php echo $article['numArt']; ?>;
+const btnLike = document.getElementById('btnLike');
 
-    fetch('/api/likes/update.php', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: 'numArt=' + numArt
-    })
-    .then(response => response.text())
-    .then(totalLikes => {
-        document.getElementById('likeCount').innerText = totalLikes;
+  if (btnLike && !btnLike.hasAttribute('disabled')) {
+      btnLike.addEventListener('click', function() {
+      const btn = this;
+      const numArt = <?php echo $article['numArt']; ?>;
 
-        if(btn.classList.contains('liked')) {
-            btn.classList.remove('liked');
-            btn.innerHTML = '<i class="fas fa-heart me-1"></i>J’aime';
-        } else {
-            btn.classList.add('liked');
-            btn.innerHTML = '<i class="fas fa-heart me-1"></i>Retirer J’aime';
-        }
-    })
-    .catch(err => console.error('Erreur : ', err));
-});
+      fetch('/api/likes/update.php', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: 'numArt=' + numArt
+      })
+      .then(response => response.text())
+      .then(totalLikes => {
+          document.getElementById('likeCount').innerText = totalLikes;
 
-// Bouton Partager - Copie l'URL
-document.getElementById('btnShare').addEventListener('click', function() {
-    const btn = this;
-    const url = window.location.href;
-    
-    navigator.clipboard.writeText(url).then(function() {
-        // Feedback visuel
-        const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check me-1"></i>Lien copié !';
-        btn.style.background = 'var(--color-accent)';
-        
-        setTimeout(function() {
-            btn.innerHTML = originalHTML;
-            btn.style.background = '';
-        }, 2000);
-    }).catch(function(err) {
-        console.error('Erreur lors de la copie : ', err);
-        alert('Impossible de copier le lien. Veuillez le copier manuellement : ' + url);
-    });
-});
+          if(btn.classList.contains('liked')) {
+              btn.classList.remove('liked');
+              btn.innerHTML = '<i class="fas fa-heart me-1"></i>J’aime';
+          } else {
+              btn.classList.add('liked');
+              btn.innerHTML = '<i class="fas fa-heart me-1"></i>Retirer J’aime';
+          }
+      })
+      .catch(err => console.error('Erreur : ', err));
+  });
+
+  // Bouton Partager - Copie l'URL
+  document.getElementById('btnShare').addEventListener('click', function() {
+      const btn = this;
+      const url = window.location.href;
+      
+      navigator.clipboard.writeText(url).then(function() {
+          // Feedback visuel
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check me-1"></i>Lien copié !';
+          btn.style.background = 'var(--color-accent)';
+          
+          setTimeout(function() {
+              btn.innerHTML = originalHTML;
+              btn.style.background = '';
+          }, 2000);
+      }).catch(function(err) {
+          console.error('Erreur lors de la copie : ', err);
+          alert('Impossible de copier le lien. Veuillez le copier manuellement : ' + url);
+      });
+  });
+};
 </script>
 <?php include '../../../footer.php'; ?>
