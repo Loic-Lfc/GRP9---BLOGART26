@@ -193,7 +193,7 @@ $motsCles = sql_select('MOTCLE', '*');
                   <span><i class="fas fa-eye me-1"></i>0 vues</span>
                   <span>
                     <i class="fas fa-heart me-1"></i>
-                    <?php echo $totalLikes; ?> likes
+                    <?php echo $totalLikes . ' ' . ($totalLikes === 1 ? 'like' : 'likes'); ?>
                   </span>
                   <span><i class="fas fa-comment me-1"></i>0 commentaires</span>
                 </div>
