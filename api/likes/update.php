@@ -4,7 +4,14 @@ require_once '../../functions/ctrlSaisies.php';
 sql_connect();
 
 session_start();
-$numMemb = $_SESSION['numMemb'] ?? 1;
+
+if (!isset($_SESSION['numMemb'])) {
+    http_response_code(401);
+    echo 'NOT_CONNECTED';
+    exit;
+}
+
+$numMemb = (int) $_SESSION['numMemb'];
 
 if(!isset($_POST['numArt'])) {
     http_response_code(400);

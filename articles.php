@@ -2,6 +2,9 @@
 require_once 'header.php';
 sql_connect();
 
+session_start();
+$numMemb = $_SESSION['numMemb'] ?? 1;
+
 if(isset($_GET['numArt'])){
     $numArticle = $_GET['numArt'];
     $urlPhotArt = sql_select("ARTICLE", "urlPhotArt", "numArt = $numArticle")[0]['urlPhotArt'];
@@ -176,9 +179,22 @@ $motsCles = sql_select('MOTCLE', '*');
                   </span>
                   <span><i class="fas fa-user me-1"></i>Auteur</span>
                 </div>
+                <?php
+                  $numArt = $article['numArt'];
+
+                  // Total des likes
+                  $totalLikes = sql_select(
+                      'LIKEART',
+                      'COUNT(*) AS total',
+                      "numArt = $numArt AND likeA = 1"
+                  )[0]['total'];
+                  ?>
                 <div class="article-stats">
                   <span><i class="fas fa-eye me-1"></i>0 vues</span>
-                  <span><i class="fas fa-heart me-1"></i>0 likes</span>
+                  <span>
+                    <i class="fas fa-heart me-1"></i>
+                    <?php echo $totalLikes . ' ' . ($totalLikes === 1 ? 'like' : 'likes'); ?>
+                  </span>
                   <span><i class="fas fa-comment me-1"></i>0 commentaires</span>
                 </div>
                 <a href="/views/frontend/articles/article1.php?id=<?php echo $article['numArt']; ?>" 
