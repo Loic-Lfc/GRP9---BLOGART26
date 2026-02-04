@@ -70,7 +70,7 @@ $articles = sql_select($queryArticles, "ARTICLE.*, THEMATIQUE.libThem");
                                 <a href="edit.php?numArt=<?php echo $article['numArt']; ?>" class="btn btn-sm btn-outline-warning w-100 mb-1">Edit</a>
                                 <a href="delete.php?numArt=<?php echo $article['numArt']; ?>" class="btn btn-sm btn-outline-danger w-100">Delete</a>
                             </td>
-                        </tr>
+                        </tr>               
                     <?php } ?>
                 </tbody>
             </table>
