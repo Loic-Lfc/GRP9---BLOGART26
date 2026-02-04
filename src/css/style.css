@@ -1238,3 +1238,34 @@ body .admin-main a {
   margin: 0;
   line-height: 1.6;
 }
+
+/* =========================================
+  ADMIN CARDS & FORMS FIX
+   ========================================= */
+
+.container .card,
+.container-fluid .card,
+.admin-main .card {
+  background: var(--color-card) !important;
+  border: 1px solid var(--color-accent) !important;
+  color: var(--color-white) !important;
+}
+
+.container .card-body,
+.container-fluid .card-body,
+.admin-main .card-body {
+  background: var(--color-card) !important;
+  color: var(--color-white) !important;
+}
+
+.container .card *,
+.container-fluid .card *,
+.admin-main .card * {
+  color: var(--color-white) !important;
+}
+
+.container .text-muted,
+.container-fluid .text-muted,
+.admin-main .text-muted {
+  color: var(--color-text-secondary) !important;
+}

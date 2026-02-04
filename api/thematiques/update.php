@@ -5,6 +5,6 @@ require_once '../../functions/ctrlSaisies.php';
 $numThematique = ($_POST['numThem']);
 $libThematique = ($_POST['libThem']);
 
-sql_update('THEMATIQUE', "libThem = '$libThematique'", "numThem = $numThematique");
+sql_update('THEMATIQUE', ["libThem" => $libThematique], "numThem = $numThematique");
 
 header('Location: ../../views/backend/thematiques/list.php');

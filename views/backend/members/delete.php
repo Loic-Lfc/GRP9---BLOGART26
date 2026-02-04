@@ -7,6 +7,13 @@ if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['num
     exit();
 }
 
+// Initialisation des variables
+$numMemb = '';
+$nomMemb = '';
+$prenomMemb = '';
+$pseudoMemb = '';
+$emailMemb = '';
+
 if (isset($_GET['numMemb'])) {
     $numMemb = $_GET['numMemb'];
     $membre = sql_select("MEMBRE", "*", "numMemb = $numMemb")[0];
@@ -14,7 +21,8 @@ if (isset($_GET['numMemb'])) {
     $prenomMemb = $membre['prenomMemb'];
     $pseudoMemb = $membre['pseudoMemb'];
     $emailMemb = $membre['eMailMemb'];
-} ?>
+}
+?>
 
 <!-- Bootstrap form to delete a member -->
 <div class="container">

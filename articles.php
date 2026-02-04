@@ -29,7 +29,7 @@ if ($thematique > 0) {
     $where .= " AND numThem = $thematique";
 }
 if ($motCle > 0) {
-    $where .= " AND numArt IN (SELECT numArt FROM ASSOCIER WHERE numMotCle = $motCle)";
+    $where .= " AND numArt IN (SELECT numArt FROM MOTCLEARTICLE WHERE numMotCle = $motCle)";
 }
 
 // Récupérer les articles
