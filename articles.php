@@ -23,7 +23,7 @@ $motCle = isset($_GET['kw']) ? intval($_GET['kw']) : 0;
 $where = '1=1';
 if (!empty($searchQuery)) {
     $searchQuery = htmlspecialchars($searchQuery);
-    $where .= " AND (libTitrArt LIKE '%$searchQuery%' OR chapArt LIKE '%$searchQuery%')";
+    $where .= " AND (libTitrArt LIKE '%$searchQuery%' OR libChapoArt LIKE '%$searchQuery%')";
 }
 if ($thematique > 0) {
     $where .= " AND numThem = $thematique";
