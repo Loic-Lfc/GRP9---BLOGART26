@@ -2,7 +2,6 @@
 require_once 'header.php';
 sql_connect();
 
-session_start();
 $numMemb = $_SESSION['numMemb'] ?? 1;
 
 if(isset($_GET['numArt'])){
@@ -24,13 +23,13 @@ $motCle = isset($_GET['kw']) ? intval($_GET['kw']) : 0;
 $where = '1=1';
 if (!empty($searchQuery)) {
     $searchQuery = htmlspecialchars($searchQuery);
-    $where .= " AND (libTitrArt LIKE '%$searchQuery%' OR chapArt LIKE '%$searchQuery%')";
+    $where .= " AND (libTitrArt LIKE '%$searchQuery%' OR libChapoArt LIKE '%$searchQuery%')";
 }
 if ($thematique > 0) {
     $where .= " AND numThem = $thematique";
 }
 if ($motCle > 0) {
-    $where .= " AND numArt IN (SELECT numArt FROM ASSOCIER WHERE numMotCle = $motCle)";
+    $where .= " AND numArt IN (SELECT numArt FROM MOTCLEARTICLE WHERE numMotCle = $motCle)";
 }
 
 // Récupérer les articles
@@ -193,7 +192,7 @@ $motsCles = sql_select('MOTCLE', '*');
                   <span><i class="fas fa-eye me-1"></i>0 vues</span>
                   <span>
                     <i class="fas fa-heart me-1"></i>
-                    <?php echo $totalLikes; ?> likes
+                    <?php echo $totalLikes . ' ' . ($totalLikes === 1 ? 'like' : 'likes'); ?>
                   </span>
                   <span><i class="fas fa-comment me-1"></i>0 commentaires</span>
                 </div>

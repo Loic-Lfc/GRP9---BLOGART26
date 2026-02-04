@@ -3,7 +3,16 @@ require_once 'header.php';
 sql_connect();
 
 // Récupérer les 3 articles mis en avant
-$articles = sql_select('ARTICLE', '*', '1=1 ORDER BY dtCreaArt DESC LIMIT 3');
+$articles = sql_select(
+    'ARTICLE A',
+    'A.*, 
+     (SELECT COUNT(*) 
+      FROM LIKEART L 
+      WHERE L.numArt = A.numArt 
+        AND L.likeA = 1
+     ) AS totalLikes',
+    '1=1 ORDER BY A.dtCreaArt DESC LIMIT 3'
+);
 $thematiques = sql_select('THEMATIQUE', '*');
 if(isset($_GET['numArt'])){
     $numArticle = $_GET['numArt'];
@@ -86,7 +95,13 @@ if(isset($_GET['numArt'])){
                 </div>
                 <div class="article-stats">
                   <span><i class="fas fa-eye me-1"></i>0 vues</span>
-                  <span><i class="fas fa-heart me-1"></i>0 likes</span>
+                  <span>
+                    <i class="fas fa-heart me-1"></i>
+                    <?php
+                      $likes = (int)$article['totalLikes'];
+                      echo $likes . ' ' . ($likes === 1 ? 'like' : 'likes');
+                    ?>
+                  </span>
                   <span><i class="fas fa-comment me-1"></i>0 commentaires</span>
                 </div>
                 <a href="/views/frontend/articles/article1.php?id=<?php echo $article['numArt']; ?>" class="btn-cartoon-sm mt-3 w-100">

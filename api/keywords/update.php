@@ -5,7 +5,7 @@ require_once '../../functions/ctrlSaisies.php';
 $numMotCle = ($_POST['numMotCle']);
 $libMotCle = ($_POST['libMotCle']);
 
-sql_update("motcle", "libMotCle = '$libMotCle'", "numMotCle = $numMotCle");
+sql_update("motcle", ["libMotCle" => $libMotCle], "numMotCle = $numMotCle");
 
 
 header('Location: ../../views/backend/keywords/list.php');

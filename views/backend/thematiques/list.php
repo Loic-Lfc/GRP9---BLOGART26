@@ -1,5 +1,5 @@
 <?php
-include '../../../header.php'; // contains the header and call to config.php
+include '../header-admin.php'; // contains the header and call to config.php
 
 // On vérifie si l'utilisateur est admin ou modérateur
 if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
@@ -40,6 +40,4 @@ $thematique = sql_select("THEMATIQUE", "*");
             <a href="create.php" class="btn btn-success">Create</a>
         </div>
     </div>
-</div>
-<?php
-include '../../../footer.php'; // contains the footer
+</div>  

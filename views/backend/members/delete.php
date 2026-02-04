@@ -1,11 +1,18 @@
 <?php
-include '../../../header.php';
+include '../header-admin.php';
 
 // On vérifie si l'utilisateur est admin ou modérateur
 if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
-    header('Location: ../../views/backend/members/list.php?error=forbidden');
+    header('Location: list.php?error=forbidden');
     exit();
 }
+
+// Initialisation des variables
+$numMemb = '';
+$nomMemb = '';
+$prenomMemb = '';
+$pseudoMemb = '';
+$emailMemb = '';
 
 if (isset($_GET['numMemb'])) {
     $numMemb = $_GET['numMemb'];
@@ -14,7 +21,8 @@ if (isset($_GET['numMemb'])) {
     $prenomMemb = $membre['prenomMemb'];
     $pseudoMemb = $membre['pseudoMemb'];
     $emailMemb = $membre['eMailMemb'];
-} ?>
+}
+?>
 
 <!-- Bootstrap form to delete a member -->
 <div class="container">
@@ -61,3 +69,4 @@ if (isset($_GET['numMemb'])) {
         </div>
     </div>
 </div>
+
