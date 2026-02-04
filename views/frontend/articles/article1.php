@@ -44,18 +44,33 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
 ?>
 
 <!-- Hero Article -->
-<section class="hero-section text-white">
-  <div class="container">
+<?php 
+  // On prépare l'URL de l'image
+  $bgImage = !empty($article['urlPhotArt']) ? "/src/uploads/" . htmlspecialchars($article['urlPhotArt']) : ''; 
+?>
+
+<section class="hero-section text-white d-flex align-items-center" 
+        style="position: relative; 
+                min-height: 500px; 
+                background: url('<?php echo $bgImage; ?>') no-repeat center center; 
+                background-size: cover;">
+  
+  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); z-index: 1;"></div>
+
+  <div class="container" style="position: relative; z-index: 2;">
     <div class="row">
       <div class="col-lg-10 mx-auto">
+        
         <div class="mb-3">
           <span class="badge bg-light text-dark">
             <i class="fas fa-folder me-1"></i><?php echo htmlspecialchars($thematiqueNom); ?>
           </span>
         </div>
+
         <h1 class="display-4 fw-bold mb-4">
-          <?php echo htmlspecialchars($article['titreArt'] ?? 'Sans titre'); ?>
+          <?php echo htmlspecialchars($article['libTitrArt'] ?? 'Sans titre'); ?>
         </h1>
+
         <div class="d-flex gap-4 text-light">
           <span>
             <i class="fas fa-user me-2"></i>
@@ -66,6 +81,7 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
             <?php echo date('d/m/Y', strtotime($article['dtCreaArt'])); ?>
           </span>
         </div>
+
       </div>
     </div>
   </div>
@@ -77,13 +93,6 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
     <div class="row">
       <div class="col-lg-10 mx-auto">
         <!-- Image principale -->
-        <?php if(!empty($article['urlPhotArt'])): ?>
-          <div class="article-image mb-5" style="height: 500px; border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow);">
-            <img src="/src/uploads/<?php echo htmlspecialchars($article['urlPhotArt']); ?>" 
-                 alt="<?php echo htmlspecialchars($article['titreArt']); ?>"
-                 style="width: 100%; height: 100%; object-fit: cover;">
-          </div>
-        <?php endif; ?>
 
         <!-- Chapô -->
         <?php if(!empty($article['chapArt'])): ?>
@@ -94,9 +103,9 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
 
         <!-- Contenu de l'article -->
         <div class="article-content" style="font-size: 1.1rem; line-height: 1.9;">
-          <?php if(!empty($article['sousTitre1Art'])): ?>
+          <?php if(!empty($article['libSsTitrArt1'])): ?>
             <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: var(--color-dark);">
-              <?php echo htmlspecialchars($article['sousTitre1Art']); ?>
+              <?php echo htmlspecialchars($article['libSsTitrArt1']); ?>
             </h2>
           <?php endif; ?>
           
@@ -104,9 +113,9 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
             <p><?php echo nl2br(htmlspecialchars($article['parag1Art'])); ?></p>
           <?php endif; ?>
 
-          <?php if(!empty($article['sousTitre2Art'])): ?>
+          <?php if(!empty($article['libSsTitrArt2'])): ?>
             <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: var(--color-dark);">
-              <?php echo htmlspecialchars($article['sousTitre2Art']); ?>
+              <?php echo htmlspecialchars($article['libSsTitrArt2']); ?>
             </h2>
           <?php endif; ?>
           
