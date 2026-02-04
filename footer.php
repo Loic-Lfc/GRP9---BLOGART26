@@ -128,8 +128,7 @@
       <div class="col-md-8">
         <div class="d-flex justify-content-end align-items-center flex-wrap">
           <a href="/views/frontend/rgpd/rgpd.php" class="footer-link mx-3">Mentions légales</a>
-          <a href="#" class="footer-link mx-3">Contact</a>
-          <a href="#" class="footer-link mx-3">À propos</a>
+          <a href="/about.php" class="footer-link mx-3">À propos</a>
           <span class="text-light-gray ms-4">&copy; <?php echo date('Y'); ?> Murmures Bordeaux. Tous droits réservés.</span>
         </div>
       </div>

@@ -124,7 +124,7 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
         </div>
 
         <!-- Stats & Actions -->
-        <div class="mt-5 p-4" style="background: var(--color-white); border-radius: var(--radius-sm); box-shadow: var(--shadow);">
+        <div class="article-stats-actions">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div class="d-flex gap-4">
               <span>
@@ -145,7 +145,7 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
                 <i class="fas fa-heart me-1"></i>
                 <?php echo $liked ? 'Retirer J’aime' : 'J’aime'; ?>
               </button>
-              <button class="btn-cartoon-sm">
+              <button id="btnShare" class="btn-cartoon-sm">
                 <i class="fas fa-share-alt me-1"></i>Partager
               </button>
             </div>
@@ -153,8 +153,8 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
         </div>
 
         <!-- Navigation -->
-        <div class="text-center mt-5">
-          <a href="/articles.php" class="btn-cartoon-outline">
+        <div class="text-center mt-5 mb-5">
+          <a href="/articles.php" class="btn-cartoon-outline" style="padding: 15px 40px; font-size: 1rem;">
             <i class="fas fa-arrow-left me-2"></i>Retour aux articles
           </a>
         </div>
@@ -164,16 +164,27 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
 </section>
 
 <!-- Section commentaires (à développer) -->
-<section class="py-5" style="background: var(--color-white);">
+<section class="comments-section">
   <div class="container">
     <div class="row">
       <div class="col-lg-10 mx-auto">
-        <h2 class="mb-4">
-          <i class="fas fa-comments me-2"></i>Commentaires
-        </h2>
-        <div class="alert alert-info">
-          <i class="fas fa-info-circle me-2"></i>
-          Section des commentaires à venir prochainement.
+        <div class="comments-header">
+          <h2 class="comments-title">
+            <i class="fas fa-comments"></i>
+            Commentaires
+          </h2>
+          <div class="comments-divider"></div>
+        </div>
+        
+        <div class="comments-placeholder">
+          <div class="comments-icon-wrapper">
+            <i class="fas fa-comments"></i>
+          </div>
+          <h3>Bientôt disponible !</h3>
+          <p>
+            La section des commentaires arrive prochainement.<br>
+            Vous pourrez bientôt partager vos réactions et échanger avec la communauté.
+          </p>
         </div>
       </div>
     </div>
@@ -202,6 +213,27 @@ document.getElementById('btnLike').addEventListener('click', function() {
         }
     })
     .catch(err => console.error('Erreur : ', err));
+});
+
+// Bouton Partager - Copie l'URL
+document.getElementById('btnShare').addEventListener('click', function() {
+    const btn = this;
+    const url = window.location.href;
+    
+    navigator.clipboard.writeText(url).then(function() {
+        // Feedback visuel
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check me-1"></i>Lien copié !';
+        btn.style.background = 'var(--color-accent)';
+        
+        setTimeout(function() {
+            btn.innerHTML = originalHTML;
+            btn.style.background = '';
+        }, 2000);
+    }).catch(function(err) {
+        console.error('Erreur lors de la copie : ', err);
+        alert('Impossible de copier le lien. Veuillez le copier manuellement : ' + url);
+    });
 });
 </script>
 <?php include '../../../footer.php'; ?>

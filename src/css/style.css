@@ -4,9 +4,9 @@
 
 :root {
   /* Colors */
-  --color-primary: #E31E24;
-  --color-secondary: #B71C1C;
-  --color-accent: #FF5252;
+  --color-primary: #6D071A;
+  --color-secondary: #4A0511;
+  --color-accent: #A8001C;
   --color-dark: #0A0A0A;
   --color-darker: #000000;
   --color-card: #1A1A1A;
@@ -25,7 +25,7 @@
   --space-xl: 3rem;
   
   /* Typography */
-  --font-title: 'Fredoka', sans-serif;
+  --font-title: 'Permanent Marker', cursive;
   --font-body: 'Poppins', sans-serif;
   --title-size-xl: 3rem;
   --title-size-lg: 2.5rem;
@@ -851,3 +851,178 @@ select.form-control option:checked {
 html { scroll-behavior: smooth; }
 .text-primary { color: var(--color-primary) !important; }
 .bg-primary { background: var(--color-primary) !important; }
+/* =========================================
+  ARTICLE STATS & ACTIONS
+   ========================================= */
+
+.article-stats-actions {
+  background: linear-gradient(135deg, var(--color-card) 0%, rgba(26,26,26,0.8) 100%);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-hover);
+  border: 2px solid var(--color-primary);
+  padding: 2rem;
+  margin-top: 3rem;
+}
+
+.stats-container {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  padding: 1rem;
+  background: rgba(109, 7, 26, 0.1);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--color-primary);
+  min-width: 120px;
+  transition: var(--transition);
+}
+
+.stat-item:hover {
+  background: rgba(109, 7, 26, 0.2);
+  transform: translateY(-2px);
+}
+
+.stat-item.stat-likes {
+  border-left-color: var(--color-accent);
+}
+
+.stat-item.stat-comments {
+  border-left-color: var(--color-secondary);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.stat-label i {
+  margin-right: 0.5rem;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-white);
+  font-family: var(--font-title);
+}
+
+.actions-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+@media (max-width: 991px) {
+  .actions-container {
+    justify-content: flex-start;
+    margin-top: 1rem;
+  }
+}
+
+/* Article Navigation */
+.article-navigation {
+  text-align: center;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.article-navigation .btn-cartoon-outline {
+  padding: 15px 40px;
+  font-size: 1rem;
+}
+
+/* =========================================
+  COMMENTS SECTION
+   ========================================= */
+
+.comments-section {
+  background: var(--color-darker);
+  border-top: 3px solid var(--color-primary);
+  padding: 4rem 0;
+}
+
+.comments-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.comments-title {
+  font-family: var(--font-title);
+  font-size: 2.5rem;
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+.comments-title i {
+  color: var(--color-primary);
+  margin-right: 1rem;
+}
+
+.comments-divider {
+  width: 80px;
+  height: 4px;
+  background: var(--color-primary);
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.comments-placeholder {
+  background: var(--color-card);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 3rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.comments-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(109, 7, 26, 0.7);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(109, 7, 26, 0);
+  }
+}
+
+.comments-icon-wrapper i {
+  font-size: 2rem;
+  color: var(--color-white);
+}
+
+.comments-placeholder h3 {
+  color: var(--color-white);
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.comments-placeholder p {
+  color: var(--color-text-secondary);
+  font-size: 1.1rem;
+  margin: 0;
+  line-height: 1.6;
+}
