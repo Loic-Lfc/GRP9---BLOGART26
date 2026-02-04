@@ -17,6 +17,10 @@ if (empty($article)) {
     include '../../../footer.php';
     exit();
 }
+if(isset($_GET['numArt'])){
+    $numArticle = $_GET['numArt'];
+    $urlPhotArt = sql_select("ARTICLE", "urlPhotArt", "numArt = $numArticle")[0]['urlPhotArt'];
+}
 
 $article = $article[0];
 
@@ -73,9 +77,9 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
     <div class="row">
       <div class="col-lg-10 mx-auto">
         <!-- Image principale -->
-        <?php if(!empty($article['photoArt'])): ?>
+        <?php if(!empty($article['urlPhotArt'])): ?>
           <div class="article-image mb-5" style="height: 500px; border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow);">
-            <img src="/src/uploads/<?php echo htmlspecialchars($article['photoArt']); ?>" 
+            <img src="/src/uploads/<?php echo htmlspecialchars($article['urlPhotArt']); ?>" 
                  alt="<?php echo htmlspecialchars($article['titreArt']); ?>"
                  style="width: 100%; height: 100%; object-fit: cover;">
           </div>
