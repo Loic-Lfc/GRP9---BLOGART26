@@ -23,7 +23,7 @@ $comments = sql_select($queryComments, "COMMENT.*, ARTICLE.libTitrArt, MEMBRE.ps
                         <th>Id</th>
                         <th>Date</th>
                         <th>Contenu</th>
-                        <th>Modifié le</th>
+                        <th>Validé le</th>
                         <th>Statut Mod</th>
                         <th>Article</th>
                         <th>Membre</th>
@@ -45,8 +45,10 @@ $comments = sql_select($queryComments, "COMMENT.*, ARTICLE.libTitrArt, MEMBRE.ps
                             <td><?php echo $comment['libTitrArt']; ?></td>
                             <td><?php echo $comment['pseudoMemb']; ?></td>
                             <td>
-                                <a href="edit.php?numCom=<?php echo $comment['numCom']; ?>" class="btn btn-sm btn-outline-warning w-100 mb-1">Edit</a>
-                                <a href="delete.php?numCom=<?php echo $comment['numCom']; ?>" class="btn btn-sm btn-outline-danger w-100">Delete</a>
+                                <?php if (!$comment['attModOK']) { ?>
+                                    <a href="../../../api/comments/update.php?numCom=<?php echo $comment['numCom']; ?>" class="btn btn-sm btn-outline-success w-100 mb-1">Valider</a>
+                                <?php } ?>
+                                <a href="delete.php?numCom=<?php echo $comment['numCom']; ?>" class="btn btn-sm btn-outline-danger w-100">Supprimer</a>
                             </td>
                         </tr>               
                     <?php } ?>
