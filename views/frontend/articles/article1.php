@@ -95,17 +95,17 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
         <!-- Image principale -->
 
         <!-- Chapô -->
-        <?php if(!empty($article['chapArt'])): ?>
+        <?php if(!empty($article['libChapoArt'])): ?>
           <div class="lead mb-5" style="font-size: 1.2rem; line-height: 1.8; color: var(--color-gray);">
-            <?php echo nl2br(htmlspecialchars($article['chapArt'])); ?>
+            <?php echo nl2br(htmlspecialchars($article['libChapoArt'])); ?>
           </div>
         <?php endif; ?>
 
         <!-- Contenu de l'article -->
         <div class="article-content" style="font-size: 1.1rem; line-height: 1.9;">
-          <?php if(!empty($article['libSsTitrArt1'])): ?>
+          <?php if(!empty($article['libSsTitr1Art'])): ?>
             <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: var(--color-dark);">
-              <?php echo htmlspecialchars($article['libSsTitrArt1']); ?>
+              <?php echo htmlspecialchars($article['libSsTitr1Art']); ?>
             </h2>
           <?php endif; ?>
           
@@ -113,9 +113,9 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
             <p><?php echo nl2br(htmlspecialchars($article['parag1Art'])); ?></p>
           <?php endif; ?>
 
-          <?php if(!empty($article['libSsTitrArt2'])): ?>
+          <?php if(!empty($article['libSsTitr2Art'])): ?>
             <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: var(--color-dark);">
-              <?php echo htmlspecialchars($article['libSsTitrArt2']); ?>
+              <?php echo htmlspecialchars($article['libSsTitr2Art']); ?>
             </h2>
           <?php endif; ?>
           
@@ -177,57 +177,76 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
 </section>
 
 <!-- Section commentaires (à développer) -->
-<section class="comments-section">
+<section class="comments-section py-5" style="background-color: #000000; color: #ffffff;">
   <div class="container">
     <div class="row">
       <div class="col-lg-10 mx-auto">
-        <div class="comments-header">
-          <h2 class="comments-title">
-            <i class="fas fa-comments"></i>
-            Commentaires
+        <div class="comments-header mb-4">
+          <h2 class="comments-title text-white">
+            <i class="fas fa-comments me-2 text-primary"></i>Commentaires
           </h2>
-          <div class="comments-divider"></div>
+          <div class="comments-divider" style="height: 3px; width: 60px; background: #ffffff; margin-top: 10px;"></div>
         </div>
         
-        <div class="comments-placeholder">
-          <div class="comments-icon-wrapper">
-            <i class="fas fa-comments"></i>
+        <div class="card border-0 mb-5" style="background-color: #1a1a1a; border: 1px solid #333 !important;">
+          <div class="card-body p-4">
+            <?php if (isset($_SESSION['numMemb'])): ?>
+              <form action="/api/comments/create.php" method="POST">
+                <input type="hidden" name="numArt" value="<?php echo $id; ?>">
+                <div class="mb-3">
+                  <label for="libCom" class="form-label fw-bold text-white">Votre message :</label>
+                  <textarea class="form-control" name="libCom" id="libCom" rows="4" 
+                    style="background-color: #2b2b2b; color: #ffffff; border: 1px solid #444;"
+                    placeholder="Qu'en avez-vous pensé ?" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-light">Publier</button>
+              </form>
+            <?php else: ?>
+              <div class="text-center py-3">
+                <p class="mb-3 text-light">Vous devez être connecté pour laisser un commentaire.</p>
+                <a href="/login.php" class="btn-cartoon-outline-sm" style="color: #ffffff; border-color: #ffffff;">Se connecter</a>
+              </div>
+            <?php endif; ?>
           </div>
-          <h3>Bientôt disponible !</h3>
-          <p>
-            La section des commentaires arrive prochainement.<br>
-            Vous pourrez bientôt partager vos réactions et échanger avec la communauté.
-          </p>
+        </div>
+
+        <div class="comments-list">
+          <?php 
+          // Seuls les commentaires validés (attModOK = 1) et non supprimés (delLogiq = 0) s'affichent
+          $commentaires = sql_select("COMMENT", "*", "numArt = $id AND attModOK = 1 AND delLogiq = 0 ORDER BY dtCreaCom DESC");
+          
+          if (!empty($commentaires)): 
+            foreach ($commentaires as $com): 
+              $auteurCom = sql_select("MEMBRE", "pseudoMemb", "numMemb = " . $com['numMemb'])[0];
+          ?>
+              <div class="comment-item mb-4 p-4 rounded shadow-sm" 
+                  style="background-color: #1a1a1a; border-left: 5px solid #ffffff;">
+                <div class="d-flex justify-content-between mb-2">
+                  <strong style="color: var(--color-accent); font-size: 1.1rem;">
+                    @<?php echo htmlspecialchars($auteurCom['pseudoMemb']); ?>
+                  </strong>
+                  <small style="color: #888;">
+                    <i class="far fa-clock me-1"></i><?php echo date('d/m/Y H:i', strtotime($com['dtCreaCom'])); ?>
+                  </small>
+                </div>
+                <div class="comment-content" style="color: #e0e0e0; line-height: 1.6;">
+                  <?php echo nl2br(htmlspecialchars($com['libCom'])); ?>
+                </div>
+              </div>
+          <?php 
+            endforeach; 
+          else: 
+          ?>
+            <p class="text-center text-muted fst-italic py-4">Aucun commentaire pour le moment. Soyez le premier à réagir !</p>
+          <?php endif; ?>
         </div>
       </div>
     </div>
   </div>
 </section>
 <script>
-document.getElementById('btnLike').addEventListener('click', function() {
-    const btn = this;
-    const numArt = <?php echo $article['numArt']; ?>;
 
-    fetch('/api/likes/update.php', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: 'numArt=' + numArt
-    })
-    .then(response => response.text())
-    .then(totalLikes => {
-        document.getElementById('likeCount').innerText = totalLikes;
-
-        if(btn.classList.contains('liked')) {
-            btn.classList.remove('liked');
-            btn.innerHTML = '<i class="fas fa-heart me-1"></i>J’aime';
-        } else {
-            btn.classList.add('liked');
-            btn.innerHTML = '<i class="fas fa-heart me-1"></i>Retirer J’aime';
-        }
-    })
-    .catch(err => console.error('Erreur : ', err));
-});
-
+  
 // Bouton Partager - Copie l'URL
 document.getElementById('btnShare').addEventListener('click', function() {
     const btn = this;
