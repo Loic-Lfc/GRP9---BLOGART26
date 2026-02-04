@@ -22,7 +22,7 @@ if (empty($article)) {
     exit();
 }
 if(isset($_GET['numArt'])){
-    $numArticle = $_GET['numArt'];
+    $numMemb = $_GET['numMemb'];
     $urlPhotArt = sql_select("ARTICLE", "urlPhotArt", "numArt = $numArticle")[0]['urlPhotArt'];
 }
 
@@ -37,7 +37,7 @@ $thematique = sql_select("THEMATIQUE", "libThem", "numThem = " . ($article['numT
 $thematiqueNom = !empty($thematique) ? $thematique[0]['libThem'] : 'Non catégorisé';
 
 // Récupérer le membre connecté (pour test, on met temporairement numMemb = 1)
-$numMemb = $_SESSION['numMemb'];
+$numMemb = $_SESSION['numMemb'] ?? 0;
 
 // Vérifier si le membre a déjà liké cet article
 $liked = false;
