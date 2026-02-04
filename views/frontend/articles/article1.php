@@ -108,15 +108,15 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
 
         <!-- Chapô -->
         <?php if(!empty($article['libChapoArt'])): ?>
-          <div class="lead mb-5" style="font-size: 1.2rem; line-height: 1.8; color: var(--color-gray);">
+          <div class="lead mb-5" style="font-size: 1.2rem; line-height: 1.8; color: #E0E0E0;">
             <?php echo nl2br(htmlspecialchars($article['libChapoArt'])); ?>
           </div>
         <?php endif; ?>
 
         <!-- Contenu de l'article -->
-        <div class="article-content" style="font-size: 1.1rem; line-height: 1.9;">
+        <div class="article-content" style="font-size: 1.1rem; line-height: 1.9; color: #FFFFFF;">
           <?php if(!empty($article['libSsTitr1Art'])): ?>
-            <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: var(--color-dark);">
+            <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: #FFFFFF;">
               <?php echo htmlspecialchars($article['libSsTitr1Art']); ?>
             </h2>
           <?php endif; ?>
@@ -126,7 +126,7 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
           <?php endif; ?>
 
           <?php if(!empty($article['libSsTitr2Art'])): ?>
-            <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: var(--color-dark);">
+            <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: #FFFFFF;">
               <?php echo htmlspecialchars($article['libSsTitr2Art']); ?>
             </h2>
           <?php endif; ?>
@@ -199,8 +199,8 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
     <div class="row">
       <div class="col-lg-10 mx-auto">
         <div class="comments-header mb-4">
-          <h2 class="comments-title text-white">
-            <i class="fas fa-comments me-2 text-primary"></i>Commentaires
+          <h2 class="comments-title" style="color: #ffffff;">
+            <i class="fas fa-comments me-2" style="color: #ffffff;"></i>Commentaires
           </h2>
           <div class="comments-divider" style="height: 3px; width: 60px; background: #ffffff; margin-top: 10px;"></div>
         </div>
@@ -220,7 +220,7 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
               </form>
             <?php else: ?>
               <div class="text-center py-3">
-                <p class="mb-3 text-light">Vous devez être connecté pour laisser un commentaire.</p>
+                <p class="mb-3" style="color: #ffffff;">Vous devez être connecté pour laisser un commentaire.</p>
                 <a href="/login.php" class="btn-cartoon-outline-sm" style="color: #ffffff; border-color: #ffffff;">Se connecter</a>
               </div>
             <?php endif; ?>
@@ -239,14 +239,14 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
               <div class="comment-item mb-4 p-4 rounded shadow-sm" 
                   style="background-color: #1a1a1a; border-left: 5px solid #ffffff;">
                 <div class="d-flex justify-content-between mb-2">
-                  <strong style="color: var(--color-accent); font-size: 1.1rem;">
+                  <strong style="color: #ffffff; font-size: 1.1rem;">
                     @<?php echo htmlspecialchars($auteurCom['pseudoMemb']); ?>
                   </strong>
-                  <small style="color: #888;">
+                  <small style="color: #cccccc;">
                     <i class="far fa-clock me-1"></i><?php echo date('d/m/Y H:i', strtotime($com['dtCreaCom'])); ?>
                   </small>
                 </div>
-                <div class="comment-content" style="color: #e0e0e0; line-height: 1.6;">
+                <div class="comment-content" style="color: #ffffff; line-height: 1.6;">
                   <?php echo nl2br(htmlspecialchars($com['libCom'])); ?>
                 </div>
               </div>
@@ -254,7 +254,7 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
             endforeach; 
           else: 
           ?>
-            <p class="text-center text-muted fst-italic py-4">Aucun commentaire pour le moment. Soyez le premier à réagir !</p>
+            <p class="text-center fst-italic py-4" style="color: #ffffff;">Aucun commentaire pour le moment. Soyez le premier à réagir !</p>
           <?php endif; ?>
         </div>
       </div>
