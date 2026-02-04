@@ -15,8 +15,7 @@ $thematiques = sql_select("THEMATIQUE", "*", null, null, "libThem");
 
 // Récupérer les mots-clés
 $motscles = sql_select("MOTCLE", "*", null, null, "libMotCle");
-
-
+?>
 
 <div class="container mt-4 form-container">
     <form action="../../../api/articles/create.php" method="POST" id="formArticle" enctype="multipart/form-data">

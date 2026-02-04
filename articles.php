@@ -2,7 +2,6 @@
 require_once 'header.php';
 sql_connect();
 
-session_start();
 $numMemb = $_SESSION['numMemb'] ?? 1;
 
 if(isset($_GET['numArt'])){

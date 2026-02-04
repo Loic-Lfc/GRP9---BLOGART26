@@ -247,11 +247,15 @@ const btnLike = document.getElementById('btnLike');
       })
       .catch(err => console.error('Erreur : ', err));
   });
+}
 
-  // Bouton Partager - Copie l'URL
-  document.getElementById('btnShare').addEventListener('click', function() {
+// Bouton Partager - Copie l'URL
+const btnShare = document.getElementById('btnShare');
+if (btnShare) {
+  btnShare.addEventListener('click', function() {
       const btn = this;
-      const url = window.location.href;
+      // Copie uniquement l'URL de base sans les paramètres (ID de connexion, etc.)
+      const url = window.location.origin + window.location.pathname;
       
       navigator.clipboard.writeText(url).then(function() {
           // Feedback visuel
@@ -268,6 +272,6 @@ const btnLike = document.getElementById('btnLike');
           alert('Impossible de copier le lien. Veuillez le copier manuellement : ' + url);
       });
   });
-};
+}
 </script>
 <?php include '../../../footer.php'; ?>
