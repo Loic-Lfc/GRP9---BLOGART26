@@ -5,6 +5,10 @@ sql_connect();
 // Récupérer les 3 articles mis en avant
 $articles = sql_select('ARTICLE', '*', '1=1 ORDER BY dtCreaArt DESC LIMIT 3');
 $thematiques = sql_select('THEMATIQUE', '*');
+if(isset($_GET['numArt'])){
+    $numArticle = $_GET['numArt'];
+    $urlPhotArt = sql_select("ARTICLE", "urlPhotArt", "numArt = $numArticle")[0]['urlPhotArt'];
+}
 ?>
 
 <!-- Hero Section -->
@@ -63,9 +67,8 @@ $thematiques = sql_select('THEMATIQUE', '*');
           <div class="col-md-6 col-lg-4">
             <div class="article-card">
               <div class="article-image">
-                <?php if(!empty($article['photoArt'])): ?>
-                  <img src="/src/uploads/<?php echo htmlspecialchars($article['photoArt']); ?>" alt="<?php echo htmlspecialchars($article['libTitrArt'] ?? ''); ?>">
-                <?php else: ?>
+                <?php if(!empty($article['urlPhotArt'])): ?>
+                  <img src="/src/uploads/<?php echo $article['urlPhotArt']; ?>" alt="Image de l'article" width="600"/>
                   <img src="/src/images/article1.png" alt="Default">
                 <?php endif; ?>
                 <span class="article-badge">
