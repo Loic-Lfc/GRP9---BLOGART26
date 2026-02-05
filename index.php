@@ -10,7 +10,13 @@ $articles = sql_select(
       FROM LIKEART L 
       WHERE L.numArt = A.numArt 
         AND L.likeA = 1
-     ) AS totalLikes',
+     ) AS totalLikes,
+     (SELECT COUNT(*)
+      FROM `COMMENT` C
+      WHERE C.numArt = A.numArt
+        AND C.attModOK = 1
+        AND C.delLogiq = 0
+     ) AS totalCommentaires',
     '1=1 ORDER BY A.dtCreaArt DESC LIMIT 3'
 );
 $thematiques = sql_select('THEMATIQUE', '*');
@@ -98,12 +104,12 @@ if(isset($_GET['numArt'])){
                 <div class="article-stats">
                   <span>
                     <i class="fas fa-heart me-1"></i>
-                    <?php
-                      $likes = (int)$article['totalLikes'];
-                      echo $likes . ' ' . ($likes === 1 ? 'like' : 'likes');
-                    ?>
+                  <?php echo (int)$article['totalLikes']; ?> like(s)
                   </span>
-                  <span><i class="fas fa-comment me-1"></i>0 commentaires</span>
+                  <span>
+                  <i class="fas fa-comment me-1"></i>
+                  <?php echo (int)$article['totalCommentaires']; ?> commentaire(s)
+                </span>
                 </div>
                 <a href="/views/frontend/articles/article1.php?id=<?php echo $article['numArt']; ?>" class="btn-cartoon-sm mt-3 w-100">
                   <i class="fas fa-arrow-right me-2"></i>Lire l'article
