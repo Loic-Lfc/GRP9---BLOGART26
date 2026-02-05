@@ -1,4 +1,8 @@
-<?php include 'header-admin.php'; ?>
+<?php include 'header-admin.php';
+$articlesCount = sql_select('ARTICLE', 'COUNT(*) AS total')[0]['total'] ?? 0; 
+$membersCount = sql_select('MEMBRE', 'COUNT(*) AS total')[0]['total'] ?? 0; 
+$commentsCount = sql_select('COMMENT', 'COUNT(*) AS total', 'attModOK = 1 AND delLogiq = 0')[0]['total'] ?? 0;
+$likesCount = sql_select('LIKEART', 'COUNT(*) AS total', 'likeA = 1')[0]['total'] ?? 0; ?>
 
             <!-- Quick Actions -->
             <h2 class="admin-section-title">ACTIONS RAPIDES</h2>
@@ -44,9 +48,6 @@
                     <div class="action-buttons">
                         <a href="/views/backend/comments/list.php" class="btn-cartoon-sm">
                             <i class="fas fa-list me-1"></i>Liste
-                        </a>
-                        <a href="/views/backend/comments/create.php" class="btn-cartoon-outline-sm">
-                            <i class="fas fa-plus me-1"></i>Créer
                         </a>
                     </div>
                 </div>
@@ -107,28 +108,28 @@
                     <div class="stat-icon">
                         <i class="fas fa-newspaper"></i>
                     </div>
-                    <div class="stat-number">24</div>
+                    <div class="stat-number"><?php echo $articlesCount; ?></div>
                     <div class="stat-label">Articles</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <div class="stat-number">156</div>
+                    <div class="stat-number"><?php echo $membersCount; ?></div>
                     <div class="stat-label">Membres</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon">
                         <i class="fas fa-comments"></i>
                     </div>
-                    <div class="stat-number">89</div>
+                    <div class="stat-number"><?php echo $commentsCount; ?></div>
                     <div class="stat-label">Commentaires</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon">
                         <i class="fas fa-heart"></i>
                     </div>
-                    <div class="stat-number">342</div>
+                    <div class="stat-number"><?php echo $likesCount; ?></div>
                     <div class="stat-label">Likes</div>
                 </div>
             </div>
