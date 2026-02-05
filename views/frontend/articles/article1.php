@@ -207,7 +207,9 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
                     style="background-color: #2b2b2b; color: #ffffff; border: 1px solid #444;"
                     placeholder="Qu'en avez-vous pensé ?" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-light">Publier</button>
+                <button type="submit" class="btn-cartoon-sm" style="padding: 12px 30px;">
+                  <i class="fas fa-paper-plane me-2"></i>Publier
+                </button>
               </form>
             <?php else: ?>
               <div class="text-center py-3">
