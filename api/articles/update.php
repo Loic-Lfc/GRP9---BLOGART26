@@ -22,17 +22,70 @@ if (isset($_POST['numArt'])) {
 }
 
 $numArt = isset($_POST['numArt']) ? intval($_POST['numArt']) : 0;
-$dtCreaArt = $_POST['dtCreaArt'] ?? '';
+if (isset($_POST['dtCreaArt'])) {
+    $dtCreaArt = $_POST['dtCreaArt'];
+} else {
+    $dtCreaArt = '';
+}
 $dtMajArt = date('Y-m-d H:i:s');
-$libTitrArt = $_POST['libTitrArt'] ?? '';
-$libChapoArt = $_POST['libChapoArt'] ?? '';
-$libAccrochArt = $_POST['libAccrochArt'] ?? '';
-$parag1Art = $_POST['parag1Art'] ?? '';
-$libSsTitr1Art = $_POST['libSsTitr1Art'] ?? '';
-$parag2Art = $_POST['parag2Art'] ?? '';
-$libSsTitr2Art = $_POST['libSsTitr2Art'] ?? '';
-$parag3Art = $_POST['parag3Art'] ?? '';
-$libConclArt = $_POST['libConclArt'] ?? '';
+// On vérifie si la donnée "libTitrArt" existe dans le tableau $_POST
+if (isset($_POST['libTitrArt'])) {
+    // Si elle existe, on range sa valeur dans la variable
+    $libTitrArt = $_POST['libTitrArt'];
+} else {
+    // Si elle n'existe pas, on met une chaine de caractères vide par défaut
+    $libTitrArt = '';
+}
+
+
+if (isset($_POST['libChapoArt'])) {
+    $libChapoArt = $_POST['libChapoArt'];
+} else {
+    $libChapoArt = '';
+}
+
+if (isset($_POST['libAccrochArt'])) {
+    $libAccrochArt = $_POST['libAccrochArt'];
+} else {
+    $libAccrochArt = '';
+}
+
+if (isset($_POST['parag1Art'])) {
+    $parag1Art = $_POST['parag1Art'];
+} else {
+    $parag1Art = '';
+}   
+
+if (isset($_POST['libSsTitr1Art'])) {
+    $libSsTitr1Art = $_POST['libSsTitr1Art'];
+} else {
+    $libSsTitr1Art = '';
+}
+
+if (isset($_POST['parag2Art'])) {
+    $parag2Art = $_POST['parag2Art'];
+} else {
+    $parag2Art = '';
+}
+
+if (isset($_POST['libSsTitr2Art'])) {
+    $libSsTitr2Art = $_POST['libSsTitr2Art'];
+} else {
+    $libSsTitr2Art = '';
+}
+
+if (isset($_POST['parag3Art'])) {
+    $parag3Art = $_POST['parag3Art'];
+} else {
+    $parag3Art = '';
+}
+
+if (isset($_POST['libConclArt'])) {
+    $libConclArt = $_POST['libConclArt'];
+} else {
+    $libConclArt = '';
+}
+
 $numThem = isset($_POST['numThem']) ? intval($_POST['numThem']) : 0;
 
 $errors = [];
