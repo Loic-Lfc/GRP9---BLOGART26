@@ -1,7 +1,14 @@
 <?php
+
 require_once '../../config/defines.php';
 require_once '../../config/security.php';
 require_once '../../functions/query/connect.php';
+
+// Vérifier que c'est une requête POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: ../../index.php');
+    exit();
+}
 
 sql_connect();
 

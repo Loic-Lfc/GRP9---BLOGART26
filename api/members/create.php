@@ -3,6 +3,12 @@
 include '../../header.php';
 require_once '../../functions/ctrlSaisies.php';
 
+// Vérifier que c'est une requête POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: ../../index.php');
+    exit();
+}
+
 // On vérifie si l'utilisateur est admin ou modérateur
 if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
     header('Location: ../../views/backend/members/list.php?error=forbidden');

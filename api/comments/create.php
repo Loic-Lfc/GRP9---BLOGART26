@@ -3,6 +3,12 @@
 session_start();
 require_once '../../config.php'; 
 
+// Vérifier que c'est une requête POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: ../../index.php');
+    exit();
+}
+
 // On s'assure que la connexion est initialisée et on l'assigne à $db
 $db = sql_connect(); 
 

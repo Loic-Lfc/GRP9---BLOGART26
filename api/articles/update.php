@@ -3,6 +3,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 require_once '../../functions/query/connect.php';
 require_once '../../functions/query/update.php';
 
+// Vérifier que c'est une requête POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: ../../index.php');
+    exit();
+}
+
 sql_connect();
 
 $numArt = isset($_POST['numArt']) ? intval($_POST['numArt']) : 0;
