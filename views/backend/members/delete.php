@@ -1,72 +1,43 @@
 <?php
 include '../header-admin.php';
 
-// On vérifie si l'utilisateur est admin ou modérateur
 if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
     header('Location: list.php?error=forbidden');
     exit();
 }
 
-// Initialisation des variables
-$numMemb = '';
-$nomMemb = '';
-$prenomMemb = '';
-$pseudoMemb = '';
-$emailMemb = '';
+$numMemb = $_GET['numMemb'] ?? '';
+$membre = sql_select("MEMBRE", "*", "numMemb = $numMemb")[0];
 
-if (isset($_GET['numMemb'])) {
-    $numMemb = $_GET['numMemb'];
-    $membre = sql_select("MEMBRE", "*", "numMemb = $numMemb")[0];
-    $nomMemb = $membre['nomMemb'];
-    $prenomMemb = $membre['prenomMemb'];
-    $pseudoMemb = $membre['pseudoMemb'];
-    $emailMemb = $membre['eMailMemb'];
-}
+$hasComments = (isset($_GET['error']) && $_GET['error'] === 'has_comments');
 ?>
 
-<!-- Bootstrap form to delete a member -->
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-                <!-- Form to delete a member -->
-            <h1>Suppression Membre</h1>
-        </div>
-        <div class="col-md-12">
-            <form action="<?php echo ROOT_URL . '/api/members/delete.php' ?>" method="post">
-                <div class="form-group">
-                    <label>Identité</label>
-                    <input id="numMemb" name="numMemb" class="form-control"
-                           style="display:none"
-                           type="text"
-                           value="<?php echo $numMemb; ?>"
-                           readonly="readonly" />
-                    <input class="form-control mb-2"
-                           type="text"
-                           value="Prénom : <?php echo $prenomMemb ?? ''; ?>"
-                           disabled />
-                    <input class="form-control mb-2"
-                           type="text"
-                           value="Nom : <?php echo $nomMemb ?? ''; ?>"
-                           disabled />
-                    <input class="form-control mb-2"
-                           type="text"
-                           value="Pseudo : <?php echo $pseudoMemb ?? ''; ?>"
-                           disabled />
-                    <input class="form-control"
-                           type="text"
-                           value="Email : <?php echo $emailMemb ?? ''; ?>"
-                           disabled />
-                </div>
-                <br>
-                <div class="form-group mt-2">
-                    <a href="list.php" class="btn btn-primary">List</a>
-                    <button type="submit" class="btn btn-danger">
-                        Confirmer delete ?
-                    </button>
-                </div>
+<div class="container mt-4">
+    <h1>Suppression Membre</h1>
 
-            </form>
+    <?php if ($hasComments): ?>
+        <div class="alert alert-danger">
+            <strong>Action impossible :</strong> Ce membre a posté des commentaires. 
+            Vous devez supprimer ses commentaires avant de pouvoir supprimer son compte.
         </div>
-    </div>
+    <?php endif; ?>
+
+    <form action="<?php echo ROOT_URL . '/api/members/delete.php' ?>" method="post">
+        <input type="hidden" name="numMemb" value="<?php echo $numMemb; ?>" />
+        
+        <div class="form-group">
+            <label>Détails du compte</label>
+            <input class="form-control mb-2" type="text" value="Prénom : <?php echo $membre['prenomMemb']; ?>" disabled />
+            <input class="form-control mb-2" type="text" value="Nom : <?php echo $membre['nomMemb']; ?>" disabled />
+            <input class="form-control mb-2" type="text" value="Pseudo : <?php echo $membre['pseudoMemb']; ?>" disabled />
+            <input class="form-control" type="text" value="Email : <?php echo $membre['eMailMemb']; ?>" disabled />
+        </div>
+
+        <div class="form-group mt-3">
+            <a href="list.php" class="btn btn-primary">Retour</a>
+            <?php if (!$hasComments): ?>
+                <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+            <?php endif; ?>
+        </div>
+    </form>
 </div>
-

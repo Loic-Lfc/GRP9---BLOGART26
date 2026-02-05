@@ -1,7 +1,6 @@
 <?php
 include '../header-admin.php';
 
-// On vérifie si l'utilisateur est admin ou modérateur
 if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
     header('Location: ../../views/backend/members/list.php?error=forbidden');
     exit();
@@ -9,30 +8,41 @@ if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['num
 
 if(isset($_GET['numThem'])){
     $numThematique = $_GET['numThem'];
-    $libThematique = sql_select("THEMATIQUE", "libThem", "numThem = $numThematique")[0]['libThem'];
+    $libThematique = sql_select("THEMATIQUE", "libThem", "numThem = '$numThematique'")[0]['libThem'];
+    
+    $articlesLies = [];
+    if (isset($_GET['error']) && $_GET['error'] === 'is_linked') {
+        $articlesLies = sql_select("ARTICLE", "libTitrArt", "numThem = '$numThematique'");
+    }
 }
 ?>
 
-<!-- Bootstrap form to create a new statut -->
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Suppression Thématique</h1>
+<div class="container mt-4">
+    <h1>Suppression Thématique</h1>
+
+    <?php if (!empty($articlesLies)): ?>
+        <div class="alert alert-danger">
+            <strong>Action impossible :</strong> Cette thématique est utilisée par les articles suivants :
+            <ul>
+                <?php foreach ($articlesLies as $art): ?>
+                    <li><?php echo $art['libTitrArt']; ?></li>
+                <?php endforeach; ?>
+            </ul>
+            Modifiez ces articles avant de pouvoir supprimer la thématique.
         </div>
-        <div class="col-md-12">
-            <!-- Form to create a new statut -->
-            <form action="<?php echo ROOT_URL . '/api/thematiques/delete.php' ?>" method="post">
-                <div class="form-group">
-                    <label for="libThem">Nom du thematique</label>
-                    <input id="numThem" name="numThem" class="form-control" style="display: none" type="text" value="<?php echo($numThematique); ?>" readonly="readonly" />
-                    <input id="libThem" name="libThem" class="form-control" type="text" value="<?php echo($libThematique); ?>" readonly="readonly" disabled />
-                </div>
-                <br />
-                <div class="form-group mt-2">
-                    <a href="list.php" class="btn btn-primary">List</a>
-                    <button type="submit" class="btn btn-danger">Confirmer delete ?</button>
-                </div>
-            </form>
+    <?php endif; ?>
+
+    <form action="<?php echo ROOT_URL . '/api/thematiques/delete.php' ?>" method="post">
+        <div class="form-group">
+            <label for="libThem">Nom de la thématique</label>
+            <input name="numThem" type="hidden" value="<?php echo $numThematique; ?>" />
+            <input class="form-control" type="text" value="<?php echo $libThematique; ?>" readonly disabled />
         </div>
-    </div>
+        <div class="form-group mt-3">
+            <a href="list.php" class="btn btn-primary">Retour</a>
+            <?php if (empty($articlesLies)): ?>
+                <button type="submit" class="btn btn-danger">Confirmer delete ?</button>
+            <?php endif; ?>
+        </div>
+    </form>
 </div>
