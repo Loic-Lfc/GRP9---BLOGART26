@@ -33,7 +33,7 @@ if(isset($_GET['numArt'])){
     <div class="row align-items-center justify-content-center text-center">
       <div class="col-lg-10">
         <h1 class="hero-title mb-4">
-          L'ART DE LA RUE <span>BORDELAISE</span>
+          L'ART DE LA RUE <span style="color: #ffffff; font-weight: 600;">BORDELAISE</span>
         </h1>
         <p class="lead mb-5" style="font-size: 1.2rem; color: var(--color-text-secondary);">Découvrez les murs qui parlent de Bordeaux à travers nos articles, reportages et interviews d'artistes urbains.</p>
         
