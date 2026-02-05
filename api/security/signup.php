@@ -5,6 +5,12 @@ require_once '../../functions/query/connect.php';
 require_once '../../functions/query/select.php';
 require_once '../../functions/ctrlSaisies.php';
 
+// Vérifier que c'est une requête POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: ../../index.php');
+    exit();
+}
+
 // Initialiser la connexion
 sql_connect();
 

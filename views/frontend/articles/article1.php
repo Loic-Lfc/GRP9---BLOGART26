@@ -203,7 +203,7 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
 </section>
 
 <!-- Section commentaires (à développer) -->
-<section class="comments-section py-5" style="background-color: #000000; color: #ffffff;">
+<section id="commentaires" class="comments-section py-5" style="background-color: #000000; color: #ffffff;">
   <div class="container">
     <div class="row">
       <div class="col-lg-10 mx-auto">
@@ -213,6 +213,17 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
           </h2>
           <div class="comments-divider" style="height: 3px; width: 60px; background: #ffffff; margin-top: 10px;"></div>
         </div>
+        
+        <?php if (isset($_GET['comment']) && $_GET['comment'] === 'pending'): ?>
+          <div class="alert d-flex align-items-center mb-4" role="alert" 
+               style="background-color: #dc3545; color: #ffffff; border: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(220, 53, 69, 0.3);">
+            <i class="fas fa-check-circle me-3" style="font-size: 1.5rem;"></i>
+            <div>
+              <strong>Merci pour votre commentaire !</strong><br>
+              Votre message a besoin d'être validé par notre équipe. Il sera publié rapidement.
+            </div>
+          </div>
+        <?php endif; ?>
         
         <div class="card border-0 mb-5" style="background-color: #1a1a1a; border: 1px solid #333 !important;">
           <div class="card-body p-4">
@@ -225,7 +236,9 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
                     style="background-color: #2b2b2b; color: #ffffff; border: 1px solid #444;"
                     placeholder="Qu'en avez-vous pensé ?" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-light">Publier</button>
+                <button type="submit" class="btn-cartoon-sm">
+                  <i class="fas fa-paper-plane me-2"></i>Publier
+                </button>
               </form>
             <?php else: ?>
               <div class="text-center py-3">

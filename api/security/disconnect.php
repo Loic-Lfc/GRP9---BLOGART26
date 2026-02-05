@@ -2,6 +2,12 @@
 require_once '../../config/defines.php';
 require_once '../../config/security.php';
 
+// Vérifier que c'est une requête POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: ../../index.php');
+    exit();
+}
+
 // Démarrer la session si elle n'existe pas
 if (!isset($_SESSION)) {
     session_start();

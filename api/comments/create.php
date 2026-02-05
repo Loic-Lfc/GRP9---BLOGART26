@@ -3,6 +3,12 @@
 session_start();
 require_once '../../config.php'; 
 
+// Vérifier que c'est une requête POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: ../../index.php');
+    exit();
+}
+
 // On s'assure que la connexion est initialisée et on l'assigne à $db
 $db = sql_connect(); 
 
@@ -37,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'numMemb' => $numMemb
         ]);
 
-        // Redirection vers ton article en racine
-        header("Location: /articles.php?id=$numArt&msg=ok");
+        // Redirection vers l'article avec message de validation
+        header("Location: /views/frontend/articles/article1.php?id=$numArt&comment=pending#commentaires");
         exit();
 
     } catch (PDOException $e) {
