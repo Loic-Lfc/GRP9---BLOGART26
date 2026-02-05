@@ -215,8 +215,8 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
         </div>
         
         <?php if (isset($_GET['comment']) && $_GET['comment'] === 'pending'): ?>
-          <div class="alert alert-success d-flex align-items-center mb-4" role="alert" 
-               style="background-color: #28a745; color: #ffffff; border: none; border-radius: 8px;">
+          <div class="alert d-flex align-items-center mb-4" role="alert" 
+               style="background-color: #dc3545; color: #ffffff; border: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(220, 53, 69, 0.3);">
             <i class="fas fa-check-circle me-3" style="font-size: 1.5rem;"></i>
             <div>
               <strong>Merci pour votre commentaire !</strong><br>
@@ -236,7 +236,9 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
                     style="background-color: #2b2b2b; color: #ffffff; border: 1px solid #444;"
                     placeholder="Qu'en avez-vous pensé ?" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-light">Publier</button>
+                <button type="submit" class="btn-cartoon-sm">
+                  <i class="fas fa-paper-plane me-2"></i>Publier
+                </button>
               </form>
             <?php else: ?>
               <div class="text-center py-3">
