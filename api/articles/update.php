@@ -89,7 +89,7 @@ if (isset($_POST['libConclArt'])) {
 $numThem = isset($_POST['numThem']) ? intval($_POST['numThem']) : 0;
 
 $errors = [];
-if (mb_strlen($libTitrArt) > 100) $errors[] = "Titre trop long (100 max).";
+if (mb_strlen($libTitrArt) > 100) $errors[] = "Titre trop long (100 max)."; // Vérification de la longueur du titre de l'article
 if (mb_strlen($libChapoArt) > 500) $errors[] = "Chapeau trop long (500 max).";
 if (mb_strlen($libAccrochArt) > 100) $errors[] = "Accroche trop longue (100 max).";
 if (mb_strlen($parag1Art) > 1200) $errors[] = "Paragraphe 1 trop long (1200 max).";
@@ -101,21 +101,24 @@ if (mb_strlen($libConclArt) > 800) $errors[] = "Conclusion trop longue (800 max)
 
 if (!empty($errors)) {
     $msg = urlencode(implode(' ', $errors));
-    header("Location: ../../views/backend/articles/edit.php?numArt=$numArt&error=$msg");
+    header("Location: ../../views/backend/articles/edit.php?numArt=$numArt&error=$msg"); // Redirection vers la page d'édition avec les erreurs en paramètre
     exit();
 }
+if (isset($_POST['oldUrlPhotArt'])) {
+    $urlPhotArt = $_POST['oldUrlPhotArt'];
+} else {
+    $urlPhotArt = '';
+}
 
-$urlPhotArt = $_POST['oldUrlPhotArt'] ?? ''; 
-
-if (isset($_FILES['urlPhotArt']) && $_FILES['urlPhotArt']['error'] === 0) {
-    $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/src/uploads/';
-    if (!empty($_POST['oldUrlPhotArt'])) {
-        $oldImagePath = $uploadDir . $_POST['oldUrlPhotArt'];
-        if (file_exists($oldImagePath)) unlink($oldImagePath);
+if (isset($_FILES['urlPhotArt']) && $_FILES['urlPhotArt']['error'] === 0) { // Vérification de l'upload d'un nouveau fichier
+    $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/src/uploads/'; // Répertoire de destination pour les images téléchargées
+    if (!empty($_POST['oldUrlPhotArt'])) { // Si une ancienne image existe, on la supprime
+        $oldImagePath = $uploadDir . $_POST['oldUrlPhotArt']; // Chemin complet de l'ancienne image
+        if (file_exists($oldImagePath)) unlink($oldImagePath); // Suppression de l'ancienne image si elle existe
     }
-    $ext = strtolower(pathinfo($_FILES['urlPhotArt']['name'], PATHINFO_EXTENSION));
-    $imageName = 'art_' . date('YmdHis') . '_' . uniqid() . '.' . $ext;
-    move_uploaded_file($_FILES['urlPhotArt']['tmp_name'], $uploadDir . $imageName);
+    $ext = strtolower(pathinfo($_FILES['urlPhotArt']['name'], PATHINFO_EXTENSION)); // Récupération de l'extension du fichier
+    $imageName = 'art_' . date('YmdHis') . '_' . uniqid() . '.' . $ext; // Génération d'un nom de fichier unique
+    move_uploaded_file($_FILES['urlPhotArt']['tmp_name'], $uploadDir . $imageName); // Déplacement du fichier vers le répertoire de destination
     $urlPhotArt = $imageName;
 
 }
@@ -216,20 +219,20 @@ if (isset($_FILES['urlPhotArt'])) {
         }
 
         // Création d'un nouveau nom unique
-        $fileInfo = pathinfo($_FILES['urlPhotArt']['name']);
-        $ext = strtolower($fileInfo['extension']);
-        $imageName = 'art_' . date('YmdHis') . '_' . uniqid() . '.' . $ext;
+        $fileInfo = pathinfo($_FILES['urlPhotArt']['name']); // Récupération des informations du fichier
+        $ext = strtolower($fileInfo['extension']); // Récupération de l'extension du fichier en minuscules
+        $imageName = 'art_' . date('YmdHis') . '_' . uniqid() . '.' . $ext; // Génération d'un nom de fichier unique pour éviter les conflits
         
         // Déplacement du fichier
-        move_uploaded_file($_FILES['urlPhotArt']['tmp_name'], $uploadDir . $imageName);
-        $urlPhotArt = $imageName; 
+        move_uploaded_file($_FILES['urlPhotArt']['tmp_name'], $uploadDir . $imageName); // Déplacement du fichier téléchargé vers le répertoire de destination
+        $urlPhotArt = $imageName;  // Mise à jour du nom de l'image dans la variable pour l'enregistrement en base
     }
 }
 
 // --- MISE À JOUR SQL ---
 
 $updateData = [
-    'dtCreaArt' => $dtCreaArt,
+    'dtCreaArt' => $dtCreaArt, // On garde la date de création d'origine
     'dtMajArt' => $dtMajArt,
     'libTitrArt' => $libTitrArt,
     'libChapoArt' => $libChapoArt,
@@ -256,7 +259,7 @@ if (isset($_POST['motsCles'])) {
     $request = $DB->prepare("DELETE FROM MOTCLEARTICLE WHERE numArt = :numArt");
     $request->execute([':numArt' => $numArt]);
     
-<<<<<<< HEAD
+
     if (!empty($_POST['motsCles'])) {
         // Découpage de la chaîne en tableau
         $motsClesArray = explode(',', $_POST['motsCles']);
@@ -266,22 +269,14 @@ if (isset($_POST['motsCles'])) {
             
             if ($numMotCle > 0) {
                 // Insertion un par un
-                $sql_insert = "INSERT INTO MOTCLEARTICLE (numArt, numMotCle) VALUES (:numArt, :numMotCle)";
+                $sql_insert = "INSERT INTO MOTCLEARTICLE (numArt, numMotCle) VALUES (:numArt, :numMotCle)"; // Requête d'insertion pour lier l'article au mot-clé
                 $request = $DB->prepare($sql_insert);
                 $request->execute([
                     ':numArt' => $numArt, 
                     ':numMotCle' => $numMotCle
                 ]);
             }
-=======
-    $motsCles = !empty($_POST['motsCles']) ? explode(',', $_POST['motsCles']) : [];
-    foreach ($motsCles as $numMotCle) {
-        $numMotCle = intval(trim($numMotCle));
-        if ($numMotCle > 0) {
-            $sql_insert = "INSERT INTO MOTCLEARTICLE (numArt, numMotCle) VALUES (:numArt, :numMotCle)";
-            $request = $DB->prepare($sql_insert);
-            $request->execute([':numArt' => $numArt, ':numMotCle' => $numMotCle]);
->>>>>>> e0e0cbbeabdc88511ba5d59bbeadbad00654c25b
+
         }
     }
 }
