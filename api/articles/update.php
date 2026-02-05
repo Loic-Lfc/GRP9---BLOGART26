@@ -38,10 +38,10 @@ if (isset($_POST['libTitrArt'])) {
 }
 
 
-if (isset($_POST['libChapoArt'])) {
-    $libChapoArt = $_POST['libChapoArt'];
-} else {
-    $libChapoArt = '';
+if (isset($_POST['libChapoArt'])) { // Vérification de l'existence de "libChapoArt" dans $_POST
+    $libChapoArt = $_POST['libChapoArt']; // Si elle existe, on stocke sa valeur dans la variable $libChapoArt
+} else { // Si elle n'existe pas, on initialise $libChapoArt à une chaîne vide pour éviter les erreurs
+    $libChapoArt = ''; // Valeur par défaut si "libChapoArt" n'est pas défini dans $_POST
 }
 
 if (isset($_POST['libAccrochArt'])) {
