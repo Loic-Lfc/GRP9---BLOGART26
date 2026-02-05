@@ -190,9 +190,17 @@ $motsCles = sql_select('MOTCLE', '*');
                 <div class="article-stats">
                   <span>
                     <i class="fas fa-heart me-1"></i>
-                    <?php echo $totalLikes . ' ' . ($totalLikes === 1 ? 'like' : 'likes'); ?>
+                    <?php echo (int)$totalLikes; ?> like(s)
                   </span>
-                  <span><i class="fas fa-comment me-1"></i>0 commentaires</span>
+                  <?php $totalCommentaires = sql_select(
+                      'COMMENT',
+                      'COUNT(*) AS total',
+                      "numArt = $numArt AND attModOK = 1 AND delLogiq = 0"
+                  )[0]['total']; ?>
+                <span>
+                  <i class="fas fa-comment me-1"></i>
+                  <?php echo (int)$totalCommentaires; ?> commentaire(s)
+                </span>
                 </div>
                 <a href="/views/frontend/articles/article1.php?id=<?php echo $article['numArt']; ?>" 
                   class="btn-cartoon-sm mt-3 w-100">
