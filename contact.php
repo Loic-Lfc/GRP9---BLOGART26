@@ -79,14 +79,6 @@
                 <i class="fas fa-envelope me-2"></i>
                 <a href="mailto:contact@murmuresbordeaux.fr" style="color: var(--color-white); text-decoration: none;">contact@murmuresbordeaux.fr</a>
               </p>
-              <div class="d-flex justify-content-center gap-3 mt-3">
-                <a href="https://instagram.com/murmuresbordeaux" target="_blank" class="btn-cartoon-outline" style="padding: 0.8rem 1.5rem;">
-                  <i class="fab fa-instagram me-2"></i>Instagram
-                </a>
-                <a href="https://twitter.com/murmuresbordeaux" target="_blank" class="btn-cartoon-outline" style="padding: 0.8rem 1.5rem;">
-                  <i class="fab fa-twitter me-2"></i>Twitter
-                </a>
-              </div>
             </div>
 
           </div>
