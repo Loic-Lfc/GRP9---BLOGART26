@@ -32,7 +32,11 @@ if (isset($_SESSION['pseudoMemb'])) {
             
             <?php 
             if (isset($_GET['error'])) {
-                echo '<div class="alert alert-danger" role="alert" style="background: rgba(227, 30, 36, 0.15); border-color: var(--color-primary); color: var(--color-primary);"><i class="fas fa-exclamation-circle me-2"></i>Pseudonyme ou mot de passe incorrect.</div>';
+                if ($_GET['error'] === 'recaptcha') {
+                    echo '<div class="alert alert-danger" role="alert" style="background: rgba(227, 30, 36, 0.15); border-color: var(--color-primary); color: #ffffff;"><i class="fas fa-exclamation-circle me-2"></i>Veuillez cocher la case "Je ne suis pas un robot" pour continuer.</div>';
+                } else {
+                    echo '<div class="alert alert-danger" role="alert" style="background: rgba(227, 30, 36, 0.15); border-color: var(--color-primary); color: #ffffff;"><i class="fas fa-exclamation-circle me-2"></i>Pseudonyme ou mot de passe incorrect.</div>';
+                }
             }
             if (isset($_GET['success'])) {
                 echo '<div class="alert alert-success" role="alert" style="background: rgba(76, 175, 80, 0.15); border-color: #4CAF50; color: #4CAF50;"><i class="fas fa-check-circle me-2"></i>Inscription réussie ! Vous pouvez maintenant vous connecter.</div>';

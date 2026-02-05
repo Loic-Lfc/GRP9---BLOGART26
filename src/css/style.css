@@ -1269,3 +1269,47 @@ body .admin-main a {
 .admin-main .text-muted {
   color: var(--color-text-secondary) !important;
 }
+
+/* Alert Danger - Messages d'erreur en blanc pour meilleure lisibilité */
+.alert-danger {
+  background: rgba(227, 30, 36, 0.15) !important;
+  border-color: var(--color-primary) !important;
+  color: #ffffff !important;
+}
+
+.alert-danger * {
+  color: #ffffff !important;
+}
+
+/* Alert Success - Messages de succès en blanc */
+.alert-success {
+  background: rgba(76, 175, 80, 0.15) !important;
+  border-color: #4CAF50 !important;
+  color: #ffffff !important;
+}
+
+.alert-success * {
+  color: #ffffff !important;
+}
+
+/* Alert Info - Messages d'information en blanc */
+.alert-info {
+  background: rgba(33, 150, 243, 0.15) !important;
+  border-color: #2196F3 !important;
+  color: #ffffff !important;
+}
+
+.alert-info * {
+  color: #ffffff !important;
+}
+
+/* Alert Warning - Messages d'avertissement en blanc */
+.alert-warning {
+  background: rgba(255, 152, 0, 0.15) !important;
+  border-color: #FF9800 !important;
+  color: #ffffff !important;
+}
+
+.alert-warning * {
+  color: #ffffff !important;
+}
