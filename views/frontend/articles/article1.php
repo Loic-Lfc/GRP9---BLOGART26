@@ -2,6 +2,22 @@
 require_once '../../../header.php';
 sql_connect();
 
+function parseBBCode($text) {
+    $find = [
+        '~\[b\](.*?)\[/b\]~s',
+        '~\[i\](.*?)\[/i\]~s',
+        '~\[u\](.*?)\[/u\]~s',
+        '~\[url=(.*?)\](.*?)\[/url\]~s'
+    ];
+    $replace = [
+        '<strong>$1</strong>',
+        '<em>$1</em>',
+        '<u>$1</u>',
+        '<a href="$1" target="_blank" style="color: #3498db; text-decoration: underline;">$2</a>'
+    ];
+    return preg_replace($find, $replace, $text);
+}
+
 $id = $_GET['id'] ?? null;
 
 // Récupérer le membre connecté
@@ -91,21 +107,23 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
   </div>
 </section>
 
-<!-- Article Content -->
+
 <section class="py-5">
   <div class="container">
     <div class="row">
       <div class="col-lg-10 mx-auto">
-        <!-- Image principale -->
 
-        <!-- Chapô -->
+
         <?php if(!empty($article['libChapoArt'])): ?>
           <div class="lead mb-5" style="font-size: 1.2rem; line-height: 1.8; color: #E0E0E0;">
-            <?php echo nl2br(htmlspecialchars($article['libChapoArt'])); ?>
+            <?php 
+              // Utilisation de parseBBCode pour le Chapô
+              echo nl2br(parseBBCode(htmlspecialchars($article['libChapoArt']))); 
+            ?>
           </div>
         <?php endif; ?>
 
-        <!-- Contenu de l'article -->
+        
         <div class="article-content" style="font-size: 1.1rem; line-height: 1.9; color: #FFFFFF;">
           <?php if(!empty($article['libSsTitr1Art'])): ?>
             <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: #FFFFFF;">
@@ -114,7 +132,7 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
           <?php endif; ?>
           
           <?php if(!empty($article['parag1Art'])): ?>
-            <p><?php echo nl2br(htmlspecialchars($article['parag1Art'])); ?></p>
+            <p><?php echo nl2br(parseBBCode(htmlspecialchars($article['parag1Art']))); ?></p>
           <?php endif; ?>
 
           <?php if(!empty($article['libSsTitr2Art'])): ?>
@@ -124,17 +142,17 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
           <?php endif; ?>
           
           <?php if(!empty($article['parag2Art'])): ?>
-            <p><?php echo nl2br(htmlspecialchars($article['parag2Art'])); ?></p>
+            <p><?php echo nl2br(parseBBCode(htmlspecialchars($article['parag2Art']))); ?></p>
           <?php endif; ?>
 
           <?php if(!empty($article['parag3Art'])): ?>
-            <p><?php echo nl2br(htmlspecialchars($article['parag3Art'])); ?></p>
+            <p><?php echo nl2br(parseBBCode(htmlspecialchars($article['parag3Art']))); ?></p>
           <?php endif; ?>
 
           <?php if(!empty($article['conclusionArt'])): ?>
             <div class="mt-5 p-4" style="background: var(--color-light); border-left: 4px solid var(--color-dark); border-radius: var(--radius-sm);">
               <p class="mb-0" style="font-style: italic;">
-                <?php echo nl2br(htmlspecialchars($article['conclusionArt'])); ?>
+                <?php echo nl2br(parseBBCode(htmlspecialchars($article['conclusionArt']))); ?>
               </p>
             </div>
           <?php endif; ?>
@@ -218,9 +236,7 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
                     style="background-color: #2b2b2b; color: #ffffff; border: 1px solid #444;"
                     placeholder="Qu'en avez-vous pensé ?" required></textarea>
                 </div>
-                <button type="submit" class="btn-cartoon-sm" style="padding: 12px 30px;">
-                  <i class="fas fa-paper-plane me-2"></i>Publier
-                </button>
+                <button type="submit" class="btn btn-light">Publier</button>
               </form>
             <?php else: ?>
               <div class="text-center py-3">
