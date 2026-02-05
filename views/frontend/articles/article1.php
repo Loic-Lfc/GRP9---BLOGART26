@@ -28,10 +28,6 @@ if(isset($_GET['numArt'])){
 
 $article = $article[0];
 
-// Récupérer l'auteur
-$auteur = sql_select("MEMBRE", "pseudoMemb, prenomMemb, nomMemb", "numMemb = " . ($article['numMemb'] ?? 0));
-$auteurNom = !empty($auteur) ? $auteur[0]['pseudoMemb'] : 'Auteur inconnu';
-
 // Récupérer la thématique
 $thematique = sql_select("THEMATIQUE", "libThem", "numThem = " . ($article['numThem'] ?? 0));
 $thematiqueNom = !empty($thematique) ? $thematique[0]['libThem'] : 'Non catégorisé';
@@ -84,10 +80,6 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
         </h1>
 
         <div class="d-flex gap-4 text-light">
-          <span>
-            <i class="fas fa-user me-2"></i>
-            Par <strong><?php echo htmlspecialchars($auteurNom); ?></strong>
-          </span>
           <span>
             <i class="fas fa-calendar me-2"></i>
             <?php echo date('d/m/Y', strtotime($article['dtCreaArt'])); ?>
@@ -154,7 +146,6 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
             <div class="d-flex gap-4">
               <span>
                 <i class="fas fa-eye me-2"></i>
-                <strong>0</strong> vues
               </span>
               <span>
                 <i class="fas fa-heart me-2"></i>
@@ -221,7 +212,7 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
             <?php else: ?>
               <div class="text-center py-3">
                 <p class="mb-3" style="color: #ffffff;">Vous devez être connecté pour laisser un commentaire.</p>
-                <a href="/login.php" class="btn-cartoon-outline-sm" style="color: #ffffff; border-color: #ffffff;">Se connecter</a>
+                <a href="../../backend/security/login.php" class="btn-cartoon-outline-sm" style="color: #ffffff; border-color: #ffffff;">Se connecter</a>
               </div>
             <?php endif; ?>
           </div>

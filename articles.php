@@ -176,7 +176,6 @@ $motsCles = sql_select('MOTCLE', '*');
                     <i class="fas fa-calendar me-1"></i>
                     <?php echo date('d/m/Y', strtotime($article['dtCreaArt'])); ?>
                   </span>
-                  <span><i class="fas fa-user me-1"></i>Auteur</span>
                 </div>
                 <?php
                   $numArt = $article['numArt'];
@@ -189,7 +188,6 @@ $motsCles = sql_select('MOTCLE', '*');
                   )[0]['total'];
                   ?>
                 <div class="article-stats">
-                  <span><i class="fas fa-eye me-1"></i>0 vues</span>
                   <span>
                     <i class="fas fa-heart me-1"></i>
                     <?php echo $totalLikes . ' ' . ($totalLikes === 1 ? 'like' : 'likes'); ?>
