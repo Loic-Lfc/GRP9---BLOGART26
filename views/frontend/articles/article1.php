@@ -185,7 +185,7 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
 </section>
 
 <!-- Section commentaires (à développer) -->
-<section class="comments-section py-5" style="background-color: #000000; color: #ffffff;">
+<section id="commentaires" class="comments-section py-5" style="background-color: #000000; color: #ffffff;">
   <div class="container">
     <div class="row">
       <div class="col-lg-10 mx-auto">
@@ -195,6 +195,17 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
           </h2>
           <div class="comments-divider" style="height: 3px; width: 60px; background: #ffffff; margin-top: 10px;"></div>
         </div>
+        
+        <?php if (isset($_GET['comment']) && $_GET['comment'] === 'pending'): ?>
+          <div class="alert alert-success d-flex align-items-center mb-4" role="alert" 
+               style="background-color: #28a745; color: #ffffff; border: none; border-radius: 8px;">
+            <i class="fas fa-check-circle me-3" style="font-size: 1.5rem;"></i>
+            <div>
+              <strong>Merci pour votre commentaire !</strong><br>
+              Votre message a besoin d'être validé par notre équipe. Il sera publié rapidement.
+            </div>
+          </div>
+        <?php endif; ?>
         
         <div class="card border-0 mb-5" style="background-color: #1a1a1a; border: 1px solid #333 !important;">
           <div class="card-body p-4">

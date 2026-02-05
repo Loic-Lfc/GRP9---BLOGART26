@@ -37,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'numMemb' => $numMemb
         ]);
 
-        // Redirection vers ton article en racine
-        header("Location: /articles.php?id=$numArt&msg=ok");
+        // Redirection vers l'article avec message de validation
+        header("Location: /views/frontend/articles/article1.php?id=$numArt&comment=pending#commentaires");
         exit();
 
     } catch (PDOException $e) {
