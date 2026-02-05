@@ -2,6 +2,22 @@
 require_once 'header.php';
 sql_connect();
 
+function parseBBCode($text) {
+    $find = [
+        '~\[b\](.*?)\[/b\]~s',
+        '~\[i\](.*?)\[/i\]~s',
+        '~\[u\](.*?)\[/u\]~s',
+        '~\[url=(.*?)\](.*?)\[/url\]~s'
+    ];
+    $replace = [
+        '<strong>$1</strong>',
+        '<em>$1</em>',
+        '<u>$1</u>',
+        '<a href="$1" target="_blank" style="color: #3498db; text-decoration: underline;">$2</a>'
+    ];
+    return preg_replace($find, $replace, $text);
+}
+
 $numMemb = $_SESSION['numMemb'] ?? 1;
 
 if(isset($_GET['numArt'])){
@@ -169,8 +185,14 @@ $motsCles = sql_select('MOTCLE', '*');
               <div class="article-body">
                 <h3 class="article-title"><?php echo htmlspecialchars($article['libTitrArt']); ?></h3>
                 <p class="article-excerpt">
-                  <?php echo substr(strip_tags($article['libChapoArt']), 0, 120) . '...'; ?>
-                </p>
+    <?php 
+        // 1. On nettoie le BBCode et le HTML pour l'aperçu
+        $cleanText = strip_tags(parseBBCode($article['libChapoArt']));
+        
+        // 2. On affiche l'extrait coupé à 120 caractères
+        echo substr($cleanText, 0, 120) . '...'; 
+    ?>
+</p>
                 <div class="article-meta">
                   <span>
                     <i class="fas fa-calendar me-1"></i>
