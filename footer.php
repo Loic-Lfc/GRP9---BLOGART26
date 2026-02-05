@@ -36,14 +36,14 @@
 }
 
 #cookieConsentModal .modal-body a {
-    color: var(--color-primary, #E31E24);
+    color: #ffffff;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
 }
 
 #cookieConsentModal .modal-body a:hover {
-    color: var(--color-accent, #FF5252);
+    color: var(--color-primary, #E31E24);
     text-decoration: underline;
 }
 
@@ -108,7 +108,7 @@
             </div>
             <div class="modal-body">
                 <p>Ce site utilise des cookies pour améliorer votre expérience conformément au RGPD. Acceptez-vous leur utilisation ?</p>
-                <p><a href="https://www.php.net/manual/fr/features.cookies.php" target="_blank" rel="noopener noreferrer">En savoir plus</a></p>
+                <p><a href="#" onclick="window.open('/views/frontend/rgpd/rgpd-cookies.php', 'RGPD', 'width=900,height=700,scrollbars=yes,resizable=yes'); return false;">En savoir plus</a></p>
             </div>
             <div class="modal-footer">
                 <button type="button" id="cookieDecline" class="btn">Refuser</button>
