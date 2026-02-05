@@ -2,19 +2,28 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 require_once '../../functions/ctrlSaisies.php';
 
-$id = $_GET['id'];
-$membre = sql_select("MEMBRE", "numStat", "numMemb = $id")[0];
+$numMemb = $_POST['numMemb'] ?? null;
 
-if ($membre['numStat'] == 1) {
-    header('Location: list.php?error=admin_protected');
+if (!$numMemb) {
+    header('Location: ../../views/backend/members/list.php?error=missing_id');
     exit();
 }
 
-$numMemb = (int) ($_POST['numMemb'] ?? 0);
+$membre = sql_select("MEMBRE", "numStat", "numMemb = $numMemb")[0];
 
-if ($numMemb > 0) {
-    sql_delete('MEMBRE', "numMemb = $numMemb");
+if ($membre['numStat'] == 1) {
+    header('Location: ../../views/backend/members/list.php?error=admin_protected');
+    exit();
 }
 
-header('Location: ../../views/backend/members/list.php');
+$countCom = sql_select("COMMENT", "COUNT(*) as total", "numMemb = $numMemb")[0]['total'];
+
+if ($countCom > 0) {
+    header("Location: ../../views/backend/members/delete.php?numMemb=$numMemb&error=has_comments");
+    exit();
+}
+
+sql_delete('MEMBRE', "numMemb = $numMemb");
+
+header('Location: ../../views/backend/members/list.php?success=deleted');
 exit();
