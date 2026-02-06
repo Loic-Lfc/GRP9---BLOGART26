@@ -216,7 +216,7 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
         
         <?php if (isset($_GET['comment']) && $_GET['comment'] === 'pending'): ?>
           <div class="alert d-flex align-items-center mb-4" role="alert" 
-               style="background-color: #dc3545; color: #ffffff; border: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(220, 53, 69, 0.3);">
+               style="background-color: #46dc35; color: #ffffff; border: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(220, 53, 69, 0.3);">
             <i class="fas fa-check-circle me-3" style="font-size: 1.5rem;"></i>
             <div>
               <strong>Merci pour votre commentaire !</strong><br>

@@ -46,7 +46,9 @@ $comments = sql_select($queryComments, "COMMENT.*, ARTICLE.libTitrArt, MEMBRE.ps
                             <td><?php echo $comment['pseudoMemb']; ?></td>
                             <td>
                                 <?php if (!$comment['attModOK']) { ?>
-                                    <a href="../../../api/comments/update.php?numCom=<?php echo $comment['numCom']; ?>" class="btn btn-sm btn-outline-success w-100 mb-1">Valider</a>
+                                    <form action="../../../api/comments/update.php?numCom=<?php echo $comment['numCom']; ?>" method="POST" style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-success w-100 mb-1">Valider</button>
+                                    </form>
                                 <?php } ?>
                                 <a href="delete.php?numCom=<?php echo $comment['numCom']; ?>" class="btn btn-sm btn-outline-danger w-100">Supprimer</a>
                             </td>
