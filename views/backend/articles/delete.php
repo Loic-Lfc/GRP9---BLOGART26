@@ -82,5 +82,4 @@ if (!$articleFound && !isset($_GET['error'])) {
             </form>
         </div>
     </div>
-</div><?php include '../footer-admin.php';
-?>
+</div>
