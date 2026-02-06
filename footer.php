@@ -36,14 +36,14 @@
 }
 
 #cookieConsentModal .modal-body a {
-    color: var(--color-primary, #E31E24);
+    color: #ffffff;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
 }
 
 #cookieConsentModal .modal-body a:hover {
-    color: var(--color-accent, #FF5252);
+    color: var(--color-primary, #E31E24);
     text-decoration: underline;
 }
 
@@ -108,7 +108,7 @@
             </div>
             <div class="modal-body">
                 <p>Ce site utilise des cookies pour améliorer votre expérience conformément au RGPD. Acceptez-vous leur utilisation ?</p>
-                <p><a href="https://www.php.net/manual/fr/features.cookies.php" target="_blank" rel="noopener noreferrer">En savoir plus</a></p>
+                <p><a href="#" onclick="window.open('/views/frontend/rgpd/rgpd-cookies.php', 'RGPD', 'width=900,height=700,scrollbars=yes,resizable=yes'); return false;">En savoir plus</a></p>
             </div>
             <div class="modal-footer">
                 <button type="button" id="cookieDecline" class="btn">Refuser</button>
@@ -120,21 +120,71 @@
 
 <footer class="footer-cartoon py-5">
   <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-4 mb-4 mb-md-0">
+    <div class="row align-items-start">
+      <div class="col-md-6 mb-4 mb-md-0">
         <img src="/src/images/murmures_bordeaux.png" alt="Murmures Bordeaux" style="height: 50px; margin-bottom: 1rem;">
-        <p class="text-light-gray mb-0">L'actualité du street art bordelais. Explorez les murs qui parlent.</p>
+        <p class="text-light-gray mb-3" style="line-height: 1.6;">L'ART DE LA RUE <span style="color: #ffffff; font-weight: 600;">BORDELAISE</span>. Explorez les murs qui parlent.</p>
+        
+        <!-- Réseaux sociaux -->
+        <div class="d-flex gap-3">
+          <a href="https://instagram.com/murmuresbordeaux" target="_blank" rel="noopener noreferrer" 
+             class="social-link" title="Suivez-nous sur Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://twitter.com/murmuresbordeaux" target="_blank" rel="noopener noreferrer" 
+             class="social-link" title="Suivez-nous sur Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </div>
       </div>
-      <div class="col-md-8">
-        <div class="d-flex justify-content-end align-items-center flex-wrap">
-          <a href="/views/frontend/rgpd/rgpd.php" class="footer-link mx-3">Mentions légales</a>
-          <a href="/about.php" class="footer-link mx-3">À propos</a>
-          <span class="text-light-gray ms-4">&copy; <?php echo date('Y'); ?> Murmures Bordeaux. Tous droits réservés.</span>
+      
+      <div class="col-md-6">
+        <div class="d-flex flex-column align-items-md-end h-100 justify-content-between">
+          <div class="d-flex gap-4 flex-wrap justify-content-md-end mb-3">
+            <a href="/about.php" class="footer-link">À PROPOS</a>
+            <a href="/contact.php" class="footer-link">CONTACT</a>
+            <a href="/views/frontend/rgpd/rgpd.php" class="footer-link">MENTIONS LÉGALES</a>
+          </div>
+          <div class="text-md-end">
+            <span class="text-light-gray">&copy; <?php echo date('Y'); ?> Murmures Bordeaux. Tous droits réservés.</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </footer>
+
+<style>
+.footer-nav-wrapper {
+  width: 100%;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--color-card);
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
+  color: var(--color-white) !important;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.social-link:hover {
+  background: var(--color-primary);
+  color: var(--color-white) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(227, 30, 36, 0.4);
+}
+
+.social-link i {
+  color: var(--color-white);
+}
+</style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 

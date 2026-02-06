@@ -10,7 +10,13 @@ $articles = sql_select(
       FROM LIKEART L 
       WHERE L.numArt = A.numArt 
         AND L.likeA = 1
-     ) AS totalLikes',
+     ) AS totalLikes,
+     (SELECT COUNT(*)
+      FROM `COMMENT` C
+      WHERE C.numArt = A.numArt
+        AND C.attModOK = 1
+        AND C.delLogiq = 0
+     ) AS totalCommentaires',
     '1=1 ORDER BY A.dtCreaArt DESC LIMIT 3'
 );
 $thematiques = sql_select('THEMATIQUE', '*');
@@ -27,7 +33,7 @@ if(isset($_GET['numArt'])){
     <div class="row align-items-center justify-content-center text-center">
       <div class="col-lg-10">
         <h1 class="hero-title mb-4">
-          L'ART DE LA RUE <span>BORDELAISE</span>
+          L'ART DE LA RUE <span style="color: #ffffff; font-weight: 600;">BORDELAISE</span>
         </h1>
         <p class="lead mb-5" style="font-size: 1.2rem; color: var(--color-text-secondary);">Découvrez les murs qui parlent de Bordeaux à travers nos articles, reportages et interviews d'artistes urbains.</p>
         
@@ -44,12 +50,15 @@ if(isset($_GET['numArt'])){
         </div>
 
         <div class="d-flex gap-3 justify-content-center flex-wrap">
-          <a href="/articles.php" class="btn-cartoon">
-            <i class="fas fa-palette me-2"></i>Découvrir les articles
-          </a>
-          <a href="/views/backend/security/signup.php" class="btn-cartoon-outline">
-            <i class="fas fa-user-plus me-2"></i>Rejoindre la communauté
-          </a>
+            <a href="/articles.php" class="btn-cartoon">
+              <i class="fas fa-palette me-2"></i>Découvrir les articles
+            </a>
+            <?php if (!isset($_SESSION['pseudoMemb'])): ?>
+              <a href="/views/backend/security/signup.php" class="btn-cartoon-outline">
+                <i class="fas fa-user-plus me-2"></i>Rejoindre la communauté
+              </a>
+            <?php endif; ?>
+          </div>
         </div>
       </div>
     </div>
@@ -91,18 +100,16 @@ if(isset($_GET['numArt'])){
                 </p>
                 <div class="article-meta">
                   <span><i class="fas fa-calendar me-1"></i><?php echo date('d/m/Y', strtotime($article['dtCreaArt'])); ?></span>
-                  <span><i class="fas fa-user me-1"></i>Auteur</span>
                 </div>
                 <div class="article-stats">
-                  <span><i class="fas fa-eye me-1"></i>0 vues</span>
                   <span>
                     <i class="fas fa-heart me-1"></i>
-                    <?php
-                      $likes = (int)$article['totalLikes'];
-                      echo $likes . ' ' . ($likes === 1 ? 'like' : 'likes');
-                    ?>
+                  <?php echo (int)$article['totalLikes']; ?> like(s)
                   </span>
-                  <span><i class="fas fa-comment me-1"></i>0 commentaires</span>
+                  <span>
+                  <i class="fas fa-comment me-1"></i>
+                  <?php echo (int)$article['totalCommentaires']; ?> commentaire(s)
+                </span>
                 </div>
                 <a href="/views/frontend/articles/article1.php?id=<?php echo $article['numArt']; ?>" class="btn-cartoon-sm mt-3 w-100">
                   <i class="fas fa-arrow-right me-2"></i>Lire l'article

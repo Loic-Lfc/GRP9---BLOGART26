@@ -2,9 +2,20 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 require_once '../../functions/ctrlSaisies.php';
 
-$numThematique = ($_POST['numThem']);
+// Vérifier que c'est une requête POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: ../../index.php');
+    exit();
+}
 
-sql_delete('THEMATIQUE', "numThem = $numThematique");
+$numThem = $_POST['numThem'];
 
+$count = sql_select("ARTICLE", "COUNT(*) as total", "numThem = '$numThem'")[0]['total'];
 
-header('Location: ../../views/backend/thematiques/list.php');
+if ($count > 0) {
+    header("Location: ../../views/backend/thematiques/delete.php?numThem=$numThem&error=is_linked");
+    exit();
+}
+
+sql_delete('THEMATIQUE', "numThem = '$numThem'");
+header('Location: ../../views/backend/thematiques/list.php?success=deleted');

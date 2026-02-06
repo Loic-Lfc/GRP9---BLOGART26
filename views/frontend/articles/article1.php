@@ -2,6 +2,22 @@
 require_once '../../../header.php';
 sql_connect();
 
+function parseBBCode($text) {
+    $find = [
+        '~\[b\](.*?)\[/b\]~s',
+        '~\[i\](.*?)\[/i\]~s',
+        '~\[u\](.*?)\[/u\]~s',
+        '~\[url=(.*?)\](.*?)\[/url\]~s'
+    ];
+    $replace = [
+        '<strong>$1</strong>',
+        '<em>$1</em>',
+        '<u>$1</u>',
+        '<a href="$1" target="_blank" style="color: #3498db; text-decoration: underline;">$2</a>'
+    ];
+    return preg_replace($find, $replace, $text);
+}
+
 $id = $_GET['id'] ?? null;
 
 // Récupérer le membre connecté
@@ -27,10 +43,6 @@ if(isset($_GET['numArt'])){
 }
 
 $article = $article[0];
-
-// Récupérer l'auteur
-$auteur = sql_select("MEMBRE", "pseudoMemb, prenomMemb, nomMemb", "numMemb = " . ($article['numMemb'] ?? 0));
-$auteurNom = !empty($auteur) ? $auteur[0]['pseudoMemb'] : 'Auteur inconnu';
 
 // Récupérer la thématique
 $thematique = sql_select("THEMATIQUE", "libThem", "numThem = " . ($article['numThem'] ?? 0));
@@ -85,10 +97,6 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
 
         <div class="d-flex gap-4 text-light">
           <span>
-            <i class="fas fa-user me-2"></i>
-            Par <strong><?php echo htmlspecialchars($auteurNom); ?></strong>
-          </span>
-          <span>
             <i class="fas fa-calendar me-2"></i>
             <?php echo date('d/m/Y', strtotime($article['dtCreaArt'])); ?>
           </span>
@@ -99,50 +107,52 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
   </div>
 </section>
 
-<!-- Article Content -->
+
 <section class="py-5">
   <div class="container">
     <div class="row">
       <div class="col-lg-10 mx-auto">
-        <!-- Image principale -->
 
-        <!-- Chapô -->
+
         <?php if(!empty($article['libChapoArt'])): ?>
-          <div class="lead mb-5" style="font-size: 1.2rem; line-height: 1.8; color: var(--color-gray);">
-            <?php echo nl2br(htmlspecialchars($article['libChapoArt'])); ?>
+          <div class="lead mb-5" style="font-size: 1.2rem; line-height: 1.8; color: #E0E0E0;">
+            <?php 
+              // Utilisation de parseBBCode pour le Chapô
+              echo nl2br(parseBBCode(htmlspecialchars($article['libChapoArt']))); 
+            ?>
           </div>
         <?php endif; ?>
 
-        <!-- Contenu de l'article -->
-        <div class="article-content" style="font-size: 1.1rem; line-height: 1.9;">
+        
+        <div class="article-content" style="font-size: 1.1rem; line-height: 1.9; color: #FFFFFF;">
           <?php if(!empty($article['libSsTitr1Art'])): ?>
-            <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: var(--color-dark);">
+            <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: #FFFFFF;">
               <?php echo htmlspecialchars($article['libSsTitr1Art']); ?>
             </h2>
           <?php endif; ?>
           
           <?php if(!empty($article['parag1Art'])): ?>
-            <p><?php echo nl2br(htmlspecialchars($article['parag1Art'])); ?></p>
+            <p><?php echo nl2br(parseBBCode(htmlspecialchars($article['parag1Art']))); ?></p>
           <?php endif; ?>
 
           <?php if(!empty($article['libSsTitr2Art'])): ?>
-            <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: var(--color-dark);">
+            <h2 class="mt-5 mb-3" style="font-family: var(--font-title); color: #FFFFFF;">
               <?php echo htmlspecialchars($article['libSsTitr2Art']); ?>
             </h2>
           <?php endif; ?>
           
           <?php if(!empty($article['parag2Art'])): ?>
-            <p><?php echo nl2br(htmlspecialchars($article['parag2Art'])); ?></p>
+            <p><?php echo nl2br(parseBBCode(htmlspecialchars($article['parag2Art']))); ?></p>
           <?php endif; ?>
 
           <?php if(!empty($article['parag3Art'])): ?>
-            <p><?php echo nl2br(htmlspecialchars($article['parag3Art'])); ?></p>
+            <p><?php echo nl2br(parseBBCode(htmlspecialchars($article['parag3Art']))); ?></p>
           <?php endif; ?>
 
           <?php if(!empty($article['conclusionArt'])): ?>
             <div class="mt-5 p-4" style="background: var(--color-light); border-left: 4px solid var(--color-dark); border-radius: var(--radius-sm);">
               <p class="mb-0" style="font-style: italic;">
-                <?php echo nl2br(htmlspecialchars($article['conclusionArt'])); ?>
+                <?php echo nl2br(parseBBCode(htmlspecialchars($article['conclusionArt']))); ?>
               </p>
             </div>
           <?php endif; ?>
@@ -154,7 +164,6 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
             <div class="d-flex gap-4">
               <span>
                 <i class="fas fa-eye me-2"></i>
-                <strong>0</strong> vues
               </span>
               <span>
                 <i class="fas fa-heart me-2"></i>
@@ -194,16 +203,27 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
 </section>
 
 <!-- Section commentaires (à développer) -->
-<section class="comments-section py-5" style="background-color: #000000; color: #ffffff;">
+<section id="commentaires" class="comments-section py-5" style="background-color: #000000; color: #ffffff;">
   <div class="container">
     <div class="row">
       <div class="col-lg-10 mx-auto">
         <div class="comments-header mb-4">
-          <h2 class="comments-title text-white">
-            <i class="fas fa-comments me-2 text-primary"></i>Commentaires
+          <h2 class="comments-title" style="color: #ffffff;">
+            <i class="fas fa-comments me-2" style="color: #ffffff;"></i>Commentaires
           </h2>
           <div class="comments-divider" style="height: 3px; width: 60px; background: #ffffff; margin-top: 10px;"></div>
         </div>
+        
+        <?php if (isset($_GET['comment']) && $_GET['comment'] === 'pending'): ?>
+          <div class="alert d-flex align-items-center mb-4" role="alert" 
+               style="background-color: #dc3545; color: #ffffff; border: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(220, 53, 69, 0.3);">
+            <i class="fas fa-check-circle me-3" style="font-size: 1.5rem;"></i>
+            <div>
+              <strong>Merci pour votre commentaire !</strong><br>
+              Votre message a besoin d'être validé par notre équipe. Il sera publié rapidement.
+            </div>
+          </div>
+        <?php endif; ?>
         
         <div class="card border-0 mb-5" style="background-color: #1a1a1a; border: 1px solid #333 !important;">
           <div class="card-body p-4">
@@ -216,12 +236,14 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
                     style="background-color: #2b2b2b; color: #ffffff; border: 1px solid #444;"
                     placeholder="Qu'en avez-vous pensé ?" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-light">Publier</button>
+                <button type="submit" class="btn-cartoon-sm">
+                  <i class="fas fa-paper-plane me-2"></i>Publier
+                </button>
               </form>
             <?php else: ?>
               <div class="text-center py-3">
-                <p class="mb-3 text-light">Vous devez être connecté pour laisser un commentaire.</p>
-                <a href="/login.php" class="btn-cartoon-outline-sm" style="color: #ffffff; border-color: #ffffff;">Se connecter</a>
+                <p class="mb-3" style="color: #ffffff;">Vous devez être connecté pour laisser un commentaire.</p>
+                <a href="../../backend/security/login.php" class="btn-cartoon-outline-sm" style="color: #ffffff; border-color: #ffffff;">Se connecter</a>
               </div>
             <?php endif; ?>
           </div>
@@ -239,14 +261,14 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
               <div class="comment-item mb-4 p-4 rounded shadow-sm" 
                   style="background-color: #1a1a1a; border-left: 5px solid #ffffff;">
                 <div class="d-flex justify-content-between mb-2">
-                  <strong style="color: var(--color-accent); font-size: 1.1rem;">
+                  <strong style="color: #ffffff; font-size: 1.1rem;">
                     @<?php echo htmlspecialchars($auteurCom['pseudoMemb']); ?>
                   </strong>
-                  <small style="color: #888;">
+                  <small style="color: #cccccc;">
                     <i class="far fa-clock me-1"></i><?php echo date('d/m/Y H:i', strtotime($com['dtCreaCom'])); ?>
                   </small>
                 </div>
-                <div class="comment-content" style="color: #e0e0e0; line-height: 1.6;">
+                <div class="comment-content" style="color: #ffffff; line-height: 1.6;">
                   <?php echo nl2br(htmlspecialchars($com['libCom'])); ?>
                 </div>
               </div>
@@ -254,7 +276,7 @@ $totalLikes = sql_select('LIKEART', 'COUNT(*) AS total', "numArt = {$article['nu
             endforeach; 
           else: 
           ?>
-            <p class="text-center text-muted fst-italic py-4">Aucun commentaire pour le moment. Soyez le premier à réagir !</p>
+            <p class="text-center fst-italic py-4" style="color: #ffffff;">Aucun commentaire pour le moment. Soyez le premier à réagir !</p>
           <?php endif; ?>
         </div>
       </div>

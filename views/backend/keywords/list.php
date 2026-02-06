@@ -1,44 +1,42 @@
 <?php
-include '../header-admin.php'; // contains the header and call to config.php
+include '../header-admin.php';
 
-// On vérifie si l'utilisateur est admin ou modérateur
 if (!isset($_SESSION['numStat']) || ($_SESSION['numStat'] != 1 && $_SESSION['numStat'] != 2)) {
-    header('Location: ../../views/backend/members/list.php?error=forbidden');
+    header('Location: /index.php?error=access_denied');
     exit();
 }
 
-//Load all statuts
-$motscles = sql_select("motcle", "*");
+$motscles = sql_select("MOTCLE", "*");
 ?>
 
-<!-- Bootstrap default layout to display all statuts in foreach -->
-<div class="container">
+<div class="container-fluid mt-4">
     <div class="row">
         <div class="col-md-12">
-            <h1>Mot Clés</h1>
+            <h1>Mots Clés</h1>
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Nom des mots clés</th>
+                        <th>Désignation</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($motscles as $motcle){ ?>
+                    <?php foreach ($motscles as $mot) { ?>
                         <tr>
-                            <td><?php echo($motcle['numMotCle']); ?></td>
-                            <td><?php echo($motcle['libMotCle']); ?></td>
+                            <td><strong><?php echo $mot['numMotCle']; ?></strong></td>
+                            <td><?php echo $mot['libMotCle']; ?></td>
                             <td>
-                                <a href="edit.php?numMotCle=<?php echo($motcle['numMotCle']); ?>" class="btn btn-primary">Edit</a>
-                                <a href="delete.php?numMotCle=<?php echo($motcle['numMotCle']); ?>" class="btn btn-danger">Delete</a>
+                                <a href="edit.php?numMotCle=<?php echo $mot['numMotCle']; ?>" class="btn btn-sm btn-outline-warning">Edit</a>
+                                <a href="delete.php?numMotCle=<?php echo $mot['numMotCle']; ?>" class="btn btn-sm btn-outline-danger">Delete</a>
                             </td>
-                        </tr>
+                        </tr>               
                     <?php } ?>
                 </tbody>
             </table>
-            <a href="create.php" class="btn btn-success">Create</a>
+            <div class="mb-5">
+                <a href="create.php" class="btn btn-success">Créer</a>
+            </div>
         </div>
     </div>
 </div>
-<?php

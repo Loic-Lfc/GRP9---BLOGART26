@@ -32,8 +32,10 @@ if (isset($_SESSION['pseudoMemb'])) {
             
             <?php 
             if (isset($_GET['error'])) {
-                $alertStyle = 'background: rgba(227, 30, 36, 0.15); border-color: var(--color-primary); color: var(--color-primary);';
-                if ($_GET['error'] === 'pseudo') {
+                $alertStyle = 'background: rgba(227, 30, 36, 0.15); border-color: var(--color-primary); color: #ffffff;';
+                if ($_GET['error'] === 'recaptcha') {
+                    echo '<div class="alert alert-danger" role="alert" style="' . $alertStyle . '"><i class="fas fa-exclamation-circle me-2"></i>Veuillez cocher la case "Je ne suis pas un robot" pour continuer.</div>';
+                } else if ($_GET['error'] === 'pseudo') {
                     echo '<div class="alert alert-danger" role="alert" style="' . $alertStyle . '"><i class="fas fa-exclamation-circle me-2"></i>Ce pseudonyme existe déjà. Veuillez en choisir un autre.</div>';
                 } else if ($_GET['error'] === 'pseudo_length') {
                     echo '<div class="alert alert-danger" role="alert" style="' . $alertStyle . '"><i class="fas fa-exclamation-circle me-2"></i>Le pseudonyme doit contenir entre 6 et 70 caractères.</div>';

@@ -5,10 +5,46 @@ require_once '../../functions/query/connect.php';
 require_once '../../functions/query/select.php';
 require_once '../../functions/ctrlSaisies.php';
 
+// Vérifier que c'est une requête POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: ../../index.php');
+    exit();
+}
+
 // Initialiser la connexion
 sql_connect();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["pseudoMemb"]) && isset($_POST["passMemb"]) && isset($_POST["passMemb2"])) {
+    // Vérification reCAPTCHA v2
+    if(isset($_POST['g-recaptcha-response'])){
+        $token = $_POST['g-recaptcha-response'];
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $data = array(
+            'secret' => '6LexJl8sAAAAADDkJYxpJ1XXToXR0nk25Ay08PZH',
+            'response' => $token
+        );
+        $options = array(
+            'http' => array (
+                'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+        
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        $response = json_decode($result);
+        
+        // Vérifier la réponse reCAPTCHA v2
+        if (!$response->success) {
+            header('Location: ../../views/backend/security/signup.php?error=recaptcha');
+            exit();
+        }
+    } else {
+        header('Location: ../../views/backend/security/signup.php?error=recaptcha');
+        exit();
+    }
+    
     $username = trim($_POST['pseudoMemb']);
     $prenomMemb = trim($_POST['prenomMemb'] ?? '');
     $nomMemb = trim($_POST['nomMemb'] ?? '');
