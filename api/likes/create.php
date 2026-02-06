@@ -13,7 +13,10 @@ sql_connect();
 session_start();
 $numMemb = $_SESSION['numMemb'] ?? 1;
 
+
+// Vérifie que l'identifiant de l'article est bien envoyé dans le formulaire
 if(!isset($_POST['numArt'])) {
+    // sinon renvoie une erreur HTML 400 (requête incorrecte)
     http_response_code(400);
     echo "Erreur : numArt manquant";
     exit;
@@ -23,6 +26,7 @@ $numArt = intval($_POST['numArt']);
 
 $exist = sql_select('LIKEART', '*', "numMemb = $numMemb AND numArt = $numArt");
 
+// Vérifie si le like existe ou pas (car il peut être créé avec une valeur de 0)
 if(empty($exist)){
     sql_insert('LIKEART', [
         'numMemb' => $numMemb,
