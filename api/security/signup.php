@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Initialiser la connexion
 sql_connect();
 
+// on vérifie que tous les champs soient remplis
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["pseudoMemb"]) && isset($_POST["passMemb"]) && isset($_POST["passMemb2"])) {
     // Vérification reCAPTCHA v2
     if(isset($_POST['g-recaptcha-response'])){
@@ -31,9 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["pseudoMemb"]) && isse
             )
         );
         
-        $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-        $response = json_decode($result);
+        $context = stream_context_create($options); //prepare la requete http pour envoyer les données à l'API de Google
+        $result = file_get_contents($url, false, $context); //envoie la requete à l'API de Google et récupère la réponse
+        $response = json_decode($result); //décoder la réponse JSON de l'API de Google pour vérifier si le reCAPTCHA a été validé avec succès
         
         // Vérifier la réponse reCAPTCHA v2
         if (!$response->success) {

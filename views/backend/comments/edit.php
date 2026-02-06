@@ -1,5 +1,5 @@
 <?php
-include '../header-admin.php';
+include '../header-admin.php'; ?>
 
 <form action="/api/comments/update.php" method="POST">
     <input type="hidden" name="numCom" value="<?= $commentaire['numCom'] ?>">
