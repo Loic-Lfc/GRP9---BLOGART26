@@ -193,126 +193,126 @@
 
 // Fonction pour créer/modifier un cookie
 function setCookie(name,value,days){
-    // Crée un nouvel objet Date
+    // crée une nouvelle date
     var d = new Date();
-    // Ajoute le nombre de jours spécifié au temps actuel (en millisecondes)
+    // ajoute le nombre de jours passé en paramètre (converti en millisecondes)
     d.setTime(d.getTime() + (days*24*60*60*1000));
-    // Convertit la date en format UTC (format standard pour les cookies)
+    // formate la date en UTC standard pour les cookies
     var expires = "expires="+ d.toUTCString();
-    // Stocke le cookie dans le navigateur avec la date d'expiration, le chemin et la sécurité SameSite
+    // enregistre le cookie avec la date d'expiration, le chemin / et la sécu SameSite
     document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Lax";
 }
 
-// Fonction pour récupérer la valeur d'un cookie existant
+// Fonction pour récupérer la valeur d'un cookie
 function getCookie(name){
-    // Prépare le format "nom=" pour rechercher le cookie
+    // prépare la chaîne "nom=" pour chercher le bon cookie
     var cname = name + "=";
-    // Décode tous les cookies stockés en une chaîne lisible
+    // décode tous les cookies en une string lisible
     var decoded = decodeURIComponent(document.cookie);
-    // Divise les cookies en un tableau (ils sont séparés par des points-virgules)
+    // sépare les cookies en un array (ils sont séparés par des ;)
     var ca = decoded.split(';');
-    // Boucle à travers chaque cookie
+    // boucle sur chaque cookie
     for(var i=0;i<ca.length;i++){
-        // Supprime les espaces inutiles au début et à la fin de chaque cookie
+        // supprime les espaces inutiles au début et fin
         var c = ca[i].trim();
-        // Vérifie si ce cookie correspond au cookie recherché
+        // check si c'est le bon cookie
         if (c.indexOf(cname) == 0) return c.substring(cname.length,c.length);
     }
-    // Retourne une chaîne vide si le cookie n'existe pas
+    // retourne rien si le cookie existe pas
     return "";
 }
 
-// Variable booléenne pour tracker si la navigation est actuellement bloquée
+// variable pour savoir si la navigation est bloquée ou pas
 var navigationBlocked = false;
 
-// Fonction qui gère le blocage de la navigation si l'utilisateur n'a pas consenti aux cookies
+// fonction qui bloque la navigation si l'user n'a pas dit oui aux cookies
 function blockHandler(e){
-    // Si l'utilisateur a déjà donné son consentement, ne rien faire (laisser naviguer)
+    // si l'user a déja dit oui, on laisse passer
     if(getCookie('cookie_consent')) return;
-    // Si le clic se fait dans la modale des cookies, ne pas bloquer (pour pouvoir utiliser les boutons)
+    // si c'est un clic dans la popup, on bloque pas (faut pouvoir cliquer sur les boutons)
     if(e.target.closest('#cookieConsentModal')) return;
-    // Cherche si l'élément cliqué est un lien, bouton submit ou formulaire
+    // check si c'est un lien, un bouton submit ou un formulaire
     var clickable = e.target.closest('a[href], button[type="submit"], input[type="submit"], form');
-    // Si c'est un élément de navigation
+    // si c'est bien un élément clickable
     if(clickable){
-        // Empêche l'action par défaut (la navigation)
+        // empêche l'action par défaut
         e.preventDefault();
-        // Arrête la propagation de l'événement aux éléments parents
+        // arrête la propagation
         e.stopPropagation();
-        // Récupère l'élément modal des cookies du DOM
+        // récupère la modal des cookies
         var modalEl = document.getElementById('cookieConsentModal');
-        // Vérifie que la modale existe
+        // si la modal existe
         if(modalEl){
-            // Récupère l'instance existante de la modale ou en crée une nouvelle avec des options (backdrop statique = pas de fermeture en cliquant dehors, keyboard:false = pas de fermeture à l'Échap)
+            // récupère l'instance bootstrap ou crée une nouvelle avec des options (static backdrop + pas d'échap)
             var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl, {backdrop:'static',keyboard:false});
-            // Affiche la modale pour demander le consentement
+            // affiche la modal
             modal.show();
         }
     }
 }
 
-// Fonction pour activer le blocage de la navigation
+// fonction pour activer le blocage de la navigation
 function enableNavBlock(){
-    // Vérifie que le blocage n'est pas déjà activé
+    // check que c'est pas déja activé
     if(!navigationBlocked){
-        // Ajoute un écouteur d'événement sur tous les clics (capture: true = capture les événements au niveau racine)
+        // ajoute un listener sur les clics (capture: true = capture en phase de capture)
         document.addEventListener('click', blockHandler, true);
-        // Ajoute un écouteur d'événement sur tous les submit de formulaires
+        // ajoute un listener sur les submit
         document.addEventListener('submit', blockHandler, true);
-        // Marque le blocage comme actif
+        // marque comme actif
         navigationBlocked = true;
     }
 }
 
-// Fonction pour désactiver le blocage de la navigation
+// fonction pour désactiver le blocage de la navigation
 function disableNavBlock(){
-    // Vérifie que le blocage est actuellement actif
+    // check que c'est bien activé
     if(navigationBlocked){
-        // Retire l'écouteur du clic pour permettre la navigation
+        // retire le listener des clics
         document.removeEventListener('click', blockHandler, true);
-        // Retire l'écouteur du submit pour permettre la soumission de formulaires
+        // retire le listener des submit
         document.removeEventListener('submit', blockHandler, true);
-        // Marque le blocage comme inactif
+        // marque comme inactif
         navigationBlocked = false;
     }
 }
 
-// Déclenche le code quand la page est complètement chargée (DOM prêt)
+// quand la page est chargée
 document.addEventListener('DOMContentLoaded', function(){
-    // Récupère l'élément modal des cookies du DOM
+    // récupère la modal des cookies
     var modalEl = document.getElementById('cookieConsentModal');
-    // Vérifie que la modale existe
+    // si elle existe
     if(modalEl){
-        // Récupère la valeur du cookie "cookie_consent" (vide s'il n'existe pas)
+        // récupère le cookie de consentement
         var consent = getCookie('cookie_consent');
-        // Si le cookie n'existe pas (pas de consentement précédent)
+        // si y a pas de cookie (premier passage ou pas encore répondu)
         if(!consent){
-            // Crée une instance de modale Bootstrap avec backdrop statique et sans fermeture au clavier
+            // crée une modal bootstrap (static + pas d'échap)
             var modal = new bootstrap.Modal(modalEl, {backdrop:'static',keyboard:false});
-            // Affiche la modale
+            // l'affiche
             modal.show();
-            // Active le blocage de la navigation
+            // bloque la navigation jusqu'a ce qu'il réponde
             enableNavBlock();
-            // Ajoute un écouteur au bouton "Accepter"
+            // listener sur le bouton accepter
             document.getElementById('cookieAccept').addEventListener('click', function(){
-                // Crée le cookie de consentement avec la valeur "accepted" pour 365 jours
+                // crée le cookie avec "accepted" pour 365 jours
                 setCookie('cookie_consent','accepted',365);
-                // Masque la modale
+                // cache la modal
                 modal.hide();
-                // Désactive le blocage de la navigation (l'utilisateur peut maintenant naviguer)
+                // débloque la navigation
                 disableNavBlock();
             });
-            // Ajoute un écouteur au bouton "Refuser"
+            // listener sur le bouton refuser
             document.getElementById('cookieDecline').addEventListener('click', function(){
-                // Crée le cookie de consentement avec la valeur "declined" pour 365 jours
+                // crée le cookie avec "declined" pour 365 jours
                 setCookie('cookie_consent','declined',365);
-                // Masque la modale
+                // cache la modal
                 modal.hide();
-                // Désactive le blocage de la navigation (l'utilisateur peut naviguer même s'il refuse)
+                // débloque la navigation (ouais il peut naviguer même s'il refuse)
                 disableNavBlock();
             });
         } else {
-            // Si un consentement existe déjà, désactive le blocage (il y a une réponse précédente)
+            // si y a déja un cookie, pas besoin de bloquer
             disableNavBlock();
         }
     }
